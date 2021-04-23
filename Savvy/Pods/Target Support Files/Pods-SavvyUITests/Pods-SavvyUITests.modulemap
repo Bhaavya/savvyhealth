@@ -1,0 +1,6 @@
+framework module Pods_SavvyUITests {
+  umbrella header "Pods-SavvyUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

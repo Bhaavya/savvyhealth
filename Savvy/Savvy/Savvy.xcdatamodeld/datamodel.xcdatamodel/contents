@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15702" systemVersion="19H2" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Contact" representedClassName="Contact" syncable="YES" codeGenerationType="class">
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Mood" representedClassName="Mood" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="MoodLog" representedClassName="MoodLog" syncable="YES" codeGenerationType="class">
+        <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="durationUnit" optional="YES" attributeType="String"/>
+        <attribute name="intensity" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Note" representedClassName="Note" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="Symptom" representedClassName="Symptom" syncable="YES" codeGenerationType="class">
+        <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="SymptomLog" representedClassName="SymptomLog" syncable="YES" codeGenerationType="class">
+        <attribute name="duration" optional="YES" attributeType="String"/>
+        <attribute name="durationUnit" optional="YES" attributeType="String"/>
+        <attribute name="intensity" optional="YES" attributeType="Float" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="Mood" positionX="-36" positionY="45" width="128" height="73"/>
+        <element name="MoodLog" positionX="-27" positionY="54" width="128" height="118"/>
+        <element name="Note" positionX="-36" positionY="54" width="128" height="103"/>
+        <element name="Symptom" positionX="-9" positionY="72" width="128" height="73"/>
+        <element name="SymptomLog" positionX="-63" positionY="-18" width="128" height="118"/>
+        <element name="Contact" positionX="-36" positionY="54" width="128" height="73"/>
+    </elements>
+</model>

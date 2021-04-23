@@ -1,0 +1,976 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 51;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A71A3A04F2469977B14229D /* Pods_SavvyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7DB4107FAEA1161B0AF1EFB7 /* Pods_SavvyTests.framework */; };
+		6DB4306181965DEF4C86022F /* Pods_SavvyUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3796D2E1557EBED50A15B568 /* Pods_SavvyUITests.framework */; };
+		97B403F8D4BE28C713672257 /* Pods_Savvy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C669DB9A9C92FA119EAAC2E /* Pods_Savvy.framework */; };
+		EA073DB22596AA7300153F9D /* noteMasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA073DB12596AA7300153F9D /* noteMasterViewController.swift */; };
+		EA073DB42596AA9100153F9D /* noteDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA073DB32596AA9100153F9D /* noteDetailViewController.swift */; };
+		EA25E49D24AFC5E80032A7B0 /* TrackingMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25E49C24AFC5E80032A7B0 /* TrackingMenuViewController.swift */; };
+		EA25E4AC24B00E9F0032A7B0 /* Savvy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA25E4AA24B00E9F0032A7B0 /* Savvy.xcdatamodeld */; };
+		EA25E4ED24B0413A0032A7B0 /* LoggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25E4EC24B0413A0032A7B0 /* LoggingViewController.swift */; };
+		EA25E4F024B18B3D0032A7B0 /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25E4EF24B18B3D0032A7B0 /* TrackingViewController.swift */; };
+		EA58A437249920940074AAF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A436249920940074AAF6 /* AppDelegate.swift */; };
+		EA58A43D249920950074AAF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA58A43C249920950074AAF6 /* Assets.xcassets */; };
+		EA58A440249920950074AAF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA58A43F249920950074AAF6 /* Preview Assets.xcassets */; };
+		EA58A443249920950074AAF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA58A441249920950074AAF6 /* LaunchScreen.storyboard */; };
+		EA58A44E249920950074AAF6 /* SavvyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A44D249920950074AAF6 /* SavvyTests.swift */; };
+		EA58A459249920950074AAF6 /* SavvyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A458249920950074AAF6 /* SavvyUITests.swift */; };
+		EA58A46724999F6F0074AAF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA58A46624999F6F0074AAF6 /* GoogleService-Info.plist */; };
+		EA58A469249B54A00074AAF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA58A468249B54A00074AAF6 /* Main.storyboard */; };
+		EA58A46B249B65AC0074AAF6 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = EA58A46A249B65AC0074AAF6 /* Images */; };
+		EA58A46D249C1B7B0074AAF6 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A46C249C1B7B0074AAF6 /* RegisterViewController.swift */; };
+		EA58A46F249C342E0074AAF6 /* Helper.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A46E249C342E0074AAF6 /* Helper.swift */; };
+		EA58A471249C79CD0074AAF6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A470249C79CD0074AAF6 /* SceneDelegate.swift */; };
+		EA58A4B6249DDD890074AAF6 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4B5249DDD890074AAF6 /* HomeViewController.swift */; };
+		EA58A4B8249DED190074AAF6 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4B7249DED190074AAF6 /* LoginViewController.swift */; };
+		EA58A4BA249E962E0074AAF6 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4B9249E962E0074AAF6 /* SearchViewController.swift */; };
+		EA58A4BC24A178810074AAF6 /* ArticleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4BB24A178810074AAF6 /* ArticleViewController.swift */; };
+		EA58A4BE24A36A4E0074AAF6 /* SaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4BD24A36A4E0074AAF6 /* SaveViewController.swift */; };
+		EA58A4C024A5A5290074AAF6 /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4BF24A5A5290074AAF6 /* ResourcesViewController.swift */; };
+		EA67DAAF25BF9AF30004B16A /* CarrotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA67DAAE25BF9AF30004B16A /* CarrotViewController.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EA58A44A249920950074AAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA58A42B249920940074AAF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA58A432249920940074AAF6;
+			remoteInfo = Savvy;
+		};
+		EA58A455249920950074AAF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EA58A42B249920940074AAF6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EA58A432249920940074AAF6;
+			remoteInfo = Savvy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		269FAF67C134A01B039F15BC /* Pods-SavvyUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SavvyUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SavvyUITests/Pods-SavvyUITests.release.xcconfig"; sourceTree = "<group>"; };
+		3796D2E1557EBED50A15B568 /* Pods_SavvyUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SavvyUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C669DB9A9C92FA119EAAC2E /* Pods_Savvy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Savvy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B4C4BEF9269CF70DAB7D3BE /* Pods-SavvyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SavvyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SavvyTests/Pods-SavvyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7DB4107FAEA1161B0AF1EFB7 /* Pods_SavvyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SavvyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C33032092A62A1EE1E381421 /* Pods-Savvy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savvy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Savvy/Pods-Savvy.debug.xcconfig"; sourceTree = "<group>"; };
+		CA53EB394C24DE8825DA3EFA /* Pods-Savvy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Savvy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Savvy/Pods-Savvy.release.xcconfig"; sourceTree = "<group>"; };
+		DDABBDDE3CF8E4F54FB9A3A7 /* Pods-SavvyUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SavvyUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SavvyUITests/Pods-SavvyUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		EA073DB12596AA7300153F9D /* noteMasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noteMasterViewController.swift; sourceTree = "<group>"; };
+		EA073DB32596AA9100153F9D /* noteDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = noteDetailViewController.swift; sourceTree = "<group>"; };
+		EA25E49C24AFC5E80032A7B0 /* TrackingMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingMenuViewController.swift; sourceTree = "<group>"; };
+		EA25E4AB24B00E9F0032A7B0 /* datamodel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = datamodel.xcdatamodel; sourceTree = "<group>"; };
+		EA25E4EC24B0413A0032A7B0 /* LoggingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingViewController.swift; sourceTree = "<group>"; };
+		EA25E4EE24B0472C0032A7B0 /* SavvyHealth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SavvyHealth.entitlements; sourceTree = "<group>"; };
+		EA25E4EF24B18B3D0032A7B0 /* TrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
+		EA58A433249920940074AAF6 /* SavvyHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavvyHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA58A436249920940074AAF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EA58A43C249920950074AAF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EA58A43F249920950074AAF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		EA58A442249920950074AAF6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EA58A444249920950074AAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA58A449249920950074AAF6 /* SavvyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavvyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA58A44D249920950074AAF6 /* SavvyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavvyTests.swift; sourceTree = "<group>"; };
+		EA58A44F249920950074AAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA58A454249920950074AAF6 /* SavvyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavvyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EA58A458249920950074AAF6 /* SavvyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavvyUITests.swift; sourceTree = "<group>"; };
+		EA58A45A249920950074AAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EA58A46624999F6F0074AAF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EA58A468249B54A00074AAF6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		EA58A46A249B65AC0074AAF6 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
+		EA58A46C249C1B7B0074AAF6 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		EA58A46E249C342E0074AAF6 /* Helper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helper.swift; sourceTree = "<group>"; };
+		EA58A470249C79CD0074AAF6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		EA58A4B5249DDD890074AAF6 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		EA58A4B7249DED190074AAF6 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		EA58A4B9249E962E0074AAF6 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		EA58A4BB24A178810074AAF6 /* ArticleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArticleViewController.swift; sourceTree = "<group>"; };
+		EA58A4BD24A36A4E0074AAF6 /* SaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveViewController.swift; sourceTree = "<group>"; };
+		EA58A4BF24A5A5290074AAF6 /* ResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
+		EA67DAAE25BF9AF30004B16A /* CarrotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrotViewController.swift; sourceTree = "<group>"; };
+		F678E118708527BC49D91A26 /* Pods-SavvyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SavvyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SavvyTests/Pods-SavvyTests.release.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EA58A430249920940074AAF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				97B403F8D4BE28C713672257 /* Pods_Savvy.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA58A446249920950074AAF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A71A3A04F2469977B14229D /* Pods_SavvyTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA58A451249920950074AAF6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6DB4306181965DEF4C86022F /* Pods_SavvyUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0C4871734A1F6DD76C0A7637 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C33032092A62A1EE1E381421 /* Pods-Savvy.debug.xcconfig */,
+				CA53EB394C24DE8825DA3EFA /* Pods-Savvy.release.xcconfig */,
+				7B4C4BEF9269CF70DAB7D3BE /* Pods-SavvyTests.debug.xcconfig */,
+				F678E118708527BC49D91A26 /* Pods-SavvyTests.release.xcconfig */,
+				DDABBDDE3CF8E4F54FB9A3A7 /* Pods-SavvyUITests.debug.xcconfig */,
+				269FAF67C134A01B039F15BC /* Pods-SavvyUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		2FF943A6E8604B838CBF3118 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4C669DB9A9C92FA119EAAC2E /* Pods_Savvy.framework */,
+				7DB4107FAEA1161B0AF1EFB7 /* Pods_SavvyTests.framework */,
+				3796D2E1557EBED50A15B568 /* Pods_SavvyUITests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		EA58A42A249920940074AAF6 = {
+			isa = PBXGroup;
+			children = (
+				EA58A46A249B65AC0074AAF6 /* Images */,
+				EA58A435249920940074AAF6 /* Savvy */,
+				EA58A44C249920950074AAF6 /* SavvyTests */,
+				EA58A457249920950074AAF6 /* SavvyUITests */,
+				EA58A434249920940074AAF6 /* Products */,
+				0C4871734A1F6DD76C0A7637 /* Pods */,
+				2FF943A6E8604B838CBF3118 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		EA58A434249920940074AAF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EA58A433249920940074AAF6 /* SavvyHealth.app */,
+				EA58A449249920950074AAF6 /* SavvyTests.xctest */,
+				EA58A454249920950074AAF6 /* SavvyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EA58A435249920940074AAF6 /* Savvy */ = {
+			isa = PBXGroup;
+			children = (
+				EA67DAAE25BF9AF30004B16A /* CarrotViewController.swift */,
+				EA25E4EE24B0472C0032A7B0 /* SavvyHealth.entitlements */,
+				EA58A46624999F6F0074AAF6 /* GoogleService-Info.plist */,
+				EA58A436249920940074AAF6 /* AppDelegate.swift */,
+				EA58A43C249920950074AAF6 /* Assets.xcassets */,
+				EA58A441249920950074AAF6 /* LaunchScreen.storyboard */,
+				EA58A444249920950074AAF6 /* Info.plist */,
+				EA58A43E249920950074AAF6 /* Preview Content */,
+				EA58A468249B54A00074AAF6 /* Main.storyboard */,
+				EA58A46C249C1B7B0074AAF6 /* RegisterViewController.swift */,
+				EA58A46E249C342E0074AAF6 /* Helper.swift */,
+				EA58A470249C79CD0074AAF6 /* SceneDelegate.swift */,
+				EA58A4B5249DDD890074AAF6 /* HomeViewController.swift */,
+				EA58A4B7249DED190074AAF6 /* LoginViewController.swift */,
+				EA58A4B9249E962E0074AAF6 /* SearchViewController.swift */,
+				EA58A4BB24A178810074AAF6 /* ArticleViewController.swift */,
+				EA58A4BD24A36A4E0074AAF6 /* SaveViewController.swift */,
+				EA58A4BF24A5A5290074AAF6 /* ResourcesViewController.swift */,
+				EA25E49C24AFC5E80032A7B0 /* TrackingMenuViewController.swift */,
+				EA25E4AA24B00E9F0032A7B0 /* Savvy.xcdatamodeld */,
+				EA25E4EC24B0413A0032A7B0 /* LoggingViewController.swift */,
+				EA25E4EF24B18B3D0032A7B0 /* TrackingViewController.swift */,
+				EA073DB12596AA7300153F9D /* noteMasterViewController.swift */,
+				EA073DB32596AA9100153F9D /* noteDetailViewController.swift */,
+			);
+			path = Savvy;
+			sourceTree = "<group>";
+		};
+		EA58A43E249920950074AAF6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				EA58A43F249920950074AAF6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		EA58A44C249920950074AAF6 /* SavvyTests */ = {
+			isa = PBXGroup;
+			children = (
+				EA58A44D249920950074AAF6 /* SavvyTests.swift */,
+				EA58A44F249920950074AAF6 /* Info.plist */,
+			);
+			path = SavvyTests;
+			sourceTree = "<group>";
+		};
+		EA58A457249920950074AAF6 /* SavvyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				EA58A458249920950074AAF6 /* SavvyUITests.swift */,
+				EA58A45A249920950074AAF6 /* Info.plist */,
+			);
+			path = SavvyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EA58A432249920940074AAF6 /* Savvy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA58A45D249920950074AAF6 /* Build configuration list for PBXNativeTarget "Savvy" */;
+			buildPhases = (
+				D3C7D9B1BA875DA67C873D8A /* [CP] Check Pods Manifest.lock */,
+				EA58A42F249920940074AAF6 /* Sources */,
+				EA58A430249920940074AAF6 /* Frameworks */,
+				EA58A431249920940074AAF6 /* Resources */,
+				192824095E73F7C2C288872C /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Savvy;
+			packageProductDependencies = (
+			);
+			productName = Savvy;
+			productReference = EA58A433249920940074AAF6 /* SavvyHealth.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EA58A448249920950074AAF6 /* SavvyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA58A460249920950074AAF6 /* Build configuration list for PBXNativeTarget "SavvyTests" */;
+			buildPhases = (
+				526BE767549898331B8BA267 /* [CP] Check Pods Manifest.lock */,
+				EA58A445249920950074AAF6 /* Sources */,
+				EA58A446249920950074AAF6 /* Frameworks */,
+				EA58A447249920950074AAF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA58A44B249920950074AAF6 /* PBXTargetDependency */,
+			);
+			name = SavvyTests;
+			productName = SavvyTests;
+			productReference = EA58A449249920950074AAF6 /* SavvyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		EA58A453249920950074AAF6 /* SavvyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EA58A463249920950074AAF6 /* Build configuration list for PBXNativeTarget "SavvyUITests" */;
+			buildPhases = (
+				117954AEAB6A5966CAA8975F /* [CP] Check Pods Manifest.lock */,
+				EA58A450249920950074AAF6 /* Sources */,
+				EA58A451249920950074AAF6 /* Frameworks */,
+				EA58A452249920950074AAF6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EA58A456249920950074AAF6 /* PBXTargetDependency */,
+			);
+			name = SavvyUITests;
+			productName = SavvyUITests;
+			productReference = EA58A454249920950074AAF6 /* SavvyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EA58A42B249920940074AAF6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1130;
+				LastUpgradeCheck = 1130;
+				ORGANIZATIONNAME = uiuc;
+				TargetAttributes = {
+					EA58A432249920940074AAF6 = {
+						CreatedOnToolsVersion = 11.3.1;
+					};
+					EA58A448249920950074AAF6 = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = EA58A432249920940074AAF6;
+					};
+					EA58A453249920950074AAF6 = {
+						CreatedOnToolsVersion = 11.3.1;
+						TestTargetID = EA58A432249920940074AAF6;
+					};
+				};
+			};
+			buildConfigurationList = EA58A42E249920940074AAF6 /* Build configuration list for PBXProject "Savvy" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EA58A42A249920940074AAF6;
+			packageReferences = (
+			);
+			productRefGroup = EA58A434249920940074AAF6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EA58A432249920940074AAF6 /* Savvy */,
+				EA58A448249920950074AAF6 /* SavvyTests */,
+				EA58A453249920950074AAF6 /* SavvyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EA58A431249920940074AAF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA58A443249920950074AAF6 /* LaunchScreen.storyboard in Resources */,
+				EA58A469249B54A00074AAF6 /* Main.storyboard in Resources */,
+				EA58A46724999F6F0074AAF6 /* GoogleService-Info.plist in Resources */,
+				EA58A440249920950074AAF6 /* Preview Assets.xcassets in Resources */,
+				EA58A46B249B65AC0074AAF6 /* Images in Resources */,
+				EA58A43D249920950074AAF6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA58A447249920950074AAF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA58A452249920950074AAF6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		117954AEAB6A5966CAA8975F /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SavvyUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		192824095E73F7C2C288872C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Savvy/Pods-Savvy-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Savvy/Pods-Savvy-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Savvy/Pods-Savvy-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		526BE767549898331B8BA267 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SavvyTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D3C7D9B1BA875DA67C873D8A /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Savvy-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EA58A42F249920940074AAF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA58A4BE24A36A4E0074AAF6 /* SaveViewController.swift in Sources */,
+				EA073DB42596AA9100153F9D /* noteDetailViewController.swift in Sources */,
+				EA67DAAF25BF9AF30004B16A /* CarrotViewController.swift in Sources */,
+				EA58A4B8249DED190074AAF6 /* LoginViewController.swift in Sources */,
+				EA25E4ED24B0413A0032A7B0 /* LoggingViewController.swift in Sources */,
+				EA25E49D24AFC5E80032A7B0 /* TrackingMenuViewController.swift in Sources */,
+				EA58A4BA249E962E0074AAF6 /* SearchViewController.swift in Sources */,
+				EA58A4B6249DDD890074AAF6 /* HomeViewController.swift in Sources */,
+				EA25E4AC24B00E9F0032A7B0 /* Savvy.xcdatamodeld in Sources */,
+				EA58A4BC24A178810074AAF6 /* ArticleViewController.swift in Sources */,
+				EA58A437249920940074AAF6 /* AppDelegate.swift in Sources */,
+				EA25E4F024B18B3D0032A7B0 /* TrackingViewController.swift in Sources */,
+				EA58A4C024A5A5290074AAF6 /* ResourcesViewController.swift in Sources */,
+				EA58A46F249C342E0074AAF6 /* Helper.swift in Sources */,
+				EA58A46D249C1B7B0074AAF6 /* RegisterViewController.swift in Sources */,
+				EA58A471249C79CD0074AAF6 /* SceneDelegate.swift in Sources */,
+				EA073DB22596AA7300153F9D /* noteMasterViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA58A445249920950074AAF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA58A44E249920950074AAF6 /* SavvyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EA58A450249920950074AAF6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EA58A459249920950074AAF6 /* SavvyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EA58A44B249920950074AAF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA58A432249920940074AAF6 /* Savvy */;
+			targetProxy = EA58A44A249920950074AAF6 /* PBXContainerItemProxy */;
+		};
+		EA58A456249920950074AAF6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EA58A432249920940074AAF6 /* Savvy */;
+			targetProxy = EA58A455249920950074AAF6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EA58A441249920950074AAF6 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EA58A442249920950074AAF6 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EA58A45B249920950074AAF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		EA58A45C249920950074AAF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EA58A45E249920950074AAF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C33032092A62A1EE1E381421 /* Pods-Savvy.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Savvy/SavvyHealth.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_ASSET_PATHS = "\"Savvy/Preview Content\"";
+				DEVELOPMENT_TEAM = UPV4CB4H6W;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Savvy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"DLRadioButton\"",
+					"-framework",
+					"\"DropDown\"",
+					"-framework",
+					"\"DynamicBlurView\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FIRAnalyticsConnector\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"PopupDialog\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SwiftSpinner\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uillinois.uiuchealth.savvy;
+				PRODUCT_NAME = SavvyHealth;
+				PROVISIONING_PROFILE_SPECIFIER = "Savvy Health Distribution Profile";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/Savvy_bridge.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EA58A45F249920950074AAF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA53EB394C24DE8825DA3EFA /* Pods-Savvy.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Savvy/SavvyHealth.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_ASSET_PATHS = "\"Savvy/Preview Content\"";
+				DEVELOPMENT_TEAM = UPV4CB4H6W;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = Savvy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-l\"c++\"",
+					"-l\"icucore\"",
+					"-l\"sqlite3\"",
+					"-l\"z\"",
+					"-framework",
+					"\"Accelerate\"",
+					"-framework",
+					"\"Alamofire\"",
+					"-framework",
+					"\"CFNetwork\"",
+					"-framework",
+					"\"CoreGraphics\"",
+					"-framework",
+					"\"DLRadioButton\"",
+					"-framework",
+					"\"DropDown\"",
+					"-framework",
+					"\"DynamicBlurView\"",
+					"-framework",
+					"\"FBLPromises\"",
+					"-framework",
+					"\"FIRAnalyticsConnector\"",
+					"-framework",
+					"\"FirebaseAnalytics\"",
+					"-framework",
+					"\"FirebaseAuth\"",
+					"-framework",
+					"\"FirebaseCore\"",
+					"-framework",
+					"\"FirebaseCoreDiagnostics\"",
+					"-framework",
+					"\"FirebaseDatabase\"",
+					"-framework",
+					"\"FirebaseInstallations\"",
+					"-framework",
+					"\"Foundation\"",
+					"-framework",
+					"\"GTMSessionFetcher\"",
+					"-framework",
+					"\"GoogleAppMeasurement\"",
+					"-framework",
+					"\"GoogleDataTransport\"",
+					"-framework",
+					"\"GoogleUtilities\"",
+					"-framework",
+					"\"IQKeyboardManager\"",
+					"-framework",
+					"\"PopupDialog\"",
+					"-framework",
+					"\"QuartzCore\"",
+					"-framework",
+					"\"SafariServices\"",
+					"-framework",
+					"\"Security\"",
+					"-framework",
+					"\"StoreKit\"",
+					"-framework",
+					"\"SwiftSpinner\"",
+					"-framework",
+					"\"SystemConfiguration\"",
+					"-framework",
+					"\"UIKit\"",
+					"-framework",
+					"\"leveldb\"",
+					"-framework",
+					"\"nanopb\"",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uillinois.uiuchealth.savvy;
+				PRODUCT_NAME = SavvyHealth;
+				PROVISIONING_PROFILE_SPECIFIER = "Savvy Health Distribution Profile";
+				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/Savvy_bridge.h";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EA58A461249920950074AAF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B4C4BEF9269CF70DAB7D3BE /* Pods-SavvyTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J9UF7HYE7D;
+				INFOPLIST_FILE = SavvyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = UIUC.Health.SavvyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Savvy.app/Savvy";
+			};
+			name = Debug;
+		};
+		EA58A462249920950074AAF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = F678E118708527BC49D91A26 /* Pods-SavvyTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J9UF7HYE7D;
+				INFOPLIST_FILE = SavvyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = UIUC.Health.SavvyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Savvy.app/Savvy";
+			};
+			name = Release;
+		};
+		EA58A464249920950074AAF6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DDABBDDE3CF8E4F54FB9A3A7 /* Pods-SavvyUITests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J9UF7HYE7D;
+				INFOPLIST_FILE = SavvyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = UIUC.Health.SavvyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Savvy;
+			};
+			name = Debug;
+		};
+		EA58A465249920950074AAF6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 269FAF67C134A01B039F15BC /* Pods-SavvyUITests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = J9UF7HYE7D;
+				INFOPLIST_FILE = SavvyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = UIUC.Health.SavvyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Savvy;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EA58A42E249920940074AAF6 /* Build configuration list for PBXProject "Savvy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA58A45B249920950074AAF6 /* Debug */,
+				EA58A45C249920950074AAF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA58A45D249920950074AAF6 /* Build configuration list for PBXNativeTarget "Savvy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA58A45E249920950074AAF6 /* Debug */,
+				EA58A45F249920950074AAF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA58A460249920950074AAF6 /* Build configuration list for PBXNativeTarget "SavvyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA58A461249920950074AAF6 /* Debug */,
+				EA58A462249920950074AAF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EA58A463249920950074AAF6 /* Build configuration list for PBXNativeTarget "SavvyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EA58A464249920950074AAF6 /* Debug */,
+				EA58A465249920950074AAF6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		EA25E4AA24B00E9F0032A7B0 /* Savvy.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				EA25E4AB24B00E9F0032A7B0 /* datamodel.xcdatamodel */,
+			);
+			currentVersion = EA25E4AB24B00E9F0032A7B0 /* datamodel.xcdatamodel */;
+			path = Savvy.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = EA58A42B249920940074AAF6 /* Project object */;
+}
