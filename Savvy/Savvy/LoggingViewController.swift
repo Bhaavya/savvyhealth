@@ -15,6 +15,7 @@ import NotificationCenter
 import UserNotifications
 import DropDown
 import SearchTextField
+import DLRadioButton
 
 class loggingCell: UITableViewCell {
         
@@ -46,6 +47,24 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var addButton: UIButton!
     
     @IBOutlet weak var searchSym: SearchTextField!
+    
+
+    @IBOutlet weak var q1lbl: UILabel!
+    
+    @IBOutlet  var q1opt: [DLRadioButton]!
+    
+    @IBOutlet weak var q2lbl: UILabel!
+    
+    @IBOutlet var q2opt: [DLRadioButton]!
+    
+    @IBOutlet weak var logMoodOverlay: UIView!
+    
+    @IBOutlet weak var logMoodInner: UIView!
+    
+    @IBOutlet weak var durLbl: UILabel!
+    var noteTimestamp: String = ""
+    
+    
     
     @IBAction func clickNewSymp()
     {
@@ -118,6 +137,7 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet var tableView: UITableView!
     @IBOutlet weak var datepicker:UIDatePicker!
+    @IBOutlet weak var datepickerMood: UIDatePicker!
     @IBOutlet weak var durPicker:UIPickerView!
     @IBOutlet weak var durUnitPicker:UIPickerView!
     var defaultSymptoms: [String] = []
@@ -230,7 +250,11 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
         picker.layer.masksToBounds = false
     }
    
-    
+    func imageWithImage(image:UIImage, scaledToSize newSize:CGSize) -> UIImage{ UIGraphicsBeginImageContextWithOptions(newSize, false, 0.0);
+        image.draw(in: CGRect(x:0, y:0, width:newSize.width, height:newSize.height))
+        let newImage:UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return newImage }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -242,9 +266,25 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
         view.addGestureRecognizer(pinchGesture)
         view.addGestureRecognizer(panGesture)
         self.datepicker.maximumDate = Date()
+        
         addBorder(picker: self.datepicker)
         
+        self.datepickerMood.maximumDate = Date()
+        
+        addBorder(picker: self.datepickerMood)
+        
         self.intensitySlider.isContinuous = false
+       
+        var image = UIImage(named: "number-zero");
+        var size = CGSize(width: image!.size.width * 0.04, height: image!.size.height * 0.04 )
+        
+        self.intensitySlider.minimumValueImage =  self.imageWithImage(image: image!, scaledToSize: size)
+        
+         image = UIImage(named: "number-ten");
+        
+        self.intensitySlider.maximumValueImage =  self.imageWithImage(image: image!, scaledToSize: size)
+        
+        
         logSymptomOverlay.frame.size.width = UIScreen.main.bounds.width
         logSymptomOverlay.frame.size.height = UIScreen.main.bounds.height
        
@@ -256,6 +296,12 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
          logSymptomInnerView.layer.borderColor = UIColor.darkGray.cgColor
         logSymptomInnerView.layer.borderWidth = CGFloat(borderWidth);
         
+        logMoodOverlay.frame.size.width = UIScreen.main.bounds.width
+        logMoodOverlay.frame.size.height = UIScreen.main.bounds.height
+       
+       
+       
+        
         newSymptomOverlay.frame.size.width = UIScreen.main.bounds.width
          newSymptomOverlay.frame.size.height = UIScreen.main.bounds.height
         
@@ -264,6 +310,15 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
           
           newSymptomInnerView.layer.borderColor = UIColor.darkGray.cgColor
          newSymptomInnerView.layer.borderWidth = CGFloat(borderWidth);
+        
+        for btn in self.q1opt{
+            btn.titleLabel!.numberOfLines = 0; // Dynamic number of lines
+            btn.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping;
+        }
+        for btn in self.q2opt{
+            btn.titleLabel!.numberOfLines = 0; // Dynamic number of lines
+            btn.titleLabel!.lineBreakMode = NSLineBreakMode.byWordWrapping;
+        }
         
     }
     
@@ -283,7 +338,7 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
             self.addButton.setTitle("Create new health condition",for:.normal)
         }
         else{
-            self.defaultSymptoms = ["Feeling happy", "Feeling down, depressed or hopeless","Feeling anxious or nervous", "Not being able to stop or control worrying","Little interest or pleasure in doing things", ]
+            self.defaultSymptoms = ["Feeling happy", "Feeling down, depressed or hopeless","Feeling anxious or nervous" ]
             self.addButton.setTitle("Create new mood" , for: .normal)
             
         }
@@ -333,10 +388,12 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.searchSym.theme.borderColor = UIColor (red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         self.searchSym.theme.separatorColor = UIColor (red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
         self.searchSym.theme.cellHeight = 50
+        self.searchSym.maxNumberOfResults = 10
+        self.searchSym.startVisible = true
 
 self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         self.searchSym.itemSelectionHandler = {item, itemPosition in
-            self.selectSym(idx: itemPosition)
+            self.selectSym(item: item[itemPosition].title)
         }
 
         
@@ -349,9 +406,20 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
     
         
     }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    if(segue.identifier == "logToNote") {
+
+        let nextViewController = (segue.destination as! noteDetailViewController)
+        nextViewController.sentTimestamp = noteTimestamp
+        }}
     
-    
-    
+    @IBAction func addNote(_sender: UIButton){
+        let dateFormatter : DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, y HH:mm"
+        noteTimestamp = dateFormatter.string(from:datepicker.date)
+        self.performSegue(withIdentifier: "logToNote", sender: self)
+    }
    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -401,21 +469,57 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         return headerView
     }
     
-    func selectSym (idx: Int){
-    
-        if idx < self.tableList[self.type]!.count {
-            self.symptomSelected = self.tableList[self.type]![idx]
+    func selectSym (item: String){
+        
+        if (["Feeling down, depressed or hopeless","Feeling nervous, anxious or on edge"].contains(item)){
+        selectMood(item: item)
+        }
+        else{
+            self.searchSym.text = item
+            self.symptomSelected = item
             self.durPicker.selectRow(23, inComponent: 0, animated: true)
+            if self.type == 0{
+                self.durPicker.isHidden = false
+                self.durUnitPicker.isHidden = false
+                self.durLbl.isHidden = false
+            }
+            else{
+                self.durPicker.isHidden = true
+                self.durUnitPicker.isHidden = true
+                self.durLbl.isHidden = true
+            }
             self.durUnitPicker.selectRow(1, inComponent: 0, animated: true)
             self.view.addSubview(logSymptomOverlay)
+        
         }
+    
+        print("You selected cell #\(item)!")
+    }
+    func selectMood (item: String){
+        self.searchSym.text = item
+        self.symptomSelected = item
+       
+            
+            if item == "Feeling down, depressed or hopeless"{
+                self.q1lbl.text = "1. Little interest or pleasure in doing things"
+                self.q2lbl.text = "2. Feeling down, depressed or hopeless"
+            }
+            else if item == "Feeling nervous, anxious or on edge" {
+                self.q1lbl.text = "Feeling nervous, anxious or on edge"
+                self.q2lbl.text = "Not being able to stop or control worrying"
+            }
+            
+            
+            self.view.addSubview(logMoodOverlay)
+        
         
     
-        print("You selected cell #\(idx)!")
+        print("You selected cell #\(item)!")
     }
-    
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    selectSym(idx: indexPath.section)
+    
+        selectSym(item: self.tableList[self.type]![indexPath.section])
+   
     }
     
     func validateSymptomLog() -> Bool{
@@ -432,9 +536,15 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
            }
     
     
-@IBAction func logSymptomCancelClicked(_sender: UIButton){
+    
+    @IBAction func logSymptomCancelClicked(_sender: UIButton){
          self.logSymptomOverlay.removeFromSuperview()
     }
+    
+    
+    @IBAction func logMoodCancelClicked(_sender: UIButton){
+             self.logMoodOverlay.removeFromSuperview()
+        }
     
     @IBAction func newSymptomCancelClicked(_sender: UIButton){
          self.newSymptomOverlay.removeFromSuperview()
@@ -517,7 +627,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             }
             
         }
-        if found == false{
+        if found == false {
             showDialog()
         }
     }
@@ -555,7 +665,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             diffs.append(diff.day ?? 0)
         }
         print("diffs",diffs)
-        if ((diffs.contains(-1)) && (diffs.contains(-2)) || (diffs.contains(1)) && (diffs.contains(2))){
+        if ((diffs.contains(-1)) && (diffs.contains(-2)) || (diffs.contains(1)) && (diffs.contains(2)) && ((json1["name"] != "Feeling good") && (json1["name"] != "Feeling happy"))){
             var fetchParams:[String:AnyObject] = ["id":uid as AnyObject,"page":"search" as AnyObject,"action":"search" as AnyObject]
            
             
@@ -574,16 +684,26 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             }
        let dateFormatterGet = DateFormatter()
               dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            var du: String = ""
+            var dun: String = ""
+            if self.type == 1{
+                du = "24"
+                dun = "hrs"
+            }
+            else{
+                du = String(self.durSelected)
+                dun = self.durUnitSelected
+            }
         
-            self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepicker.date), duration: String(self.durSelected), durationUnit: self.durUnitSelected, intensity: self.intensitySelected,ename: ename)
+            self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepicker.date), duration: du, durationUnit: dun, intensity: self.intensitySelected,ename: ename)
           
 
                 let uid = UserDefaults.standard.object(forKey: "userID")
                 
             var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject,"json":["name":self.symptomSelected, "timestamp":dateFormatterGet.string(from:datepicker.date),
-                 "duration":String(self.durSelected),"durationUnit": self.durUnitSelected, "intensity": self.intensitySelected,"ename": ename] as AnyObject]
+                 "duration":du,"durationUnit": dun, "intensity": self.intensitySelected,"ename": ename] as AnyObject]
             
-            self.remoteLogging(logging_parameters )
+            self.remoteLogging(logging_parameters)
             
             var fetchParams:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject]
             var otherParams:[String:String] = ["name":self.symptomSelected,"timestamp":dateFormatterGet.string(from:datepicker.date)]
@@ -601,6 +721,65 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
                     
                     self.present(alertController, animated: true, completion: nil)
         }
+    }
+    
+    func dispMsg(msg:String){
+        let alertController = UIAlertController(title: "Error", message: msg, preferredStyle: .alert)
+                
+                
+                let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                alertController.addAction(defaultAction)
+                
+                self.present(alertController, animated: true, completion: nil)
+    }
+    
+  @IBAction  func logMoodSubmitClicked(_sender: UIButton){
+        
+            var ename:String = "MoodLog"
+            
+       let dateFormatterGet = DateFormatter()
+              dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    var score = 0
+    var sel = false
+    for (idx,btn) in self.q1opt.enumerated(){
+        if btn.isSelected{
+        score += idx
+            sel = true
+        }
+    }
+    if sel == false{
+        dispMsg(msg: "Please answer both the questions!")
+        return
+    }
+    sel = false
+    for (idx,btn) in self.q2opt.enumerated(){
+        if btn.isSelected{
+        score += idx
+            sel = true
+        }
+    }
+    if sel == false {
+        dispMsg(msg: "Please answer both the questions!")
+        return
+    }
+    self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepickerMood.date), duration: "24", durationUnit: "hrs", intensity: Float(score),ename: ename)
+          
+
+                let uid = UserDefaults.standard.object(forKey: "userID")
+                
+            var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject,"json":["name":self.symptomSelected, "timestamp":dateFormatterGet.string(from:datepicker.date),
+                 "duration":"24","durationUnit": "hrs", "intensity": Float(score),"ename": ename] as AnyObject]
+            
+            self.remoteLogging(logging_parameters)
+            
+            var fetchParams:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject]
+            var otherParams:[String:String] = ["name":self.symptomSelected,"timestamp":dateFormatterGet.string(from:datepicker.date)]
+            
+            self.remoteFetch(fetchParams,json: otherParams,completion: checkMultipleSym(prevSymptoms:json1:))
+           
+        self.logMoodOverlay.removeFromSuperview()
+        
+        
     }
     
     @IBAction func backClicked(_ sender: UIButton){

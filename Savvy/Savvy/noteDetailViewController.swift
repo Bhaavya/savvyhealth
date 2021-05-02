@@ -34,6 +34,7 @@ class noteDetailViewController: UIViewController{
     var cumulativeScale:CGFloat = 1.0
     var isZoom = false
     var emails:[String] = []
+    var sentTimestamp: String = ""
    
         
     @objc func pinchedView(_ gestureRecognizer : UIPinchGestureRecognizer) { guard gestureRecognizer.view != nil else { return }
@@ -144,13 +145,20 @@ class noteDetailViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         let dateFormatter : DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, y HH:mm"
+        var date: Date
+        var dateString: String
+        if sentTimestamp == ""{
+            date = Date()
+            dateString = dateFormatter.string(from: date)
+        }
+        else{
+            dateString = sentTimestamp
+        }
         
-        let date = Date()
-        let dateString = dateFormatter.string(from: date)
         print(dateString)
         if self.note != nil{
             self.noteTitle.text = self.note!.value(forKey: "title") as? String
-            self.noteDate.text = dateString
+            self.noteDate.text = self.note!.value(forKey: "timestamp") as? String
             self.noteText.text = self.note!.value(forKey: "text") as? String
         }
         else{
@@ -270,7 +278,7 @@ class noteDetailViewController: UIViewController{
    
     
     override func viewWillDisappear(_ animated: Bool) {
-    
+    sentTimestamp = ""
       
     }
     
@@ -295,6 +303,14 @@ class noteDetailViewController: UIViewController{
         else{
             id = self.note?.value(forKey: "id") as! Int
             
+        }
+        if sentTimestamp == ""{
+        let date = Date()
+        let dateFormatter : DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, y HH:mm"
+        let dateString = dateFormatter.string(from: date)
+        print(dateString)
+        self.noteDate.text = dateString
         }
         
         let code = saveNote(id: Int64(id), title: self.noteTitle.text!, timestamp: self.noteDate.text!, text: self.noteText.text,note: self.note)

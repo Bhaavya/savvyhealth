@@ -50,6 +50,7 @@ extension UIColor {
 
 
 
+
 extension UIViewController {
     
     func jsonToString(json: AnyObject) -> String{
@@ -290,7 +291,7 @@ extension UIViewController {
              }
     }
 
-    func updateBarChart(barChartView: BarChartView , logData: [String:[String:Double]]) {
+    func updateBarChart(barChartView: BarChartView , logData: [String:[String:Double]],freq: String,addCutoff: Bool, cutoff: Double) {
             
         
         var dataEntries: [BarChartDataEntry] = []
@@ -299,9 +300,19 @@ extension UIViewController {
         var minVal = 100000.0
         
         let dateFormatterGet = DateFormatter()
-        dateFormatterGet.dateFormat = "yyyy-MM-dd"
         let dateFormatterPrint = DateFormatter()
-        dateFormatterPrint.dateFormat = "MMM dd"
+        if freq == "d" || freq == "w"{
+        dateFormatterGet.dateFormat = "yyyy-MM-dd"
+            dateFormatterPrint.dateFormat = "MMM dd yyyy"
+        }
+        else{
+            dateFormatterGet.dateFormat = "yyyy-MM"
+            dateFormatterPrint.dateFormat = "MMM yyyy"
+        }
+      
+        
+    
+       
         let sortedDates = Array(logData.keys).sorted{
                                        dateFormatterGet.date(from:$0)!.compare(dateFormatterGet.date(from:$1)!) == .orderedAscending
                                    }
@@ -344,7 +355,7 @@ extension UIViewController {
         
         barChartView.fitBars = true
     
-       
+        barChartView.doubleTapToZoomEnabled = false
                
         barChartView.chartDescription?.text = ""
         
@@ -367,14 +378,22 @@ extension UIViewController {
                 barChartView.leftAxis.drawGridLinesEnabled = false
                 barChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeOutBack)
         barChartView.xAxis.labelRotationAngle = -45
+      barChartView.leftAxis.granularityEnabled = true //to make integer steps
+      barChartView.leftAxis.granularity = 1.0
+//            lineChartView.leftAxis.min
+        barChartView.rightAxis.granularityEnabled = true
+        barChartView.rightAxis.granularity = 1.0
                 
     }
     
     
-    func updateLineChart(lineChartView: LineChartView , logData: [String:Double]) {
+    func updateLineChart(lineChartView: LineChartView , logData: [String:Double], addCutoff: Bool, cutoff: Double) {
                 
             
             var dataEntries: [ChartDataEntry] = []
+        var cutoffEntries: [ChartDataEntry]  = []
+       
+       
             
             
             var minVal = 100000.0
@@ -395,23 +414,42 @@ extension UIViewController {
            
       
            
-                  
+                 var lastIdx = 0
                         
         for (idx,date) in sortedDates.enumerated(){
             let a = ChartDataEntry(x: Double(idx), y: logData[date]!)
                             dataEntries.append(a)
+            if addCutoff{
+                cutoffEntries.append(ChartDataEntry(x: Double(idx), y:cutoff))
+                if cutoff<minVal{
+                    minVal = cutoff
+                }
+            }
                             if logData[date]!<minVal{
                                 minVal = logData[date]!
                             }
             dates.append(dateFormatterPrint.string(from:dateFormatterGet.date(from: date)!))
+            lastIdx = idx
                         }
+        print("cnt",Array(sortedDates).count)
+        if Array(sortedDates).count < 2{
+            cutoffEntries.append(ChartDataEntry(x: Double(lastIdx)+1, y:cutoff))
+        }
                         
                       
                         
 //                        lineChartView.highlightPerDragEnabled = false
-       
+        
+        var datasets: [LineChartDataSet] = []
                     
                         let lineDataSet = LineChartDataSet(entries: dataEntries, label: "" )
+        datasets.append(lineDataSet)
+        if addCutoff{
+            let cutoffDataSet = LineChartDataSet(entries: cutoffEntries, label: "")
+            cutoffDataSet.lineDashLengths = [10]
+            cutoffDataSet.drawCirclesEnabled = false
+            datasets.append(cutoffDataSet)
+        }
             //            + ": Frequency"
                         
         lineDataSet.formSize = 0
@@ -420,7 +458,7 @@ extension UIViewController {
                         lineDataSet.drawCircleHoleEnabled = false
                         lineDataSet.drawValuesEnabled = true
                         
-                        let lineData = LineChartData(dataSet: lineDataSet)
+                        let lineData = LineChartData(dataSets: datasets )
                         lineData.setDrawValues(false) //don't display values above the graph
                         lineChartView.data = lineData
                 
@@ -430,6 +468,7 @@ extension UIViewController {
                         lineChartView.xAxis.valueFormatter = IndexAxisValueFormatter(values:dates)
 //        lineChartView.fit
         lineChartView.xAxis.wordWrapEnabled = true
+        lineChartView.legend.enabled = false
                         lineChartView.xAxis.granularity = 1
         lineChartView.xAxis.labelRotationAngle = -45
                         lineChartView.leftAxis.granularityEnabled = true

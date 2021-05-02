@@ -575,6 +575,8 @@ extension SearchTextField: UITableViewDelegate, UITableViewDataSource {
         cell!.layoutMargins = UIEdgeInsets.zero
         cell!.preservesSuperviewLayoutMargins = false
         cell!.textLabel?.font = theme.font
+        cell!.textLabel?.numberOfLines = 0
+        cell!.textLabel?.lineBreakMode = .byWordWrapping
         cell!.detailTextLabel?.font = UIFont(name: theme.font.fontName, size: theme.font.pointSize * fontConversionRate)
         cell!.textLabel?.textColor = theme.fontColor
         cell!.detailTextLabel?.textColor = theme.subtitleFontColor
