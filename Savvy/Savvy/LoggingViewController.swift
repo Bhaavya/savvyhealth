@@ -329,6 +329,62 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.tableView.reloadData()
     }
     
+    func setSymptoms(symptoms: [String:[Any]],filter_json:[String:Any]){
+    
+        for sym in self.defaultSymptoms{
+            (self.tableList[filter_json["type"] as! Int])!.append((sym))
+        }
+        for symptom in symptoms["results"]! as [Any]{
+               let symDict = symptom as! [String:AnyObject]
+               let symJson = convertToDictionary(text:symDict["eventJson"] as! String)
+            if symJson!["ename"] as! String == filter_json["ename"] as! String{
+            if !self.tableList[filter_json["type"] as! Int]!.contains(symJson!["name"] as! String) {
+                (self.tableList[filter_json["type"] as! Int])!.append((symJson!["name"] as! String))
+            }
+            }
+        }
+//            self.tableList[self.type]!.append("Create new symptom")
+        self.fullList[filter_json["type"] as! Int] = Array(self.tableList[self.type]!)
+    var listLength = 10
+    if filter_json["type"] as! Int == 1{
+        listLength = 3
+    }
+    
+        self.tableList[filter_json["type"] as! Int] = Array(self.tableList[filter_json["type"] as! Int]!.prefix(listLength))
+    
+    self.searchSym.theme = SearchTextFieldTheme.darkTheme()
+    self.searchSym.theme.font = UIFont.systemFont(ofSize: 21)
+//        self.searchSym.theme.fontColor
+    self.searchSym.theme.bgColor = UIColor.lightGray
+    
+    self.searchSym.theme.borderColor = UIColor (red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+    self.searchSym.theme.separatorColor = UIColor (red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
+    self.searchSym.theme.cellHeight = 50
+    self.searchSym.maxNumberOfResults = 10
+    self.searchSym.startVisible = true
+
+self.searchSym.filterStrings(Array(self.fullList[self.type]!))
+    self.searchSym.itemSelectionHandler = {item, itemPosition in
+        self.selectSym(item: item[itemPosition].title)
+   
+    }
+        self.tableView.reloadData()
+
+    }
+    
+    func fetchRemoteSymptom(json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
+       
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"createCondition" as AnyObject]
+            remoteFetch(parameters, json: json, completion: completion)
+        }
+        }
+        
+    
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         
         if self.type == 0{
@@ -345,59 +401,15 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
         var symptoms:Optional<Any> = []
         var ename: String = ""
         if self.type == 0{
-            symptoms = fetchRecords(name: "Symptom")
+            
             ename = "Symptom"
         }
         else{
-            symptoms = fetchRecords(name: "Mood")
+           
             ename = "Mood"
         }
-            if symptoms == nil || (symptoms as! [NSManagedObject]).count == 0{
-                for (id, symptom) in self.defaultSymptoms.enumerated(){
-                    self.saveSymptomName(id: int_fast64_t(id), name: symptom, ename: ename)
-                   
-                }
-                if self.type == 0{
-                    symptoms = fetchRecords(name: "Symptom")
-                    
-                }
-                else{
-                    symptoms = fetchRecords(name: "Mood")
-                    
-                }
-               
-            }
-           
-            for symptom in symptoms as! [NSManagedObject]{
-                (self.tableList[self.type]!).append((symptom.value(forKeyPath: "name") as? String)!)
-            }
-//            self.tableList[self.type]!.append("Create new symptom")
-            self.fullList[self.type] = Array(self.tableList[self.type]!)
-        var listLength = 10
-        if self.type == 1{
-            listLength = 3
-        }
-        
-            self.tableList[self.type] = Array(self.tableList[self.type]!.prefix(listLength))
-        
-        self.searchSym.theme = SearchTextFieldTheme.darkTheme()
-        self.searchSym.theme.font = UIFont.systemFont(ofSize: 21)
-//        self.searchSym.theme.fontColor
-        self.searchSym.theme.bgColor = UIColor.lightGray
-        
-        self.searchSym.theme.borderColor = UIColor (red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        self.searchSym.theme.separatorColor = UIColor (red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
-        self.searchSym.theme.cellHeight = 50
-        self.searchSym.maxNumberOfResults = 10
-        self.searchSym.startVisible = true
-
-self.searchSym.filterStrings(Array(self.fullList[self.type]!))
-        self.searchSym.itemSelectionHandler = {item, itemPosition in
-            self.selectSym(item: item[itemPosition].title)
-        }
-
-        
-        
+        symptoms = fetchRemoteSymptom(json: ["type":self.type,"ename":ename],completion: setSymptoms(symptoms:filter_json:))
+ 
     }
     
    
@@ -471,7 +483,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
     
     func selectSym (item: String){
         
-        if (["Feeling down, depressed or hopeless","Feeling nervous, anxious or on edge"].contains(item)){
+        if (["Feeling down, depressed or hopeless","Feeling anxious or nervous"].contains(item)){
         selectMood(item: item)
         }
         else{
@@ -504,8 +516,8 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
                 self.q1lbl.text = "1. Little interest or pleasure in doing things"
                 self.q2lbl.text = "2. Feeling down, depressed or hopeless"
             }
-            else if item == "Feeling nervous, anxious or on edge" {
-                self.q1lbl.text = "Feeling nervous, anxious or on edge"
+            else if item == "Feeling anxious or nervous" {
+                self.q1lbl.text = "Feeling anxious or nervous"
                 self.q2lbl.text = "Not being able to stop or control worrying"
             }
             
@@ -561,7 +573,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             else{
                 ename = "Mood"
             }
-            self.saveSymptomName(id: int_fast64_t(newId), name: name!, ename:ename)
+//            self.saveSymptomName(id: int_fast64_t(newId), name: name!, ename:ename)
             self.fullList[self.type]!.insert(name!, at: newId)
         self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             let uid = UserDefaults.standard.object(forKey: "userID")
@@ -599,7 +611,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         self.present(popup, animated: true, completion: nil)
     }
     
-    func checkMulSrch(prevSearches: [String:[Any]], json1:[String:String]){
+    func checkMulSrch(prevSearches: [String:[Any]], json1:[String:Any]){
         let dateFormatterGet = DateFormatter()
         let uid = UserDefaults.standard.object(forKey: "userID")
         
@@ -609,7 +621,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         for srch in prevSearches["results"]! as [Any]{
             let symDict = srch as! [String:AnyObject]
             let json = convertToDictionary(text: symDict["eventJson"] as! String)
-            if (json!["query"] as! String).lowercased().contains((json1["name"]!).lowercased()) == true{
+            if (json!["query"] as! String).lowercased().contains(((json1["name"]!) as! String).lowercased()) == true{
                 
                 let ts = symDict["ts"]?.integerValue
                 let timeInterval = TimeInterval(ts!)
@@ -631,19 +643,10 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             showDialog()
         }
     }
-    func convertToDictionary(text: String) -> [String: Any]? {
-        if let data = text.data(using: .utf8) {
-            do {
-                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
-        return nil
-    }
+  
 
     
-    func checkMultipleSym(prevSymptoms: [String:[Any]],json1:[String:String]){
+    func checkMultipleSym(prevSymptoms: [String:[Any]],json1:[String:Any]){
         let dateFormatterGet = DateFormatter()
         let uid = UserDefaults.standard.object(forKey: "userID")
         dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -652,7 +655,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         for sym in prevSymptoms["results"]! as [Any]{
             let symDict = sym as! [String:AnyObject]
             let json = convertToDictionary(text:symDict["eventJson"] as! String)
-            if (json1["name"] == (json!["name"] as! String)) {
+            if (json1["name"] as! String == (json!["name"] as! String)) {
                 
                 dates.append(json!["timestamp"]! as! String)
             }
@@ -665,7 +668,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             diffs.append(diff.day ?? 0)
         }
         print("diffs",diffs)
-        if ((diffs.contains(-1)) && (diffs.contains(-2)) || (diffs.contains(1)) && (diffs.contains(2)) && ((json1["name"] != "Feeling good") && (json1["name"] != "Feeling happy"))){
+        if ((diffs.contains(-1)) && (diffs.contains(-2)) || (diffs.contains(1)) && (diffs.contains(2)) && ((json1["name"] as! String != "Feeling good") && (json1["name"] as! String != "Feeling happy"))){
             var fetchParams:[String:AnyObject] = ["id":uid as AnyObject,"page":"search" as AnyObject,"action":"search" as AnyObject]
            
             
@@ -695,7 +698,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
                 dun = self.durUnitSelected
             }
         
-            self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepicker.date), duration: du, durationUnit: dun, intensity: self.intensitySelected,ename: ename)
+//            self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepicker.date), duration: du, durationUnit: dun, intensity: self.intensitySelected,ename: ename)
           
 
                 let uid = UserDefaults.standard.object(forKey: "userID")
@@ -762,7 +765,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         dispMsg(msg: "Please answer both the questions!")
         return
     }
-    self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepickerMood.date), duration: "24", durationUnit: "hrs", intensity: Float(score),ename: ename)
+//    self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepickerMood.date), duration: "24", durationUnit: "hrs", intensity: Float(score),ename: ename)
           
 
                 let uid = UserDefaults.standard.object(forKey: "userID")

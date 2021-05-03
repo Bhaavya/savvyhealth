@@ -95,8 +95,17 @@ extension UIViewController {
         
         print("2",request)
     }
-    
-    @objc func remoteFetch(_ parameters:[String:AnyObject],json: [String:String],completion :  @escaping ([String:[Any]],[String:String])->()){
+    func convertToDictionary(text: String) -> [String: Any]? {
+        if let data = text.data(using: .utf8) {
+            do {
+                return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+        return nil
+    }
+    @objc func remoteFetch(_ parameters:[String:AnyObject],json: [String:Any],completion :  @escaping ([String:[Any]],[String:Any])->()){
         let sendParams :[String:AnyObject] = parameters
         var retResponse:[String:[Any]] = ["results":[]]
         let request = AF.request("https://timan102.cs.illinois.edu/savvy_fetch/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)

@@ -18,7 +18,7 @@ import SearchTextField
 
 class noteDetailViewController: UIViewController{
     
-    var note:NSManagedObject? = nil
+    var note:[String:Any]? = nil
     @IBOutlet weak var noteTitle: UITextField!
     @IBOutlet weak var noteDate: UILabel!
     @IBOutlet weak var noteText: UITextView!
@@ -157,9 +157,9 @@ class noteDetailViewController: UIViewController{
         
         print(dateString)
         if self.note != nil{
-            self.noteTitle.text = self.note!.value(forKey: "title") as? String
-            self.noteDate.text = self.note!.value(forKey: "timestamp") as? String
-            self.noteText.text = self.note!.value(forKey: "text") as? String
+            self.noteTitle.text = self.note!["title"] as? String
+            self.noteDate.text = self.note!["timestamp"] as? String
+            self.noteText.text = self.note!["text"] as? String
         }
         else{
             
@@ -279,6 +279,7 @@ class noteDetailViewController: UIViewController{
     
     override func viewWillDisappear(_ animated: Bool) {
     sentTimestamp = ""
+        note = nil
       
     }
     
@@ -290,52 +291,69 @@ class noteDetailViewController: UIViewController{
        }
        }
     
-    @IBAction func saveButton(_ sender: UIButton){
+    func save(notes: [String:[Any]],json:[String:Any]){
         var id = 0
         var alertController:UIAlertController!
-        if self.note == nil{
-        var records = fetchRecords(name: "Note")
-            
-            if records != nil{
-                id = (records as! [NSManagedObject]).count
-            }
+        let innerNote: [String:Any]? = json["note"] as? [String:Any] ?? nil
+//        print("inote",innerNote)
+        if innerNote == nil{
+            id = notes["results"]!.count
         }
         else{
-            id = self.note?.value(forKey: "id") as! Int
-            
+            id = Int((innerNote!)["id"] as! Int64)
+        
         }
-        if sentTimestamp == ""{
+        var dateString: String = ""
+        if json["sentTimestamp"] as! String == ""{
         let date = Date()
         let dateFormatter : DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, y HH:mm"
-        let dateString = dateFormatter.string(from: date)
+       dateString = dateFormatter.string(from: date)
         print(dateString)
         self.noteDate.text = dateString
         }
+        else{
+            dateString = json["sentTimestamp"] as! String
+        }
         
-        let code = saveNote(id: Int64(id), title: self.noteTitle.text!, timestamp: self.noteDate.text!, text: self.noteText.text,note: self.note)
-        
-        if code == 0{
+       
             let uid = UserDefaults.standard.object(forKey: "userID")
             
-            var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"saveNote" as AnyObject,"json":["title":self.noteTitle.text!,"timestamp":self.noteDate.text!,"text":self.noteText.text!,"id":Int64(id)] as AnyObject]
+            var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"saveNote" as AnyObject,"json":["title":json["title"] as! String,"timestamp":dateString,"text":json["text"] as! String,"id":Int64(id)] as AnyObject]
             self.remoteLogging(logging_parameters)
             
             alertController = UIAlertController(title: "Success!", message: "Note successfully saved", preferredStyle: .alert)
                                       
-        }
-        else{
-             alertController = UIAlertController(title: "Error", message: "Error saving note", preferredStyle: .alert)
-            
-        }
+        self.note = ["title":json["title"] as! String,"timestamp":dateString,"text":json["text"] as! String,"id":Int64(id)]
         
             
         let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(defaultAction)
         
         self.present(alertController, animated: true, completion: nil)
+    }
+    
+    func fetchRemoteNote(name: String,json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
+        let innerNote = json["note"] as? [String:Any] ?? nil
+        if innerNote == nil{
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"noteDetail" as AnyObject,"action":"saveNote" as AnyObject]
+            remoteFetch(parameters, json: json, completion: completion)
+        }
+        }
+        else{
+            let notes:[String:[Any]] = [:]
+            completion(notes,json)
+        }
+    }
+    
+  
+    
+    @IBAction func saveButton(_ sender: UIButton){
         
-        
+        fetchRemoteNote(name: "Note", json: ["note":self.note  ,"sentTimestamp":sentTimestamp,"title":self.noteTitle.text, "text":self.noteText.text, "timestamp":self.noteDate.text], completion: save(notes:json:))
     }
     
     @IBAction func shareButton(_ sender: UIButton){

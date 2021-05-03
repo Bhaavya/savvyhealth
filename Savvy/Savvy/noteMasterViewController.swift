@@ -31,11 +31,11 @@ class noteCell: UITableViewCell {
 }
 
 class noteMasterViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @objc var notes: [NSManagedObject] = []
+    @objc var notes: [[String:Any]] = []
    
     
     
-    var selectedNote:NSManagedObject? = nil
+    var selectedNote:[String:Any]? = nil
 
     
     @IBOutlet var tableView: UITableView!
@@ -146,6 +146,47 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
         
     }
     
+    func fetchRemoteNotes(json:[String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
+       
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"noteDetail" as AnyObject,"action":"saveNote" as AnyObject]
+            remoteFetch(parameters, json: json, completion: completion)
+        }
+    
+    }
+    
+    func showNotes(inotes: [String:[Any]],json:[String:Any]){
+        let dateFormatterNote : DateFormatter = DateFormatter()
+        dateFormatterNote.dateFormat = "MMM d, y HH:mm"
+       
+        var sortedNotes: [[String:Any]] = []
+        if inotes.count > 0{
+        for n in  inotes["results"]! as [Any]{
+            let nDict = n as! [String:AnyObject]
+            var njson = convertToDictionary(text:nDict["eventJson"] as! String)
+            njson!["dateNote"] = dateFormatterNote.date(from: (njson!["timestamp"] as? String)!)
+            sortedNotes.append(njson!)
+        }
+            sortedNotes = sortedNotes.sorted { $0["dateNote"] as! Date > $1["dateNote"] as! Date }
+            var notesAdded: [Int64] = []
+            for njson in sortedNotes{
+                if !notesAdded.contains(njson["id"] as! Int64)
+                {
+                    notesAdded.append(njson["id"] as! Int64)
+                    self.notes.append(njson)
+                        
+                       
+                        
+                    }
+                }
+            print("1",self.notes)
+            self.tableView.reloadData()
+    }
+        
+    }
+    
    
     
     @objc func reloadData(notification:Notification){
@@ -154,27 +195,13 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        var records = fetchRecords(name: "Note")
         self.notes = []
-        print(records)
-        if records != nil{
-            var recordsList:[NSManagedObject] = records as! [NSManagedObject]
-            let cnt = recordsList.count
-            for (idx,_) in recordsList.enumerated() {
-                var record = recordsList[cnt-idx-1]
-                self.notes.append(record)
-            }
-            print("1",self.notes)
-            self.tableView.reloadData()
-        }
+        fetchRemoteNotes(json:[:],completion: showNotes(inotes:json:))
+       
     }
     
     
-   
-  
-    
-   
-    
+
     
     override func viewWillDisappear(_ animated: Bool) {
     
@@ -194,8 +221,8 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
        
             let cell = self.tableView.dequeueReusableCell(withIdentifier: "noteCell", for: indexPath) as! noteCell
 
-        cell.titleLabel!.text =    self.notes[indexPath.row].value(forKey: "title") as! String
-        cell.dateLabel!.text = self.notes[indexPath.row].value(forKey: "timestamp") as! String
+        cell.titleLabel!.text =    self.notes[indexPath.row]["title"] as? String
+        cell.dateLabel!.text = self.notes[indexPath.row]["timestamp"] as? String
         cell.titleLabel?.numberOfLines = 0
         cell.titleLabel?.lineBreakMode = .byWordWrapping
        

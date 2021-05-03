@@ -221,41 +221,8 @@ class trackingViewController: UIViewController, ChartViewDelegate {
        let dateGraph = dateFormatterGet.date(from: date)!
         let dateGraphStr = dateFormatterPrint.string(from: dateGraph)
        print(dateGraphStr)
-       let notes = fetchRecords(name: "Note")
-        var noteTxt = ""
-        var addNote = false
-        if notes != nil{
-        for n in  (notes as! [NSManagedObject]){
-            let dateNote = dateFormatterNote.date(from: (n.value(forKeyPath: "timestamp") as? String)!)
-            let dateNoteStr = dateFormatterPrint.string(from: dateNote!)
-            addNote = false
-            print(dateNoteStr)
-            if chartType == "bar" && freq == "w"{
-                if dateNote!.isInThisWeek(date: dateNote!, weekStart: dateGraph){
-                    addNote = true
-                    
-                }
-
-            }
-            else{
-                if dateNoteStr == dateGraphStr{
-                    addNote = true
-                }
-            }
-            if addNote{
-                noteTxt += (n.value(forKeyPath: "timestamp") as? String)! + "\n\n"
-                noteTxt += (n.value(forKeyPath: "title") as? String)! + "\n\n"
-                noteTxt += (n.value(forKeyPath: "text") as? String)! + "\n\n\n"
-            }
-        }
-            if noteTxt == ""{
-                noteTxt = "No notes found"
-            }
-        showDialog(msg: noteTxt)
-        }
-        else{
-            showDialog(msg: "No notes found")
-        }
+        fetchRemoteNote(name: "Note", json: ["dateGraph":dateGraph,"dateFormatterPrint":dateFormatterPrint, "dateFormatterNote":dateFormatterNote, "dateGraphStr":dateGraphStr,"chartType":chartType] , completion: showNote(notes: json:) )
+        
     }
     
     func showDialog(msg: String){
@@ -331,7 +298,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                 prevItem = charts[idx-1]
             }
             
-           
+//           print("prev",prevItem)
             
             let verticalConstraintChartLabel = NSLayoutConstraint(item: chartLabels[idx], attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: prevItem, attribute: attr, multiplier: 1, constant: 20)
             
@@ -374,7 +341,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
     
     
   
-    func drawBarCharts(records: [NSManagedObject]){
+    func drawBarCharts(records: [[String:Any]]){
        var symptom = ""
        var date = ""
        var dur = "--"
@@ -389,13 +356,14 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         var symptomsLogged : [String:[String:[String]]] = [:]
        
         for record in records{
-                            symptom =  record.value(forKey: "name") as! String
             
-                           date =  record.value(forKey: "timestamp") as! String
+                            symptom =  record["name"] as! String
+            
+                           date =  record["timestamp"] as! String
                            
-                          dur = record.value(forKey: "duration") as! String
+                          dur = record["duration"] as! String
             
-                           let intensityFloat = record.value(forKey: "intensity") as! Float
+                           let intensityFloat = record["intensity"] as! Float
             if Array(cutoffSymptoms.keys).contains(symptom){
                 if intensityFloat <= 1 {
                     intensity = "low"}
@@ -416,7 +384,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             else{
                 intensity = "high"
             }
-                let durUnit = record.value(forKey: "durationUnit") as! String
+                let durUnit = record["durationUnit"] as! String
                 if durUnit == "mins" && Int(dur) != nil{
                  dur = String(Double(dur)!/60.0)
                 }
@@ -573,7 +541,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                    self.view.layoutIfNeeded()
     }
     
-    func drawLineCharts(records: [NSManagedObject]){
+    func drawLineCharts(records: [[String:Any]]){
           var symptom = ""
           var date = ""
           var dur = 0.0
@@ -583,13 +551,13 @@ class trackingViewController: UIViewController, ChartViewDelegate {
           dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
           
            for record in records{
-                               symptom =  record.value(forKey: "name") as! String
-                              date =  record.value(forKey: "timestamp") as! String
+                               symptom =  record["name"] as! String
+                              date =  record["timestamp"] as! String
                              
                              
-                              let intensity = record.value(forKey: "intensity") as! Double
+                              let intensity = record["intensity"] as! Double
                
-                              let durUnit = record.value(forKey: "durationUnit") as! String
+                              let durUnit = record["durationUnit"] as! String
                               if durUnit == "mins"{
                                   dur = dur/60.0
                               }
@@ -652,50 +620,167 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         freq = freqStr[frequency]
     }
     
+    func showNote(notes: [String:[Any]],json:[String:Any]){
+        var noteTxt = ""
+        var addNote = false
+        let dateFormatterNote = json["dateFormatterNote"] as! DateFormatter
+        let dateFormatterPrint = json["dateFormatterPrint"] as! DateFormatter
+        let dateGraph = json["dateGraph"] as! Date
+        let dateGraphStr = json["dateGraphStr"] as! String
+        var sortedNotes: [[String:Any]] = []
+        if notes.count > 0{
+        for n in  notes["results"]! as [Any]{
+            let nDict = n as! [String:AnyObject]
+            var njson = convertToDictionary(text:nDict["eventJson"] as! String)
+            njson!["dateNote"] = dateFormatterNote.date(from: (njson!["timestamp"] as? String)!)
+            sortedNotes.append(njson!)
+        }
+            sortedNotes = sortedNotes.sorted { $0["dateNote"] as! Date > $1["dateNote"] as! Date }
+            var notesAdded: [Int64] = []
+            for njson in sortedNotes{
+                if !notesAdded.contains(njson["id"] as! Int64)
+                {
+                    notesAdded.append(njson["id"] as! Int64)
+            let dateNote = njson["dateNote"] as! Date
+                let dateNoteStr = dateFormatterPrint.string(from: dateNote)
+            addNote = false
+            print(dateNoteStr)
+            if json["chartType"] as! String == "bar" && freq == "w"{
+                if dateNote.isInThisWeek(date: dateNote, weekStart: dateGraph){
+                    addNote = true
+                    
+                }
+
+            }
+            else{
+                if dateNoteStr == dateGraphStr{
+                    addNote = true
+                }
+            }
+            
+            if addNote{
+                noteTxt += (njson["timestamp"] as? String)! + "\n\n"
+                noteTxt += (njson["title"] as? String)! + "\n\n"
+                noteTxt += (njson["text"] as? String)! + "\n\n\n"
+            }
+                }}
+            if noteTxt == ""{
+                noteTxt = "No notes found"
+            }
+        showDialog(msg: noteTxt)
+        }
+        else{
+            showDialog(msg: "No notes found")
+        }
+        
+    }
+    
+    func showCharts(logSymptoms: [String:[Any]],filter_json:[String:Any]){
+        var records : [[String: Any]] = []
+        for sym in logSymptoms["results"]! as [Any]{
+            let symDict = sym as! [String:AnyObject]
+            let json = convertToDictionary(text:symDict["eventJson"] as! String)
+            if json != nil{
+                if (filter_json["name"] as! String == (json!["ename"] as! String)) {
+                
+                records.append(json!)
+            }
+            }
+        }
+        if filter_json["ctype"] as! String == "bar"{
+        
+       drawBarCharts(records:records)
+        }
+        else{
+            drawLineCharts(records: records)
+        }
+        
+    }
+    
+    func fetchRemoteLog(name: String,ctype: String,completion: @escaping ([String:[Any]],[String:Any])->()){
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject]
+            remoteFetch(parameters, json: ["name":name,"ctype":ctype], completion: completion)
+        }
+    }
+    
+    func fetchRemoteNote(name: String,json: [String:Any] ,completion: @escaping ([String:[Any]],[String:Any])->()){
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"noteDetail" as AnyObject,"action":"saveNote" as AnyObject]
+            remoteFetch(parameters, json:json, completion: completion)
+        }
+    }
+    
+    func showChartsFirst(logSymptoms: [String:[Any]],filter_json:[String:Any]){
+        var records : [[String: Any]] = []
+        for sym in logSymptoms["results"]! as [Any]{
+            let symDict = sym as! [String:AnyObject]
+            let json = convertToDictionary(text:symDict["eventJson"] as! String)
+            if json != nil{
+            if (filter_json["name"] as! String == (json!["ename"] as! String)) {
+                
+                records.append(json!)
+            }
+            }
+        }
+        
+            if records.count > 0{
+                self.buttonStack.isHidden = false
+               trend.backgroundColor = teal
+                trend.setTitleColor(UIColor.white, for: .normal)
+                agg.backgroundColor = UIColor.white
+                agg.setTitleColor(teal, for: .normal)
+                
+               
+                
+            }
+            else{
+                self.buttonStack.isHidden = true
+            }
+            self.chartType = "line"
+            self.drawLineCharts(records: records)
+        }
+        
+    
+    
     @IBAction func clickDailyButton(_ sender: UIButton){
         
         selectfreq(frequency: 0)
         removeCharts()
-        var records:Optional<Any> = nil
         if self.type == 0{
-        records = fetchRecords(name: "SymptomLog")
+            fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
         }
         else{
-            records = fetchRecords(name: "MoodLog")
+            fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
         }
-        if records != nil {
-       drawBarCharts(records:records as! [NSManagedObject])
-        }
+        
         
     }
     
     @IBAction func clickWeeklyButton(_ sender: UIButton){
         selectfreq(frequency: 1)
         removeCharts()
-        var records:Optional<Any> = nil
         if self.type == 0{
-        records = fetchRecords(name: "SymptomLog")
+       fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
         }
         else{
-            records = fetchRecords(name: "MoodLog")
+            fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
         }
-        if records != nil {
-       drawBarCharts(records:records as! [NSManagedObject])
-    }
+    
     }
     
   @IBAction func clickMonthlyButton(_ sender: UIButton){
         selectfreq(frequency: 2)
     removeCharts()
-    var records:Optional<Any> = nil
     if self.type == 0{
-    records = fetchRecords(name: "SymptomLog")
+   fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
     }
     else{
-        records = fetchRecords(name: "MoodLog")
-    }
-    if records != nil {
-   drawBarCharts(records:records as! [NSManagedObject])
+        fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
     }
   }
     
@@ -712,13 +797,10 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         agg.setTitleColor(teal, for: .normal)
         var records:Optional<Any> = nil
         if self.type == 0{
-        records = fetchRecords(name: "SymptomLog")
+       fetchRemoteLog(name: "SymptomLog",ctype: "line",completion: showCharts(logSymptoms: filter_json:))
         }
         else{
-            records = fetchRecords(name: "MoodLog")
-        }
-               if records != nil {
-                drawLineCharts(records: records as! [NSManagedObject])
+            fetchRemoteLog(name: "MoodLog",ctype: "line",completion: showCharts(logSymptoms: filter_json:))
         }
     }
     
@@ -733,52 +815,31 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         trend.backgroundColor = UIColor.white
         trend.setTitleColor(teal, for: .normal)
         selectfreq(frequency: 0)
-         var records:Optional<Any> = nil
-         if self.type == 0{
-         records = fetchRecords(name: "SymptomLog")
-         }
-         else{
-             records = fetchRecords(name: "MoodLog")
-         }
-         if records != nil {
-        drawBarCharts(records:records as! [NSManagedObject])
+        if self.type == 0{
+       fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
+        }
+        else{
+            fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
         }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         print(self.type)
-        var records:Optional<Any> =  nil
+        
         if self.type == 0{
             self.logButton.setTitle("+ Log your health", for: .normal)
-            records = fetchRecords(name: "SymptomLog")
+            fetchRemoteLog(name: "SymptomLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
            
         }
         else{
             self.logButton.setTitle("+ Log your mood", for: .normal)
-            records = fetchRecords(name: "MoodLog")
+            fetchRemoteLog(name: "MoodLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
         }
-            if records != nil {
-                if (records as! [NSManagedObject]).count > 0{
-                    self.buttonStack.isHidden = false
-                   trend.backgroundColor = teal
-                    trend.setTitleColor(UIColor.white, for: .normal)
-                    agg.backgroundColor = UIColor.white
-                    agg.setTitleColor(teal, for: .normal)
-                    
-                   
-                    
-                }
-                else{
-                    self.buttonStack.isHidden = true
-                }
-                self.chartType = "line"
-                self.drawLineCharts(records: records as! [NSManagedObject])
-                }
-            else{
-                self.buttonStack.isHidden = true
-            }
+            
+        self.freqStack.isHidden = true
     
     }
+    
     func removeCharts(){
     for (idx,_) in symptomsLoggedAggBar.enumerated(){
     self.chartsBar[idx].removeFromSuperview()
