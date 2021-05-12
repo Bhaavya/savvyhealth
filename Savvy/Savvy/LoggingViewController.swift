@@ -64,6 +64,8 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var durLbl: UILabel!
     var noteTimestamp: String = ""
     
+    @IBOutlet weak var moodScroll: UIScrollView!
+    
     
     
     @IBAction func clickNewSymp()
@@ -410,6 +412,8 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         }
         symptoms = fetchRemoteSymptom(json: ["type":self.type,"ename":ename],completion: setSymptoms(symptoms:filter_json:))
  
+        moodScroll.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+150)
+    
     }
     
    

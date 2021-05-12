@@ -1496,6 +1496,7 @@
                         <outlet property="logMoodOverlay" destination="cNf-zd-J5B" id="1zd-vk-2RI"/>
                         <outlet property="logSymptomInnerView" destination="cut-rt-mZT" id="tRV-E3-vHR"/>
                         <outlet property="logSymptomOverlay" destination="0SA-vw-r8L" id="s0c-p7-TDq"/>
+                        <outlet property="moodScroll" destination="hJC-4B-kdz" id="3Rb-dk-N8r"/>
                         <outlet property="newSymptomInnerView" destination="VFE-eG-WUa" id="YVf-ah-ZQz"/>
                         <outlet property="newSymptomOverlay" destination="6N3-J2-iqk" id="G1S-x5-T9a"/>
                         <outlet property="newSymptomTextField" destination="ZE4-GA-M2C" id="TDe-Ul-60o"/>
@@ -1652,30 +1653,30 @@
                             <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rij-zI-ww6">
-                                    <rect key="frame" x="0.0" y="20" width="240" height="600"/>
+                                    <rect key="frame" x="0.0" y="20" width="240" height="700"/>
                                     <subviews>
                                         <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="AKz-dq-UPl">
-                                            <rect key="frame" x="7" y="10" width="226" height="110"/>
+                                            <rect key="frame" x="7" y="30" width="226" height="110"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="110" id="3aj-V6-w7Y"/>
                                             </constraints>
                                         </datePicker>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Over the last 2 weeks, how often have you been bothered by the following problems?" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wza-SF-YOe">
-                                            <rect key="frame" x="20" y="150" width="200" height="86"/>
+                                            <rect key="frame" x="20" y="170" width="200" height="86"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1. Little interest or pleasure in doing things" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="56r-l0-8fg">
-                                            <rect key="frame" x="20" y="251" width="200" height="41"/>
+                                            <rect key="frame" x="20" y="271" width="200" height="41"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Anr-QM-oj0" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="302" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="322" width="300" height="30"/>
                                             <state key="normal" title="Not at all (0)"/>
                                             <connections>
                                                 <outletCollection property="otherButtons" destination="fH9-KM-uMR" id="4ti-K6-xvv"/>
@@ -1684,29 +1685,29 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fH9-KM-uMR" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="342" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="362" width="300" height="30"/>
                                             <state key="normal" title="Several days (1)"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="utn-4L-8X1" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="382" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="402" width="300" height="30"/>
                                             <state key="normal" title="More than half days (2)"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Wcb-Gb-Rys" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="422" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="442" width="300" height="30"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="300" id="X5P-lD-PTf"/>
                                             </constraints>
                                             <state key="normal" title="Nearly every day (3)"/>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2. Feeling down, depressed or hopeless" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Lb-cU-PY8">
-                                            <rect key="frame" x="20" y="467" width="301.5" height="20.5"/>
+                                            <rect key="frame" x="20" y="487" width="200" height="41"/>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ILs-iy-HS2" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="497.5" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="538" width="300" height="30"/>
                                             <state key="normal" title="Not at all (0)"/>
                                             <connections>
                                                 <outletCollection property="otherButtons" destination="Gy6-Rl-YcH" id="A5B-Z0-hII"/>
@@ -1715,15 +1716,15 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gy6-Rl-YcH" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="537.5" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="578" width="300" height="30"/>
                                             <state key="normal" title="Several days (1)"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8TU-aV-bXG" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="577.5" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="618" width="300" height="30"/>
                                             <state key="normal" title="More than half days (2)"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WCJ-go-GXY" customClass="DLRadioButton">
-                                            <rect key="frame" x="22" y="617.5" width="300" height="30"/>
+                                            <rect key="frame" x="22" y="658" width="300" height="30"/>
                                             <state key="normal" title="Nearly every day (3)"/>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xXJ-Ew-wLB">
@@ -1734,7 +1735,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="me5-CT-8pL">
-                                            <rect key="frame" x="20" y="722.5" width="85" height="35"/>
+                                            <rect key="frame" x="20" y="763" width="85" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="85" id="PGh-Tb-ghp"/>
                                             </constraints>
@@ -1747,7 +1748,7 @@
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eZC-SI-SbG">
-                                            <rect key="frame" x="160" y="722.5" width="60" height="35"/>
+                                            <rect key="frame" x="160" y="763" width="60" height="35"/>
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="60" id="rjz-yw-zc1"/>
                                             </constraints>
@@ -1767,6 +1768,7 @@
                                         <constraint firstItem="Gy6-Rl-YcH" firstAttribute="width" secondItem="ILs-iy-HS2" secondAttribute="width" id="326-Ox-hOY"/>
                                         <constraint firstItem="56r-l0-8fg" firstAttribute="top" secondItem="Wza-SF-YOe" secondAttribute="bottom" constant="15" id="8PH-0D-QjP"/>
                                         <constraint firstItem="56r-l0-8fg" firstAttribute="leading" secondItem="Wza-SF-YOe" secondAttribute="leading" id="9ow-22-aWD"/>
+                                        <constraint firstItem="Wza-SF-YOe" firstAttribute="centerX" secondItem="Rij-zI-ww6" secondAttribute="centerX" id="Ah2-Sx-TGB"/>
                                         <constraint firstItem="Anr-QM-oj0" firstAttribute="top" secondItem="56r-l0-8fg" secondAttribute="bottom" constant="10" id="Bhh-Ra-od4"/>
                                         <constraint firstItem="ILs-iy-HS2" firstAttribute="width" secondItem="Wcb-Gb-Rys" secondAttribute="width" id="CFv-kR-nt5"/>
                                         <constraint firstItem="fH9-KM-uMR" firstAttribute="top" secondItem="Anr-QM-oj0" secondAttribute="bottom" constant="10" id="Dhj-ih-gPG"/>
@@ -1776,17 +1778,17 @@
                                         <constraint firstItem="WCJ-go-GXY" firstAttribute="leading" secondItem="8TU-aV-bXG" secondAttribute="leading" id="Lqu-rx-NwI"/>
                                         <constraint firstItem="me5-CT-8pL" firstAttribute="top" secondItem="xXJ-Ew-wLB" secondAttribute="bottom" constant="30" id="Qaq-4t-Ehu"/>
                                         <constraint firstItem="8TU-aV-bXG" firstAttribute="top" secondItem="Gy6-Rl-YcH" secondAttribute="bottom" constant="10" id="QfZ-ds-VDm"/>
+                                        <constraint firstItem="5Lb-cU-PY8" firstAttribute="trailing" secondItem="56r-l0-8fg" secondAttribute="trailing" id="RgK-Hf-q3k"/>
                                         <constraint firstItem="utn-4L-8X1" firstAttribute="top" secondItem="fH9-KM-uMR" secondAttribute="bottom" constant="10" id="SlL-KF-r7T"/>
                                         <constraint firstItem="xXJ-Ew-wLB" firstAttribute="leading" secondItem="5Lb-cU-PY8" secondAttribute="leading" id="UPj-aI-zJa"/>
                                         <constraint firstItem="Gy6-Rl-YcH" firstAttribute="leading" secondItem="ILs-iy-HS2" secondAttribute="leading" id="V1U-eY-WSR"/>
-                                        <constraint firstItem="Wza-SF-YOe" firstAttribute="leading" secondItem="Rij-zI-ww6" secondAttribute="leading" constant="20" id="YhS-uu-nAq"/>
                                         <constraint firstItem="Anr-QM-oj0" firstAttribute="width" secondItem="Wcb-Gb-Rys" secondAttribute="width" id="aXf-WI-wXf"/>
                                         <constraint firstItem="Wcb-Gb-Rys" firstAttribute="top" secondItem="utn-4L-8X1" secondAttribute="bottom" constant="10" id="acc-Rw-2s3"/>
                                         <constraint firstItem="56r-l0-8fg" firstAttribute="trailing" secondItem="Wza-SF-YOe" secondAttribute="trailing" id="b7Q-Yn-prG"/>
                                         <constraint firstItem="Anr-QM-oj0" firstAttribute="leading" secondItem="56r-l0-8fg" secondAttribute="leading" constant="2" id="bq7-nK-arv"/>
                                         <constraint firstItem="Wza-SF-YOe" firstAttribute="top" secondItem="AKz-dq-UPl" secondAttribute="bottom" constant="30" id="cDO-Xm-jok"/>
                                         <constraint firstItem="utn-4L-8X1" firstAttribute="width" secondItem="Wcb-Gb-Rys" secondAttribute="width" id="cxy-bR-TV9"/>
-                                        <constraint firstItem="AKz-dq-UPl" firstAttribute="top" secondItem="Rij-zI-ww6" secondAttribute="top" constant="10" id="dF0-wc-8X0"/>
+                                        <constraint firstItem="AKz-dq-UPl" firstAttribute="top" secondItem="Rij-zI-ww6" secondAttribute="top" constant="30" id="dF0-wc-8X0"/>
                                         <constraint firstItem="WCJ-go-GXY" firstAttribute="top" secondItem="8TU-aV-bXG" secondAttribute="bottom" constant="10" id="dKu-A4-d7o"/>
                                         <constraint firstItem="me5-CT-8pL" firstAttribute="leading" secondItem="56r-l0-8fg" secondAttribute="leading" id="dk5-tq-h27"/>
                                         <constraint firstItem="xXJ-Ew-wLB" firstAttribute="top" secondItem="WCJ-go-GXY" secondAttribute="bottom" constant="15" id="eOf-F3-2fc"/>
@@ -1802,11 +1804,11 @@
                                         <constraint firstItem="ILs-iy-HS2" firstAttribute="leading" secondItem="Anr-QM-oj0" secondAttribute="leading" id="tdl-Hh-u88"/>
                                         <constraint firstAttribute="trailing" secondItem="Wza-SF-YOe" secondAttribute="trailing" constant="20" id="uWn-Jb-WIB"/>
                                         <constraint firstItem="utn-4L-8X1" firstAttribute="leading" secondItem="fH9-KM-uMR" secondAttribute="leading" id="vBY-qY-JG9"/>
-                                        <constraint firstAttribute="height" constant="600" id="wDC-Y9-oBQ"/>
+                                        <constraint firstAttribute="height" constant="700" id="wDC-Y9-oBQ"/>
                                     </constraints>
                                 </view>
                             </subviews>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstItem="Rij-zI-ww6" firstAttribute="leading" secondItem="hJC-4B-kdz" secondAttribute="leading" id="0aX-hi-KNP"/>
                                 <constraint firstItem="Rij-zI-ww6" firstAttribute="width" secondItem="hJC-4B-kdz" secondAttribute="width" id="Baj-kK-j3v"/>
@@ -1894,7 +1896,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3dU-BO-8DB">
-                                <rect key="frame" x="10" y="80" width="114" height="35"/>
+                                <rect key="frame" x="10" y="100" width="114" height="35"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
                                 <state key="normal" title="+ Track more">
                                     <color key="titleColor" red="0.37706607580184937" green="0.68331122398376465" blue="0.86277025938034058" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
@@ -1904,7 +1906,7 @@
                                 </connections>
                             </button>
                             <stackView hidden="YES" opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="G7j-wL-ghX">
-                                <rect key="frame" x="107.5" y="135" width="160" height="28"/>
+                                <rect key="frame" x="107.5" y="155" width="160" height="28"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GZB-RS-2Nb">
                                         <rect key="frame" x="0.0" y="0.0" width="78" height="28"/>
@@ -1953,7 +1955,7 @@
                                 </subviews>
                             </stackView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ns9-wM-DY3">
-                                <rect key="frame" x="0.0" y="173" width="375" height="494"/>
+                                <rect key="frame" x="0.0" y="193" width="375" height="474"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="I7x-Nx-umA">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="0.0"/>
@@ -2099,10 +2101,10 @@
                                 </userDefinedRuntimeAttributes>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FVL-pL-Yff" userLabel="Header">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Savvy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CZW-xt-eds" userLabel="SavvyHealth">
-                                        <rect key="frame" x="152.5" y="23.5" width="70" height="26.5"/>
+                                        <rect key="frame" x="152.5" y="43.5" width="70" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="yj5-kd-tyD"/>
                                         </constraints>
@@ -2114,7 +2116,7 @@
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="srO-5q-Eaz">
-                                        <rect key="frame" x="10" y="20" width="42" height="34"/>
+                                        <rect key="frame" x="10" y="40" width="42" height="34"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <state key="normal" title="Back">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2129,7 +2131,7 @@
                                 <constraints>
                                     <constraint firstItem="CZW-xt-eds" firstAttribute="centerX" secondItem="FVL-pL-Yff" secondAttribute="centerX" id="8rY-a7-LDZ"/>
                                     <constraint firstAttribute="bottom" secondItem="CZW-xt-eds" secondAttribute="bottom" constant="10" id="9Zl-JR-AoM"/>
-                                    <constraint firstAttribute="height" constant="60" id="Fea-mq-noF"/>
+                                    <constraint firstAttribute="height" constant="80" id="Fea-mq-noF"/>
                                     <constraint firstItem="srO-5q-Eaz" firstAttribute="leading" secondItem="FVL-pL-Yff" secondAttribute="leading" constant="10" id="TEf-g5-PZz"/>
                                     <constraint firstItem="srO-5q-Eaz" firstAttribute="centerY" secondItem="CZW-xt-eds" secondAttribute="centerY" id="u8Z-qz-poF"/>
                                 </constraints>
@@ -2565,7 +2567,7 @@ Add a note to ask your clinician about it!</string>
                                         </variation>
                                     </label>
                                 </subviews>
-                                <color key="backgroundColor" red="0.36830925939999998" green="0.68482679130000002" blue="0.86310589309999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="backgroundColor" red="0.37706607580000001" green="0.68331122399999999" blue="0.86277025939999996" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
                                     <constraint firstItem="wd7-Qw-bBH" firstAttribute="leading" secondItem="JUM-SF-vXH" secondAttribute="leading" constant="10" id="AXn-7q-0ec"/>
                                     <constraint firstAttribute="height" constant="60" id="HLp-EL-NKk"/>
@@ -2617,7 +2619,7 @@ Add a note to ask your clinician about it!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WWA-7r-4EK">
-                                <rect key="frame" x="5" y="60" width="87" height="33"/>
+                                <rect key="frame" x="5" y="80" width="87" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="+ Add Note"/>
                                 <connections>
@@ -2625,7 +2627,7 @@ Add a note to ask your clinician about it!</string>
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="5Uk-bu-Kfv">
-                                <rect key="frame" x="0.0" y="113" width="375" height="554"/>
+                                <rect key="frame" x="0.0" y="133" width="375" height="534"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="noteCell" id="Kc9-cH-Smi" customClass="noteCell" customModule="SavvyHealth" customModuleProvider="target">
@@ -2683,10 +2685,10 @@ Add a note to ask your clinician about it!</string>
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ALJ-aI-ojj" userLabel="Header">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Savvy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0V-wy-K1e" userLabel="SavvyHealth">
-                                        <rect key="frame" x="152.5" y="23.5" width="70" height="26.5"/>
+                                        <rect key="frame" x="152.5" y="43.5" width="70" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="yIx-Go-XTB"/>
                                         </constraints>
@@ -2698,7 +2700,7 @@ Add a note to ask your clinician about it!</string>
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VJJ-jl-ftb">
-                                        <rect key="frame" x="10" y="20" width="42" height="34"/>
+                                        <rect key="frame" x="10" y="40" width="42" height="34"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <state key="normal" title="Back">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2713,7 +2715,7 @@ Add a note to ask your clinician about it!</string>
                                 <color key="backgroundColor" red="0.36830925939999998" green="0.68482679130000002" blue="0.86310589309999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstItem="VJJ-jl-ftb" firstAttribute="leading" secondItem="ALJ-aI-ojj" secondAttribute="leading" constant="10" id="MZT-Pc-2oq"/>
-                                    <constraint firstAttribute="height" constant="60" id="VwP-OM-1X5"/>
+                                    <constraint firstAttribute="height" constant="80" id="VwP-OM-1X5"/>
                                     <constraint firstItem="VJJ-jl-ftb" firstAttribute="centerY" secondItem="U0V-wy-K1e" secondAttribute="centerY" id="dn7-eC-Vkb"/>
                                     <constraint firstItem="U0V-wy-K1e" firstAttribute="centerX" secondItem="ALJ-aI-ojj" secondAttribute="centerX" id="sgg-J1-33O"/>
                                     <constraint firstAttribute="bottom" secondItem="U0V-wy-K1e" secondAttribute="bottom" constant="10" id="t3k-MB-dZD"/>
@@ -2762,10 +2764,10 @@ Add a note to ask your clinician about it!</string>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="TEh-Yx-66W" userLabel="Header">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="60"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Savvy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iSq-4Q-TTV" userLabel="SavvyHealth">
-                                        <rect key="frame" x="152.5" y="23.5" width="70" height="26.5"/>
+                                        <rect key="frame" x="152.5" y="43.5" width="70" height="26.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="BvB-wx-8QS"/>
                                         </constraints>
@@ -2777,7 +2779,7 @@ Add a note to ask your clinician about it!</string>
                                         </variation>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ysf-Vw-eWQ">
-                                        <rect key="frame" x="10" y="20" width="42" height="34"/>
+                                        <rect key="frame" x="10" y="40" width="42" height="34"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <state key="normal" title="Back">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -2793,7 +2795,7 @@ Add a note to ask your clinician about it!</string>
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="iSq-4Q-TTV" secondAttribute="bottom" constant="10" id="5oi-Sq-3O4"/>
                                     <constraint firstItem="ysf-Vw-eWQ" firstAttribute="centerY" secondItem="iSq-4Q-TTV" secondAttribute="centerY" id="7bG-za-J2X"/>
-                                    <constraint firstAttribute="height" constant="60" id="9dz-tD-drw"/>
+                                    <constraint firstAttribute="height" constant="80" id="9dz-tD-drw"/>
                                     <constraint firstItem="iSq-4Q-TTV" firstAttribute="centerX" secondItem="TEh-Yx-66W" secondAttribute="centerX" id="RtH-nx-SIK"/>
                                     <constraint firstItem="ysf-Vw-eWQ" firstAttribute="leading" secondItem="TEh-Yx-66W" secondAttribute="leading" constant="10" id="zmh-Ch-BBv"/>
                                 </constraints>
@@ -2809,12 +2811,12 @@ Add a note to ask your clinician about it!</string>
                                 </variation>
                             </view>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Title" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uiS-65-70h">
-                                <rect key="frame" x="0.0" y="60" width="375" height="34"/>
+                                <rect key="frame" x="0.0" y="80" width="375" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OK6-J6-3Pt">
-                                <rect key="frame" x="8" y="101" width="367" height="18"/>
+                                <rect key="frame" x="8" y="121" width="367" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -2846,7 +2848,7 @@ Add a note to ask your clinician about it!</string>
                                 </connections>
                             </button>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5v5-6L-Mfs">
-                                <rect key="frame" x="3" y="124" width="375" height="453"/>
+                                <rect key="frame" x="3" y="144" width="375" height="433"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>

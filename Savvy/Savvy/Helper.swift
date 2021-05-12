@@ -300,7 +300,7 @@ extension UIViewController {
              }
     }
 
-    func updateBarChart(barChartView: BarChartView , logData: [String:[String:Double]],freq: String,addCutoff: Bool, cutoff: Double) {
+    func updateBarChart(barChartView: BarChartView , logData: [String:[String:Double]],freq: String,addCutoff: Bool, cutoff: Double,hasNote: [String:Bool]) {
             
         
         var dataEntries: [BarChartDataEntry] = []
@@ -327,7 +327,9 @@ extension UIViewController {
                                    }
         var dates: [String] = []
        
-       let palette = [UIColor(red: 232, green: 246, blue:255),  UIColor(red: 112, green: 172, blue:212), UIColor(red: 61, green: 122, blue:163)]
+        var palette: [NSUIColor] = []
+        
+        
          var yvals:[Double] = []
        
   
@@ -337,8 +339,18 @@ extension UIViewController {
             yvals.append(logData[date]!["low"] ?? 0.0)
             yvals.append(logData[date]!["medium"] ?? 0.0)
             yvals.append(logData[date]!["high"] ?? 0.0)
-         
-           
+            if hasNote[date]!{
+                palette.append(UIColor(red: 255,green: 192, blue: 203))
+                palette.append(UIColor(red: 255,green: 105, blue: 180))
+                
+                palette.append(UIColor(red: 199,green: 21, blue: 133))
+                
+            }
+            else{
+                palette.append(UIColor(red: 232, green: 246, blue:255))
+                palette.append(UIColor(red: 112, green: 172, blue:212))
+                palette.append(UIColor(red: 61, green: 122, blue:163))
+            }
            var de = BarChartDataEntry(x: Double(idx), yValues: yvals)
             
             dataEntries.append(de)
@@ -396,7 +408,7 @@ extension UIViewController {
     }
     
     
-    func updateLineChart(lineChartView: LineChartView , logData: [String:Double], addCutoff: Bool, cutoff: Double) {
+    func updateLineChart(lineChartView: LineChartView , logData: [String:Double], addCutoff: Bool, cutoff: Double, hasNote: [String:Bool]) {
                 
             
             var dataEntries: [ChartDataEntry] = []
@@ -418,9 +430,9 @@ extension UIViewController {
                                        }
             var dates: [String] = []
            
-           let palette = [UIColor(red: 232, green: 246, blue:255),  UIColor(red: 112, green: 172, blue:212), UIColor(red: 61, green: 122, blue:163)]
+          
              
-           
+        var palette: [NSUIColor] = []
       
            
                  var lastIdx = 0
@@ -439,6 +451,13 @@ extension UIViewController {
                             }
             dates.append(dateFormatterPrint.string(from:dateFormatterGet.date(from: date)!))
             lastIdx = idx
+           
+            if !hasNote[date]!{
+                palette.append(UIColor(red: 112, green: 172, blue:212))
+            }
+            else{
+                palette.append(UIColor(red: 255,green: 105, blue: 180))
+            }
                         }
         print("cnt",Array(sortedDates).count)
         if Array(sortedDates).count < 2{
@@ -462,8 +481,9 @@ extension UIViewController {
             //            + ": Frequency"
                         
         lineDataSet.formSize = 0
+        
                         
-                        lineDataSet.setColor(palette[2], alpha: 1)
+        lineDataSet.circleColors = palette
                         lineDataSet.drawCircleHoleEnabled = false
                         lineDataSet.drawValuesEnabled = true
                         

@@ -30,6 +30,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
     
     var symptomsLoggedAggBar:[String:[String:[String:Double]]] = [:]
     var symptomsLoggedLine:[String:[String: Double]] = [:]
+    var hasNote:[String:Bool] = [:]
     var symptoms: [String] = []
     var freq  = ""
     var freqbuttons: [UIButton] = []
@@ -407,16 +408,19 @@ class trackingViewController: UIViewController, ChartViewDelegate {
      
         
         var durDouble = 0.0
+        
+        let dateFormatterPrint = DateFormatter()
+        if freq == "d" || freq == "w"{
+        dateFormatterPrint.dateFormat = "yyyy-MM-dd"
+        }
+        else{
+            dateFormatterPrint.dateFormat = "yyyy-MM"
+        }
+        
         for (sym,smpLog) in symptomsLogged{
         let sortedDates = Array(smpLog.keys).sorted{
             dateFormatterGet.date(from:$0)!.compare(dateFormatterGet.date(from:$1)!) == .orderedAscending}
-            let dateFormatterPrint = DateFormatter()
-            if freq == "d" || freq == "w"{
-            dateFormatterPrint.dateFormat = "yyyy-MM-dd"
-            }
-            else{
-                dateFormatterPrint.dateFormat = "yyyy-MM"
-            }
+            
            
            
             var totDur:[String:Double] = [:]
@@ -505,40 +509,14 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                    chartsBar = []
                    chartLabels = []
                    chartYLabels = []
-                   for (idx,symptom) in symptomsLoggedAggBar.enumerated(){
-                       print(idx,symptom)
-                   
-                       
-                       chartsBar.append(BarChartView())
-                    symptoms.append(symptom.key)
-                    chartsBar[idx].delegate = self
-                    chartsBar[idx].tag = idx
-                       chartLabels.append(UILabel())
-                       chartYLabels.append(UILabel())
-                       chartLabels[idx].text = symptom.key
-                    chartLabels[idx].font = UIFont.systemFont(ofSize: 17, weight: .medium)
-                    
-                       chartYLabels[idx].text = "Duration (hrs)             "
-                       self.scrollInnerView.addSubview(chartLabels[idx])
-                       self.scrollInnerView.addSubview(chartYLabels[idx])
-                    
-                    var cutoff = 0.0
-                    var addCutoff = false
-                    if Array(cutoffSymptoms.keys).contains(symptom.key){
-                        cutoff = cutoffSymptoms[symptom.key]!
-                        addCutoff = true
-                        chartYLabels[idx].text = "Number of times"
-                    }
-                       
-                    updateBarChart(barChartView: chartsBar[idx], logData: symptom.value,freq: self.freq,addCutoff: addCutoff, cutoff: cutoff)
-                   self.scrollInnerView.addSubview(chartsBar[idx])
+                    hasNote = [:]
         
-                      
-                   }
-                   print(chartYLabels)
-        addConstraints(charts: chartsBar, type: "bar")
+        let dateFormatterNote : DateFormatter = DateFormatter()
+        dateFormatterNote.dateFormat = "MMM d, y HH:mm"
+        
+        fetchRemoteNote(name: "Note", json: ["chartType":"bar","dateFormatterNote":dateFormatterNote,"dateFormatterPrint":dateFormatterPrint,"freq":freq] , completion:prepBarChart(notes:json:) )
+        
                    
-                   self.view.layoutIfNeeded()
     }
     
     func drawLineCharts(records: [[String:Any]]){
@@ -575,36 +553,12 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                       chartsLine = []
                       chartLabels = []
                       chartYLabels = []
-                      for (idx,symptom) in symptomsLoggedLine.enumerated(){
-                          print(idx,symptom)
-                        symptoms.append(symptom.key)
-                          chartsLine.append(LineChartView())
-                        chartsLine[idx].delegate = self
-                        chartsLine[idx].tag = idx
-                          chartLabels.append(UILabel())
-                         chartLabels[idx].font = UIFont.systemFont(ofSize: 17, weight: .medium)
-                        chartYLabels.append(UILabel())
-                          chartLabels[idx].text = symptom.key
-                          chartYLabels[idx].text = "Intensity"
-                          self.scrollInnerView.addSubview(chartLabels[idx])
-                          self.scrollInnerView.addSubview(chartYLabels[idx])
-                        var addCutoff = false
-                        var cutoff = 0.0
-                        if
-                            Array(self.cutoffSymptoms.keys).contains(symptom.key){
-                            addCutoff = true
-                            cutoff = self.cutoffSymptoms[symptom.key]!
-                        }
-                          
-                          updateLineChart(lineChartView: chartsLine[idx], logData: symptom.value, addCutoff: addCutoff, cutoff: cutoff)
-                      self.scrollInnerView.addSubview(chartsLine[idx])
-           
-                         
-                      }
-                      print(chartYLabels)
-        addConstraints(charts: chartsLine, type: "line")
+        
+        let dateFormatterNote : DateFormatter = DateFormatter()
+        dateFormatterNote.dateFormat = "MMM d, y HH:mm"
+        
+        fetchRemoteNote(name: "Note", json: ["chartType":"line","symptomsLoggedLine":symptomsLoggedLine,"dateFormatterNote":dateFormatterNote,"dateFormatterPrint":dateFormatterGet] , completion:prepLineChart(notes:json:) )
                       
-                      self.view.layoutIfNeeded()
        }
     
     func selectfreq(frequency: Int){
@@ -620,15 +574,16 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         freq = freqStr[frequency]
     }
     
-    func showNote(notes: [String:[Any]],json:[String:Any]){
+    func getNoteTxt(notes:[String:[Any]],json:[String:Any] ) -> (String, Bool){
         var noteTxt = ""
-        var addNote = false
+        var anyNote = false
         let dateFormatterNote = json["dateFormatterNote"] as! DateFormatter
         let dateFormatterPrint = json["dateFormatterPrint"] as! DateFormatter
         let dateGraph = json["dateGraph"] as! Date
         let dateGraphStr = json["dateGraphStr"] as! String
         var sortedNotes: [[String:Any]] = []
-        if notes.count > 0{
+     
+        if notes["results"]!.count > 0{
         for n in  notes["results"]! as [Any]{
             let nDict = n as! [String:AnyObject]
             var njson = convertToDictionary(text:nDict["eventJson"] as! String)
@@ -638,16 +593,18 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             sortedNotes = sortedNotes.sorted { $0["dateNote"] as! Date > $1["dateNote"] as! Date }
             var notesAdded: [Int64] = []
             for njson in sortedNotes{
+                var addNote = false
                 if !notesAdded.contains(njson["id"] as! Int64)
                 {
                     notesAdded.append(njson["id"] as! Int64)
             let dateNote = njson["dateNote"] as! Date
                 let dateNoteStr = dateFormatterPrint.string(from: dateNote)
-            addNote = false
-            print(dateNoteStr)
+          
+//            print(dateNoteStr,dateGraphStr)
             if json["chartType"] as! String == "bar" && freq == "w"{
                 if dateNote.isInThisWeek(date: dateNote, weekStart: dateGraph){
                     addNote = true
+                    anyNote = true
                     
                 }
 
@@ -655,6 +612,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             else{
                 if dateNoteStr == dateGraphStr{
                     addNote = true
+                    anyNote = true
                 }
             }
             
@@ -662,16 +620,133 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                 noteTxt += (njson["timestamp"] as? String)! + "\n\n"
                 noteTxt += (njson["title"] as? String)! + "\n\n"
                 noteTxt += (njson["text"] as? String)! + "\n\n\n"
+             
             }
                 }}
             if noteTxt == ""{
                 noteTxt = "No notes found"
+               
+            }}
+            else{
+                noteTxt = "No notes found"
             }
+           
+        
+        return (noteTxt, anyNote)
+    }
+    
+    func showNote(notes: [String:[Any]],json:[String:Any]){
+        
+        var noteTxt = ""
+        (noteTxt,_) = getNoteTxt(notes: notes,json: json)
+//        print(noteTxt)
         showDialog(msg: noteTxt)
+        
+       
+        
+    }
+    
+    
+    func prepLineChart(notes: [String:[Any]],json:[String:Any]){
+        
+        let dateFormatterPrint = json["dateFormatterPrint"] as! DateFormatter
+        var njson: [String:Any] = [:]
+        for (k,v) in json{
+            njson[k] = v
         }
-        else{
-            showDialog(msg: "No notes found")
+        
+        for (idx,symptom) in symptomsLoggedLine.enumerated(){
+            print(idx,symptom)
+          symptoms.append(symptom.key)
+            chartsLine.append(LineChartView())
+          chartsLine[idx].delegate = self
+          chartsLine[idx].tag = idx
+            chartLabels.append(UILabel())
+           chartLabels[idx].font = UIFont.systemFont(ofSize: 17, weight: .medium)
+          chartYLabels.append(UILabel())
+            chartLabels[idx].text = symptom.key
+            chartYLabels[idx].text = "Intensity"
+            self.scrollInnerView.addSubview(chartLabels[idx])
+            self.scrollInnerView.addSubview(chartYLabels[idx])
+          var addCutoff = false
+          var cutoff = 0.0
+          if
+              Array(self.cutoffSymptoms.keys).contains(symptom.key){
+              addCutoff = true
+              cutoff = self.cutoffSymptoms[symptom.key]!
+          }
+          
+          hasNote = [:]
+          var cnt1 = 0
+          for (k,v) in symptom.value{
+            njson["dateGraph"] = dateFormatterPrint.date(from: k)!
+            njson["dateGraphStr"] =  k
+             (_,hasNote[k]) = getNoteTxt(notes: notes, json: njson)
+          }
+            
+            updateLineChart(lineChartView: chartsLine[idx], logData: symptom.value, addCutoff: addCutoff, cutoff: cutoff, hasNote:  hasNote)
+        self.scrollInnerView.addSubview(chartsLine[idx])
+
+           
         }
+        print(chartYLabels)
+addConstraints(charts: chartsLine, type: "line")
+        
+        self.view.layoutIfNeeded()
+        
+    }
+    
+    func prepBarChart(notes: [String:[Any]],json:[String:Any]){
+        
+        let dateFormatterPrint = json["dateFormatterPrint"] as! DateFormatter
+        var njson: [String:Any] = [:]
+        for (k,v) in json{
+            njson[k] = v
+        }
+       
+        
+        
+        for (idx,symptom) in symptomsLoggedAggBar.enumerated(){
+            print(idx,symptom)
+            chartsBar.append(BarChartView())
+         symptoms.append(symptom.key)
+         chartsBar[idx].delegate = self
+         chartsBar[idx].tag = idx
+            chartLabels.append(UILabel())
+            chartYLabels.append(UILabel())
+            chartLabels[idx].text = symptom.key
+         chartLabels[idx].font = UIFont.systemFont(ofSize: 17, weight: .medium)
+         
+            chartYLabels[idx].text = "Duration (hrs)             "
+            self.scrollInnerView.addSubview(chartLabels[idx])
+            self.scrollInnerView.addSubview(chartYLabels[idx])
+         
+         var cutoff = 0.0
+         var addCutoff = false
+
+         for (k,v) in symptom.value{
+            njson["dateGraph"] = dateFormatterPrint.date(from: k)!
+            njson["dateGraphStr"] =  k
+             (_,hasNote[k]) = getNoteTxt(notes: notes, json: njson)
+             
+         }
+         
+         if Array(cutoffSymptoms.keys).contains(symptom.key){
+             cutoff = cutoffSymptoms[symptom.key]!
+             addCutoff = true
+             chartYLabels[idx].text = "Number of times"
+             
+         }
+        
+            updateBarChart(barChartView: chartsBar[idx], logData: symptom.value,freq: njson["freq"] as! String,addCutoff: addCutoff, cutoff: cutoff, hasNote: hasNote)
+        self.scrollInnerView.addSubview(chartsBar[idx])
+        }
+        print(chartYLabels)
+addConstraints(charts: chartsBar, type: "bar")
+        
+        self.view.layoutIfNeeded()
+        
+       
         
     }
     
@@ -835,7 +910,8 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             self.logButton.setTitle("+ Log your mood", for: .normal)
             fetchRemoteLog(name: "MoodLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
         }
-            
+        
+      
         self.freqStack.isHidden = true
     
     }
