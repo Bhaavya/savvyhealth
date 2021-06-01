@@ -434,6 +434,15 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         let dateFormatter : DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, y HH:mm"
         noteTimestamp = dateFormatter.string(from:datepicker.date)
+        
+        self.performSegue(withIdentifier: "logToNote", sender: self)
+    }
+    
+    @IBAction func addNoteMood(_sender: UIButton){
+        let dateFormatter : DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, y HH:mm"
+        noteTimestamp = dateFormatter.string(from:datepickerMood.date)
+        
         self.performSegue(withIdentifier: "logToNote", sender: self)
     }
    
@@ -494,16 +503,11 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             self.searchSym.text = item
             self.symptomSelected = item
             self.durPicker.selectRow(23, inComponent: 0, animated: true)
-            if self.type == 0{
+           
                 self.durPicker.isHidden = false
                 self.durUnitPicker.isHidden = false
                 self.durLbl.isHidden = false
-            }
-            else{
-                self.durPicker.isHidden = true
-                self.durUnitPicker.isHidden = true
-                self.durLbl.isHidden = true
-            }
+           
             self.durUnitPicker.selectRow(1, inComponent: 0, animated: true)
             self.view.addSubview(logSymptomOverlay)
         
@@ -693,14 +697,10 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
               dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
             var du: String = ""
             var dun: String = ""
-            if self.type == 1{
-                du = "24"
-                dun = "hrs"
-            }
-            else{
+           
                 du = String(self.durSelected)
                 dun = self.durUnitSelected
-            }
+         
         
 //            self.saveSymptomLog(name: self.symptomSelected, timestamp:  dateFormatterGet.string(from:datepicker.date), duration: du, durationUnit: dun, intensity: self.intensitySelected,ename: ename)
           
@@ -774,7 +774,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
 
                 let uid = UserDefaults.standard.object(forKey: "userID")
                 
-            var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject,"json":["name":self.symptomSelected, "timestamp":dateFormatterGet.string(from:datepicker.date),
+            var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject,"json":["name":self.symptomSelected, "timestamp":dateFormatterGet.string(from:datepickerMood.date),
                  "duration":"24","durationUnit": "hrs", "intensity": Float(score),"ename": ename] as AnyObject]
             
             self.remoteLogging(logging_parameters)

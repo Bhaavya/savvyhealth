@@ -586,7 +586,9 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         if notes["results"]!.count > 0{
         for n in  notes["results"]! as [Any]{
             let nDict = n as! [String:AnyObject]
+            print(n)
             var njson = convertToDictionary(text:nDict["eventJson"] as! String)
+            print(njson)
             njson!["dateNote"] = dateFormatterNote.date(from: (njson!["timestamp"] as? String)!)
             sortedNotes.append(njson!)
         }

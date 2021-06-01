@@ -34,7 +34,7 @@ class homeCell: UITableViewCell {
 
 
 class homeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @objc var functions: [String] = ["Find Resources","My Collection","Tracking","Notes"]
+    @objc var functions: [String] = ["Search Resources","My Collection","Tracking","Notes"]
 //        ["Questions for clinicians","Reminders","Recordings"]
     @objc let defaults = UserDefaults.standard
     
@@ -131,7 +131,10 @@ class homeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
    
     
-   
+    @IBAction func logout(_sender: Any ){
+        defaults.set(nil,forKey: "userID")
+        self.performSegue(withIdentifier: "homeToLogin", sender: nil)
+    }
     
     
     override func viewDidLoad() {

@@ -314,6 +314,7 @@ class noteDetailViewController: UIViewController{
         }
         else{
             dateString = json["sentTimestamp"] as! String
+            print(2,dateString)
         }
         
        

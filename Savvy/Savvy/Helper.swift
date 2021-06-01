@@ -83,10 +83,11 @@ extension UIViewController {
         let timestamp = "\(NSDate().timeIntervalSince1970 * 1000)"
         var sendParams :[String:AnyObject] = parameters
         sendParams["ts"] = timestamp as AnyObject
-        
+        print(sendParams)
      
         let request = AF.request("https://timan102.cs.illinois.edu/savvy_logging/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
         .responseJSON(completionHandler: { (response) in
+            
             print(3, response)
 
         })
@@ -120,6 +121,7 @@ extension UIViewController {
                                }
                            case .failure(let error): break
                                // error handling
+                            completion(retResponse,json)
                            }
 
 

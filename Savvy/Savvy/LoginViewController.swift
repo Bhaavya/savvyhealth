@@ -172,7 +172,13 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-    
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+            let userUID = UserDefaults.standard.object(forKey: "userID")
+            
+            self.performSegue(withIdentifier: "loginToHome", sender: nil)
+    var logging_parameters:[String:AnyObject] = ["id":userUID as AnyObject,"page":"login"as AnyObject,"action":"logged in" as AnyObject,"json":[:] as AnyObject]
+    self.remoteLogging(logging_parameters )
+        }
     }
     
     override func didReceiveMemoryWarning() {

@@ -22,7 +22,6 @@
 		EA58A443249920950074AAF6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA58A441249920950074AAF6 /* LaunchScreen.storyboard */; };
 		EA58A44E249920950074AAF6 /* SavvyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A44D249920950074AAF6 /* SavvyTests.swift */; };
 		EA58A459249920950074AAF6 /* SavvyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A458249920950074AAF6 /* SavvyUITests.swift */; };
-		EA58A46724999F6F0074AAF6 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA58A46624999F6F0074AAF6 /* GoogleService-Info.plist */; };
 		EA58A469249B54A00074AAF6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EA58A468249B54A00074AAF6 /* Main.storyboard */; };
 		EA58A46B249B65AC0074AAF6 /* Images in Resources */ = {isa = PBXBuildFile; fileRef = EA58A46A249B65AC0074AAF6 /* Images */; };
 		EA58A46D249C1B7B0074AAF6 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A46C249C1B7B0074AAF6 /* RegisterViewController.swift */; };
@@ -35,6 +34,8 @@
 		EA58A4BE24A36A4E0074AAF6 /* SaveViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4BD24A36A4E0074AAF6 /* SaveViewController.swift */; };
 		EA58A4C024A5A5290074AAF6 /* ResourcesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A4BF24A5A5290074AAF6 /* ResourcesViewController.swift */; };
 		EA67DAAF25BF9AF30004B16A /* CarrotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA67DAAE25BF9AF30004B16A /* CarrotViewController.swift */; };
+		EA7B810826646D3300BBE6CC /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B810726646D3300BBE6CC /* PasswordViewController.swift */; };
+		EA7B813F26649DC700BBE6CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA7B813E26649DC700BBE6CC /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +83,6 @@
 		EA58A454249920950074AAF6 /* SavvyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SavvyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA58A458249920950074AAF6 /* SavvyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavvyUITests.swift; sourceTree = "<group>"; };
 		EA58A45A249920950074AAF6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EA58A46624999F6F0074AAF6 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		EA58A468249B54A00074AAF6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		EA58A46A249B65AC0074AAF6 /* Images */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Images; sourceTree = "<group>"; };
 		EA58A46C249C1B7B0074AAF6 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
@@ -95,6 +95,8 @@
 		EA58A4BD24A36A4E0074AAF6 /* SaveViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveViewController.swift; sourceTree = "<group>"; };
 		EA58A4BF24A5A5290074AAF6 /* ResourcesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourcesViewController.swift; sourceTree = "<group>"; };
 		EA67DAAE25BF9AF30004B16A /* CarrotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarrotViewController.swift; sourceTree = "<group>"; };
+		EA7B810726646D3300BBE6CC /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
+		EA7B813E26649DC700BBE6CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F678E118708527BC49D91A26 /* Pods-SavvyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SavvyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SavvyTests/Pods-SavvyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -152,6 +154,7 @@
 		EA58A42A249920940074AAF6 = {
 			isa = PBXGroup;
 			children = (
+				EA7B810726646D3300BBE6CC /* PasswordViewController.swift */,
 				EA58A46A249B65AC0074AAF6 /* Images */,
 				EA58A435249920940074AAF6 /* Savvy */,
 				EA58A44C249920950074AAF6 /* SavvyTests */,
@@ -177,7 +180,6 @@
 			children = (
 				EA67DAAE25BF9AF30004B16A /* CarrotViewController.swift */,
 				EA25E4EE24B0472C0032A7B0 /* SavvyHealth.entitlements */,
-				EA58A46624999F6F0074AAF6 /* GoogleService-Info.plist */,
 				EA58A436249920940074AAF6 /* AppDelegate.swift */,
 				EA58A43C249920950074AAF6 /* Assets.xcassets */,
 				EA58A441249920950074AAF6 /* LaunchScreen.storyboard */,
@@ -186,6 +188,7 @@
 				EA58A468249B54A00074AAF6 /* Main.storyboard */,
 				EA58A46C249C1B7B0074AAF6 /* RegisterViewController.swift */,
 				EA58A46E249C342E0074AAF6 /* Helper.swift */,
+				EA7B813E26649DC700BBE6CC /* GoogleService-Info.plist */,
 				EA58A470249C79CD0074AAF6 /* SceneDelegate.swift */,
 				EA58A4B5249DDD890074AAF6 /* HomeViewController.swift */,
 				EA58A4B7249DED190074AAF6 /* LoginViewController.swift */,
@@ -343,10 +346,10 @@
 			files = (
 				EA58A443249920950074AAF6 /* LaunchScreen.storyboard in Resources */,
 				EA58A469249B54A00074AAF6 /* Main.storyboard in Resources */,
-				EA58A46724999F6F0074AAF6 /* GoogleService-Info.plist in Resources */,
 				EA58A440249920950074AAF6 /* Preview Assets.xcassets in Resources */,
 				EA58A46B249B65AC0074AAF6 /* Images in Resources */,
 				EA58A43D249920950074AAF6 /* Assets.xcassets in Resources */,
+				EA7B813F26649DC700BBE6CC /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -474,6 +477,7 @@
 				EA58A46D249C1B7B0074AAF6 /* RegisterViewController.swift in Sources */,
 				EA58A471249C79CD0074AAF6 /* SceneDelegate.swift in Sources */,
 				EA073DB22596AA7300153F9D /* noteMasterViewController.swift in Sources */,
+				EA7B810826646D3300BBE6CC /* PasswordViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -644,7 +648,7 @@
 				CODE_SIGN_ENTITLEMENTS = Savvy/SavvyHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Savvy/Preview Content\"";
 				DEVELOPMENT_TEAM = UPV4CB4H6W;
 				ENABLE_PREVIEWS = YES;
@@ -741,7 +745,7 @@
 				CODE_SIGN_ENTITLEMENTS = Savvy/SavvyHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"Savvy/Preview Content\"";
 				DEVELOPMENT_TEAM = UPV4CB4H6W;
 				ENABLE_PREVIEWS = YES;
