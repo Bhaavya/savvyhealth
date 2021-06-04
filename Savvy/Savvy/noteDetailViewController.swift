@@ -217,7 +217,7 @@ class noteDetailViewController: UIViewController{
 
             smtpSession.hostname = "smtp.gmail.com"
             smtpSession.username = "savvyhealthapp@gmail.com"
-            smtpSession.password = "Savvy2021"
+            smtpSession.password = "Savvy0621"
             smtpSession.port = 465
             smtpSession.authType = MCOAuthType.saslPlain
             smtpSession.connectionType = MCOConnectionType.TLS

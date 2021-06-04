@@ -904,12 +904,12 @@ addConstraints(charts: chartsBar, type: "bar")
         print(self.type)
         
         if self.type == 0{
-            self.logButton.setTitle("+ Log your health", for: .normal)
+            self.logButton.setTitle("+ Record your health", for: .normal)
             fetchRemoteLog(name: "SymptomLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
            
         }
         else{
-            self.logButton.setTitle("+ Log your mood", for: .normal)
+            self.logButton.setTitle("+ Record your mood", for: .normal)
             fetchRemoteLog(name: "MoodLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
         }
         

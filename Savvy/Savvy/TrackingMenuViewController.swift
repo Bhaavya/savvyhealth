@@ -31,7 +31,7 @@ class trackingMenuCell: UITableViewCell {
 }
 
 class trackingMenuViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @objc var functions: [String] = ["Health","Mood"]
+    @objc var functions: [String] = ["Physical Health","Mood"]
      @IBOutlet var tableView: UITableView!
     
     var segueType: Int = 0
