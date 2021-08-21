@@ -1,0 +1,36 @@
+# add the Firebase pod for Google Analytics
+pod 'Firebase/Analytics'
+pod 'DLRadioButton'
+pod 'SwiftSpinner'
+pod 'Firebase/Core'
+pod 'Firebase/Auth'
+pod 'Firebase/Database'
+pod 'PopupDialog'
+pod 'DropDown'
+pod 'IQKeyboardManager'
+pod 'Charts'
+pod "SearchTextField"
+pod "mailcore2-ios"
+
+source 'https://github.com/CocoaPods/Specs.git'
+pod 'PhoneNumberKit', '~> 3.3'
+
+# platform :ios, '9.0'
+
+target 'Savvy' do
+  # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
+  use_frameworks!
+
+  # Pods for Savvy
+  pod 'Alamofire', '~> 5.2'
+  target 'SavvyTests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+  target 'SavvyUITests' do
+    inherit! :search_paths
+    # Pods for testing
+  end
+
+end
