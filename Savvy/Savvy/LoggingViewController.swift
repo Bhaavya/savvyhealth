@@ -40,6 +40,9 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var logSymptomInnerView: UIView!
 @IBOutlet weak var logSymptomOverlay: UIView!
     
+    @IBOutlet weak var logMedInnerView: UIView!
+    @IBOutlet weak var logMedOverlay: UIView!
+    
     @IBOutlet weak var newSymptomInnerView: UIView!
     @IBOutlet weak var newSymptomOverlay: UIView!
     @IBOutlet weak var newSymptomTextField: UITextField!
@@ -69,13 +72,31 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
     @IBOutlet weak var enterLabel: UILabel!
     
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    if(segue.identifier == "logToMed") {
+
+        let nextViewController = (segue.destination as! medViewController)
+        nextViewController.fromLog = true
+        }
+        if(segue.identifier == "logToNote") {
+
+            let nextViewController = (segue.destination as! noteDetailViewController)
+            nextViewController.sentTimestamp = noteTimestamp
+            nextViewController.sentSymptom = self.symptomSelected
+            }
+    }
     
     @IBAction func clickNewSymp()
-    {
+    { print("click",self.type)
+        if self.type != 2 {
         self.newSymptomTextField.text = ""
         
         self.view.addSubview(newSymptomOverlay)
+        }
+        else{
+            self.performSegue(withIdentifier: "logToMed", sender: self)
+        }
     }
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -132,7 +153,7 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     
    
     
-    @objc var tableList: [Int:[String]] = [0:[],1:[]]
+    @objc var tableList: [Int:[String]] = [0:[],1:[],2:[]]
     var symptomSelected: String = ""
     var durSelected: Int = 24
     var durUnitSelected: String = "hrs"
@@ -145,7 +166,11 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     @IBOutlet weak var datepickerMood: UIDatePicker!
     @IBOutlet weak var durPicker:UIPickerView!
     @IBOutlet weak var durUnitPicker:UIPickerView!
+    
+    @IBOutlet weak var datePickerMed:UIDatePicker!
+    
     var defaultSymptoms: [String] = []
+    var defaultMeds: [[String:Any]] = []
     
     let dur:[Int] = Array(1...59)
     let durUnit:[String] = ["mins","hrs"]
@@ -301,6 +326,17 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
          logSymptomInnerView.layer.borderColor = UIColor.darkGray.cgColor
         logSymptomInnerView.layer.borderWidth = CGFloat(borderWidth);
         
+        logMedOverlay.frame.size.width = UIScreen.main.bounds.width
+        logMedOverlay.frame.size.height = UIScreen.main.bounds.height
+       
+       
+        logMedInnerView.layer.cornerRadius = 8.0
+        
+
+         
+         logMedInnerView.layer.borderColor = UIColor.darkGray.cgColor
+        logMedInnerView.layer.borderWidth = CGFloat(borderWidth);
+        
         logMoodOverlay.frame.size.width = UIScreen.main.bounds.width
         logMoodOverlay.frame.size.height = UIScreen.main.bounds.height
        
@@ -335,7 +371,7 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
     }
     
     func setSymptoms(symptoms: [String:[Any]],filter_json:[String:Any]){
-    
+ 
         for sym in self.defaultSymptoms{
             if !self.tableList[filter_json["type"] as! Int]!.contains(sym as! String) {
             (self.tableList[filter_json["type"] as! Int])!.append((sym))
@@ -355,7 +391,7 @@ class loggingViewController: UIViewController, UITableViewDelegate, UITableViewD
         self.fullList[filter_json["type"] as! Int] = Array(self.tableList[self.type]!)
     var listLength = 10
     if filter_json["type"] as! Int == 1{
-        listLength = 3
+        listLength = 4
     }
     
         self.tableList[filter_json["type"] as! Int] = Array(self.tableList[filter_json["type"] as! Int]!.prefix(listLength))
@@ -403,29 +439,88 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             self.addButton.setTitle("Describe other health condition",for:.normal)
             
             self.enterLabel.text = "Describe health condition"
+            
         }
-        else{
+        else if self.type == 1{
             self.defaultSymptoms = ["Feeling at ease or mellow","Feeling happy", "Feeling down, depressed or hopeless","Feeling anxious or nervous" ]
             self.addButton.setTitle("Describe other mood" , for: .normal)
             
             self.enterLabel.text = "Describe mood"
             
         }
+        else{
+            self.addButton.setTitle("Describe other medication" , for: .normal)
+            
+         
+            fetchRemoteMed1(json: [:],completion: setMeds1(resmeds:filter_json:))
+        }
         var symptoms:Optional<Any> = []
         var ename: String = ""
         if self.type == 0{
             
             ename = "Symptom"
+            symptoms = fetchRemoteSymptom(json: ["type":self.type,"ename":ename],completion: setSymptoms(symptoms:filter_json:))
         }
-        else{
+        else if self.type == 1{
            
             ename = "Mood"
+            symptoms = fetchRemoteSymptom(json: ["type":self.type,"ename":ename],completion: setSymptoms(symptoms:filter_json:))
         }
-        symptoms = fetchRemoteSymptom(json: ["type":self.type,"ename":ename],completion: setSymptoms(symptoms:filter_json:))
+        else{
+            ename = "Medication"
+       
+           
+            
+        }
+        
+        
  
         moodScroll.contentSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height+150)
     
     }
+    
+    func setMeds1(resmeds: [String:[Any]],filter_json:[String:Any]){
+        let sortedResMeds = (resmeds["results"]! as! [[String:AnyObject]]).sorted { ($0["ts"] as! NSNumber).intValue > ($1["ts"] as! NSNumber).intValue}
+        var added: [String] = []
+        for med in sortedResMeds{
+            let medJson = convertToDictionary(text:med["eventJson"] as! String)
+            if !added.contains(medJson!["mid"] as! String){
+            self.defaultMeds.append(medJson!)
+           
+            added.append(medJson!["mid"] as! String)
+            }
+            
+            }
+        fetchRemoteMed2(json: [:],completion: setMeds2(resmeds:filter_json:))
+       
+        }
+    
+    func setMeds2(resmeds: [String:[Any]],filter_json:[String:Any]){
+    
+        var delIds: [String] = []
+        for med in resmeds["results"]! as [Any]{
+            let medDict = med as! [String:AnyObject]
+            let medJson = convertToDictionary(text:medDict["eventJson"] as! String)
+            delIds.append(medJson!["mid"] as! String)
+            }
+        
+        self.defaultMeds = self.defaultMeds.filter({(dataString: [String:Any]) -> Bool in
+           // If dataItem matches the searchText, return true to include it
+        return !delIds.contains(dataString["mid"] as? String ?? "")
+            
+            
+        
+        })
+        print("defmed",defaultMeds)
+        for med in self.defaultMeds{
+            print("med",med)
+            self.defaultSymptoms.append(med["name"] as! String)
+            
+        }
+        setSymptoms(symptoms: ["results":[]],filter_json: ["type":self.type])
+        self.tableView.reloadData()
+    }
+
     
    
     
@@ -433,19 +528,20 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
     
         
     }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-    if(segue.identifier == "logToNote") {
-
-        let nextViewController = (segue.destination as! noteDetailViewController)
-        nextViewController.sentTimestamp = noteTimestamp
-        nextViewController.sentSymptom = self.symptomSelected
-        }}
+   
     
     @IBAction func addNote(_sender: UIButton){
         let dateFormatter : DateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, y HH:mm"
         noteTimestamp = dateFormatter.string(from:datepicker.date)
+        
+        self.performSegue(withIdentifier: "logToNote", sender: self)
+    }
+    
+    @IBAction func addMedNote(_sender: UIButton){
+        let dateFormatter : DateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM d, y HH:mm"
+        noteTimestamp = dateFormatter.string(from:datePickerMed.date)
         
         self.performSegue(withIdentifier: "logToNote", sender: self)
     }
@@ -507,8 +603,11 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
     }
     
     func selectSym (item: String){
-        
-        if (["Feeling down, depressed or hopeless","Feeling anxious or nervous"].contains(item)){
+        if self.type == 2{
+            self.view.addSubview(logMedOverlay)
+            self.symptomSelected = item
+        }
+        else if (["Feeling down, depressed or hopeless","Feeling anxious or nervous"].contains(item)){
         selectMood(item: item)
         }
         else{
@@ -567,6 +666,10 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
         self.intensitySelected = sender.value
            }
     
+    @IBAction func logMedCancelClicked(_sender: UIButton){
+        self.logMedOverlay.removeFromSuperview()
+    }
+    
     
     
     @IBAction func logSymptomCancelClicked(_sender: UIButton){
@@ -591,7 +694,7 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             if self.type == 0{
                 ename = "Symptom"
             }
-            else{
+            else if self.type == 1{
                 ename = "Mood"
             }
 //            self.saveSymptomName(id: int_fast64_t(newId), name: name!, ename:ename)
@@ -713,9 +816,10 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             if self.type == 0{
                 ename = "SymptomLog"
             }
-            else{
+            else if self.type == 1{
                 ename = "MoodLog"
             }
+            
        let dateFormatterGet = DateFormatter()
               dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
             var du: String = ""
@@ -741,6 +845,34 @@ self.searchSym.filterStrings(Array(self.fullList[self.type]!))
             self.remoteFetch(fetchParams,json: otherParams,completion: checkMultipleSym(prevSymptoms:json1:))
            
         self.logSymptomOverlay.removeFromSuperview()
+        }
+        else{
+            let alertController = UIAlertController(title: "Error", message: "Duration must be less than 24 hours ", preferredStyle: .alert)
+                    
+                    
+                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                    alertController.addAction(defaultAction)
+                    
+                    self.present(alertController, animated: true, completion: nil)
+        }
+    }
+    
+    @IBAction func logMedSubmitClicked(_sender: UIButton){
+        if validateSymptomLog(){
+            var ename:String = "MedLog"
+            
+       let dateFormatterGet = DateFormatter()
+              dateFormatterGet.dateFormat = "yyyy-MM-dd HH:mm:ss"
+            
+
+                let uid = UserDefaults.standard.object(forKey: "userID")
+                
+            var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"logging" as AnyObject,"action":"log" as AnyObject,"json":["name":self.symptomSelected, "timestamp":dateFormatterGet.string(from:datePickerMed.date),
+                                                                                                                                                 "ename": ename,"intensity":5] as AnyObject]
+            
+            self.remoteLogging(logging_parameters)
+
+        self.logMedOverlay.removeFromSuperview()
         }
         else{
             let alertController = UIAlertController(title: "Error", message: "Duration must be less than 24 hours ", preferredStyle: .alert)

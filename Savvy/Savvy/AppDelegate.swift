@@ -99,6 +99,8 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
         
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"app"as AnyObject,"action":"toBackground" as AnyObject,"json":[:] as AnyObject]
         remoteLogging(logging_parameters )
+            UserDefaults.standard.set(false,forKey: "fromBack")
+  
         print("entering background now")
        
         }
@@ -113,14 +115,23 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
         
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"app"as AnyObject,"action":"fromBackground" as AnyObject,"json":[:] as AnyObject]
         remoteLogging(logging_parameters )
-        print("entering background now")
+            UNUserNotificationCenter.current()
+              .removeAllPendingNotificationRequests()
+          
+            NotificationManager.shared.scheduleNotification()
+            
+                 
+                     
+                        UserDefaults.standard.set(true,forKey: "fromBack")
+              
        
         }
-        print("coming back")
+        print("coming back", defaults.bool(forKey: "fromNotification"))
        
         
     }
     
+   
     
     
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -197,6 +208,29 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
 
     
     
+}
+
+extension AppDelegate{
+    
+  // This function will be called right after user tap on the notification
+  func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    
+    if UserDefaults.standard.object(forKey: "fromBack") != nil{
+        let fromNot = defaults.bool(forKey: "fromBack")
+        if fromNot == false{
+            
+  UserDefaults.standard.set(true,forKey: "fromNotification")
+        }
+    }
+    else{
+        UserDefaults.standard.set(true,forKey: "fromNotification")
+
+    }
+    
+   
+        print("from not")
+    completionHandler()
+  }
 }
 
 

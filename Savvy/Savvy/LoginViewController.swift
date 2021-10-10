@@ -153,41 +153,51 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
         }
     }
     
-    func scheduleNotification(withDate date: Date) {
-        let notificationContent = UNMutableNotificationContent()
-        notificationContent.title = "Health track"
-        notificationContent.body = "Body"
-
-        let identifier = "Make up identifiers here"
-        let dateComponents = Calendar.autoupdatingCurrent.dateComponents([.day, .month, .year, .hour, .minute, .second], from: date)
-
-        let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-
-        let notificationReques = UNNotificationRequest(identifier: identifier, content: notificationContent, trigger: trigger)
-
-        UNUserNotificationCenter.current().add(notificationReques) { error in
-            if let e = error {
-                print("Error \(e.localizedDescription)")
-            }
-        }
-    }
+ 
     
     override func viewDidAppear(_ animated: Bool) {
+        print("in login",defaults.bool(forKey: "fromNotification"))
         if UserDefaults.standard.object(forKey: "userID") != nil{
 
         let uid = defaults.string(forKey: "userID")
         
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"login"as AnyObject,"action":"appear" as AnyObject,"json":[:] as AnyObject]
+            
+            UNUserNotificationCenter.current()
+              .removeAllPendingNotificationRequests()
+          
+            NotificationManager.shared.scheduleNotification()
+            
         self.remoteLogging(logging_parameters )
         }
+        
         
       
         if UserDefaults.standard.object(forKey: "userID") != nil{
             let userUID = UserDefaults.standard.object(forKey: "userID")
+            var logging_parameters:[String:AnyObject] = ["id":userUID as AnyObject,"page":"login"as AnyObject,"action":"logged in" as AnyObject,"json":[:] as AnyObject]
+            self.remoteLogging(logging_parameters )
             
+            if UserDefaults.standard.object(forKey: "fromNotification") != nil{
+                let fromNot = defaults.bool(forKey: "fromNotification")
+                if fromNot == true{
+                    
+                 
+                     
+                        UserDefaults.standard.set(false,forKey: "fromNotification")
+                    
+                    self.performSegue(withIdentifier: "loginToTracking", sender: nil)
+                    
+                    
+                }
+                else{
+                    self.performSegue(withIdentifier: "loginToHome", sender: nil)
+                }
+            }
+            else{
             self.performSegue(withIdentifier: "loginToHome", sender: nil)
-    var logging_parameters:[String:AnyObject] = ["id":userUID as AnyObject,"page":"login"as AnyObject,"action":"logged in" as AnyObject,"json":[:] as AnyObject]
-    self.remoteLogging(logging_parameters )
+            }
+  
         }
     }
     
@@ -245,10 +255,26 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
                 defaults.set(userUID,forKey: "userID")
                 
                 let emailOut = self.escapeEmailAddress(emailIn: userEmail!)
-               
-                        self.performSegue(withIdentifier: "loginToHome", sender: sender)
                 var logging_parameters:[String:AnyObject] = ["id":userUID as AnyObject,"page":"login"as AnyObject,"action":"logged in" as AnyObject,"json":[:] as AnyObject]
                 self.remoteLogging(logging_parameters )
+                
+                if UserDefaults.standard.object(forKey: "fromNotification") != nil{
+                    let fromNot = defaults.bool(forKey: "fromNotification")
+                    if fromNot == true{
+                       
+                        UserDefaults.standard.set(false,forKey: "fromNotification")
+                        self.performSegue(withIdentifier: "loginToTracking", sender: nil)
+                        
+                    }
+                    else{
+                        self.performSegue(withIdentifier: "loginToHome", sender: nil)
+                    }
+                }
+                else{
+                self.performSegue(withIdentifier: "loginToHome", sender: nil)
+                }
+                       
+                
                 
             } else {
                 print (error! as NSError,error!._code,user,userEmail!,userPassword!)
@@ -269,6 +295,14 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
         
         
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
+    if(segue.identifier == "loginToTracking") {
+
+        let nextViewController = (segue.destination as! loggingViewController)
+        nextViewController.type = 1
+        }}
     
     
 }

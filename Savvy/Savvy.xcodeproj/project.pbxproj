@@ -38,6 +38,7 @@
 		EA78322726CAB6660091CDF7 /* MedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA78322626CAB6660091CDF7 /* MedViewController.swift */; };
 		EA7B810826646D3300BBE6CC /* PasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7B810726646D3300BBE6CC /* PasswordViewController.swift */; };
 		EA7B813F26649DC700BBE6CC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = EA7B813E26649DC700BBE6CC /* GoogleService-Info.plist */; };
+		EA82712826D0D5D700F79C24 /* NotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA82712726D0D5D700F79C24 /* NotificationManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +102,7 @@
 		EA78322626CAB6660091CDF7 /* MedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedViewController.swift; sourceTree = "<group>"; };
 		EA7B810726646D3300BBE6CC /* PasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordViewController.swift; sourceTree = "<group>"; };
 		EA7B813E26649DC700BBE6CC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		EA82712726D0D5D700F79C24 /* NotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationManager.swift; sourceTree = "<group>"; };
 		F678E118708527BC49D91A26 /* Pods-SavvyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SavvyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SavvyTests/Pods-SavvyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -208,6 +210,7 @@
 				EA073DB32596AA9100153F9D /* noteDetailViewController.swift */,
 				EA78322426C90BB70091CDF7 /* DocViewController.swift */,
 				EA78322626CAB6660091CDF7 /* MedViewController.swift */,
+				EA82712726D0D5D700F79C24 /* NotificationManager.swift */,
 			);
 			path = Savvy;
 			sourceTree = "<group>";
@@ -484,6 +487,7 @@
 				EA58A46F249C342E0074AAF6 /* Helper.swift in Sources */,
 				EA58A46D249C1B7B0074AAF6 /* RegisterViewController.swift in Sources */,
 				EA58A471249C79CD0074AAF6 /* SceneDelegate.swift in Sources */,
+				EA82712826D0D5D700F79C24 /* NotificationManager.swift in Sources */,
 				EA073DB22596AA7300153F9D /* noteMasterViewController.swift in Sources */,
 				EA7B810826646D3300BBE6CC /* PasswordViewController.swift in Sources */,
 			);

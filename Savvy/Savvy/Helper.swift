@@ -51,6 +51,7 @@ extension UIColor {
 
 
 
+
 extension UIViewController {
     
     func jsonToString(json: AnyObject) -> String{
@@ -135,6 +136,8 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    
     
     func saveSymptomName(id: int_fast64_t, name: String,ename: String) {
         guard let appDelegate =
@@ -301,8 +304,28 @@ extension UIViewController {
                 return nil
              }
     }
+    
+    func fetchRemoteMed1(json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
+       
+        if UserDefaults.standard.object(forKey: "userID") != nil{
 
-    func updateBarChart(barChartView: BarChartView , logData: [String:[String:Double]],freq: String,addCutoff: Bool, cutoff: Double,hasNote: [String:Bool]) {
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"med" as AnyObject,"action":"createMed" as AnyObject]
+            remoteFetch(parameters, json: json, completion: completion)
+        }
+        }
+    
+    func fetchRemoteMed2(json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
+       
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+            let uid = UserDefaults.standard.object(forKey: "userID")
+            var parameters = ["id":uid as AnyObject,"page":"med" as AnyObject,"action":"delMed" as AnyObject]
+            remoteFetch(parameters, json: json, completion: completion)
+        }
+        }
+
+    func updateBarChart(barChartView: BarChartView , logData: [String:[String:Double]],freq: String,addCutoff: Bool, cutoff: Double,hasNote: [String:Bool],showStack: Bool) {
             
         
         var dataEntries: [BarChartDataEntry] = []
@@ -363,8 +386,10 @@ extension UIViewController {
       print(dates)
         
         var dataSet = BarChartDataSet(entries: dataEntries, label: "")
-
         dataSet.stackLabels = ["Low Intensity", "Medium Intensity", "High Intensity"]
+        if !showStack{
+            barChartView.legend.enabled = false
+        }
       
         let chartData = BarChartData(dataSet: dataSet)
         chartData.setDrawValues(false)
@@ -406,7 +431,17 @@ extension UIViewController {
 //            lineChartView.leftAxis.min
         barChartView.rightAxis.granularityEnabled = true
         barChartView.rightAxis.granularity = 1.0
+        
+        barChartView.setVisibleXRangeMaximum(5.0)
+ 
+        barChartView.scaleYEnabled =  false
+
+        barChartView.scaleXEnabled = true
+        
+        barChartView.moveViewToX(Double(sortedDates.count))
+       barChartView.extraBottomOffset = 40
                 
+      
     }
     
     
@@ -516,14 +551,22 @@ extension UIViewController {
             //            lineChartView.leftAxis.min
                         lineChartView.rightAxis.granularityEnabled = true
                         lineChartView.rightAxis.granularity = 1.0
-        lineChartView.scaleXEnabled = true
-        lineChartView.scaleYEnabled = false
+       
         lineChartView.xAxis.spaceMax = 0.5
         lineChartView.xAxis.spaceMin = 0.5
+        
+        lineChartView.setVisibleXRangeMaximum(5.0)
+        lineChartView.scaleYEnabled = false
+
+        lineChartView.scaleXEnabled = true
+        
+        lineChartView.moveViewToX(Double(sortedDates.count))
+        lineChartView.extraBottomOffset = 40
                         lineChartView.animate(xAxisDuration: 2.0, yAxisDuration: 2.0, easingOption: .easeOutBack)
+//        lineChartView.heightAnchor.constraint(equalToConstant: 300).isActive = true
                     }
                     
-        
+
     
    
     

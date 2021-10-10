@@ -62,6 +62,7 @@ class docViewController: UIViewController,  UITableViewDelegate, UITableViewData
     @IBOutlet weak var phoneLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var addLabel : UILabel!
+    @IBOutlet weak var naptLabel: UILabel!
     
     @IBOutlet weak var editBtn: UIButton!
     @IBOutlet weak var delBtn: UIButton!
@@ -71,6 +72,8 @@ class docViewController: UIViewController,  UITableViewDelegate, UITableViewData
     @IBOutlet weak var contentView: UIView!
     
     @IBOutlet weak var saveBtn: UIButton!
+    
+    @IBOutlet weak var datePicker: UIDatePicker!
     
     var maxId: Int = 0
     
@@ -187,7 +190,7 @@ class docViewController: UIViewController,  UITableViewDelegate, UITableViewData
         self.phoneLabel.text = (self.filteredDocs[indexPath.row]["phone"] as! String)
         self.emailLabel.text = (self.filteredDocs[indexPath.row]["email"] as! String)
         self.addLabel.text = (self.filteredDocs[indexPath.row]["address"] as! String)
-
+        self.naptLabel.text = (self.filteredDocs[indexPath.row]["nextApt"] as! String)
         self.editBtn.tag = indexPath.row
         self.delBtn.tag = indexPath.row
         
@@ -200,6 +203,10 @@ class docViewController: UIViewController,  UITableViewDelegate, UITableViewData
         self.phoneField.text = (self.filteredDocs[sender.tag]["phone"] as! String)
         self.emailField.text = (self.filteredDocs[sender.tag]["email"] as! String)
         self.addField.text = (self.filteredDocs[sender.tag]["address"] as! String)
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        self.datePicker.date = dateFormatter.date(from: self.filteredDocs[sender.tag]["nextApt"] as! String) ?? Date()
+        
         self.showOverlayView.removeFromSuperview()
         self.fromEdit = true
         self.saveBtn.tag = sender.tag
@@ -310,8 +317,14 @@ class docViewController: UIViewController,  UITableViewDelegate, UITableViewData
         else{
             maxId = maxId + 1
         }
+        var aptDate = datePicker.date
+       
+
+        // Create Date Formatter
+        var dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
         
-        var docDict = ["did":did,"name":name, "phone": phone, "email": email, "address": address]
+        var docDict = ["did":did,"name":name, "phone": phone, "email": email, "address": address, "nextApt": dateFormatter.string(from: aptDate)]
         
         let uid = UserDefaults.standard.object(forKey: "userID")
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"doc" as AnyObject,"action":"createDoc" as AnyObject,"json": docDict as AnyObject]

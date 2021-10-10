@@ -46,6 +46,7 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     var emails:[String] = []
     var sentTimestamp: String = ""
     var sentSymptom: String = ""
+    var noteSym: String = ""
    
         
     @objc func pinchedView(_ gestureRecognizer : UIPinchGestureRecognizer) { guard gestureRecognizer.view != nil else { return }
@@ -348,6 +349,7 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     func save(notes: [String:[Any]],json:[String:Any]){
         var id = 0
         var alertController:UIAlertController!
+        var symptom: String = ""
         let innerNote: [String:Any]? = json["note"] as? [String:Any] ?? nil
 //        print("inote",innerNote)
         if innerNote == nil{
@@ -355,26 +357,45 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         }
         else{
             id = Int((innerNote!)["id"] as! Int64)
+            
         
         }
         var dateString: String = ""
         if json["sentTimestamp"] as! String == ""{
-        let date = Date()
-        let dateFormatter : DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, y HH:mm"
-       dateString = dateFormatter.string(from: date)
+            let date = Date()
+            let dateFormatter : DateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "MMM d, y HH:mm"
+            
+            if innerNote != nil {
+            if innerNote!["symptom"] as! String != "" {
+               dateString = innerNote!["timestamp"] as! String
+                symptom = innerNote!["symptom"] as! String
+            }
+            
+            else{
+                dateString = dateFormatter.string(from: date)
+            }
+            }
+            else{
+                dateString = dateFormatter.string(from: date)
+            }
+     
+        
+      
         print(dateString)
         self.noteDate.text = dateString
         }
         else{
+           
             dateString = json["sentTimestamp"] as! String
+            symptom = self.sentSymptom
             print(2,dateString)
         }
         
        
             let uid = UserDefaults.standard.object(forKey: "userID")
             
-        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"saveNote" as AnyObject,"json":["title":json["title"] as! String,"timestamp":dateString,"text":json["text"] as! String,"id":Int64(id),"symptom":self.sentSymptom] as AnyObject]
+        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"saveNote" as AnyObject,"json":["title":json["title"] as! String,"timestamp":dateString,"text":json["text"] as! String,"id":Int64(id),"symptom":symptom] as AnyObject]
             self.remoteLogging(logging_parameters)
             
             alertController = UIAlertController(title: "Success!", message: "Note successfully saved", preferredStyle: .alert)

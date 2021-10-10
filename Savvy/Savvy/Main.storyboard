@@ -26,8 +26,8 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6AI-GX-CwS" userLabel="Header">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="80"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Savvy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Flk-l6-V8T" userLabel="SavvyHealth">
-                                        <rect key="frame" x="477" y="43.5" width="70" height="26.5"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Savvy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Flk-l6-V8T" userLabel="SavvyHealth">
+                                        <rect key="frame" x="477" y="41" width="70" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="W5V-k6-69Z"/>
                                         </constraints>
@@ -44,6 +44,7 @@
                                     <constraint firstItem="Flk-l6-V8T" firstAttribute="centerX" secondItem="6AI-GX-CwS" secondAttribute="centerX" id="947-Th-yYG"/>
                                     <constraint firstAttribute="height" constant="80" id="fq3-kk-6Pn"/>
                                     <constraint firstAttribute="bottom" secondItem="Flk-l6-V8T" secondAttribute="bottom" constant="10" id="hmh-Iq-vwd"/>
+                                    <constraint firstAttribute="bottom" secondItem="Flk-l6-V8T" secondAttribute="bottom" constant="10" id="kjl-3f-wZv"/>
                                 </constraints>
                                 <variation key="default">
                                     <mask key="constraints">
@@ -636,6 +637,7 @@
                         <outlet property="userEmailText" destination="4dB-4J-8XF" id="aYM-6k-Tgi"/>
                         <outlet property="userPasswordText" destination="Xh6-v4-BJS" id="Q4w-4A-yuc"/>
                         <segue destination="DS9-MS-hUm" kind="presentation" identifier="loginToHome" modalPresentationStyle="fullScreen" id="cpq-Ie-aUw"/>
+                        <segue destination="bKo-m0-BTt" kind="presentation" identifier="loginToTracking" id="dKW-Nb-gqy"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ukh-Vj-eyk" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1398,7 +1400,7 @@
             <objects>
                 <viewController id="bKo-m0-BTt" customClass="loggingViewController" customModule="SavvyHealth" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="INd-Sg-b9u">
-                        <rect key="frame" x="0.0" y="0.0" width="1024" height="1366"/>
+                        <rect key="frame" x="0.0" y="0.0" width="704" height="995.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Skg-nQ-w6d" customClass="SearchTextField" customModule="SearchTextField">
@@ -1419,7 +1421,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="sfW-zW-2tt">
-                                <rect key="frame" x="30" y="243.5" width="964" height="500"/>
+                                <rect key="frame" x="30" y="243.5" width="644" height="500"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="290" id="Gcn-z9-OpC">
@@ -1428,14 +1430,14 @@
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="logCell" textLabel="Lzo-hR-i9g" style="IBUITableViewCellStyleDefault" id="zy6-ql-sfE" customClass="loggingCell" customModule="SavvyHealth" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="24.5" width="964" height="43.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="644" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zy6-ql-sfE" id="ISi-BX-LoH">
-                                            <rect key="frame" x="0.0" y="0.0" width="964" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="644" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lzo-hR-i9g">
-                                                    <rect key="frame" x="16" y="0.0" width="932" height="43.5"/>
+                                                    <rect key="frame" x="16" y="0.0" width="612" height="43.5"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                     <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
                                                     <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -1444,9 +1446,6 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="boolean" keyPath="keyPath" value="YES"/>
-                                        </userDefinedRuntimeAttributes>
                                         <connections>
                                             <outlet property="titleLabel" destination="Lzo-hR-i9g" id="jhE-FA-29S"/>
                                         </connections>
@@ -1458,10 +1457,10 @@
                                 </connections>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KyP-S9-R7N" userLabel="Header">
-                                <rect key="frame" x="0.0" y="0.0" width="1024" height="80"/>
+                                <rect key="frame" x="0.0" y="0.0" width="704" height="80"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Savvy" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fRP-8N-Oyv" userLabel="SavvyHealth">
-                                        <rect key="frame" x="477" y="38.5" width="70" height="29"/>
+                                        <rect key="frame" x="317" y="38.5" width="70" height="29"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="70" id="uR2-Uu-T9E"/>
                                         </constraints>
@@ -1508,6 +1507,7 @@
                                 <state key="normal" title="Add new [health condition]"/>
                                 <connections>
                                     <action selector="clickNewSymp" destination="bKo-m0-BTt" eventType="touchUpInside" id="04e-5n-EWJ"/>
+                                    <segue destination="8kM-Fj-oWb" kind="presentation" identifier="logToMed" id="K7Y-7z-bNQ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -1534,6 +1534,7 @@
                     </view>
                     <connections>
                         <outlet property="addButton" destination="BaV-yk-uc2" id="i3s-1K-yfk"/>
+                        <outlet property="datePickerMed" destination="b5E-A2-xgL" id="TuZ-ta-3S8"/>
                         <outlet property="datepicker" destination="xah-Tp-wAe" id="iP8-GH-Fyn"/>
                         <outlet property="datepickerMood" destination="AKz-dq-UPl" id="TVD-zY-xP0"/>
                         <outlet property="durLbl" destination="n5i-dg-vxg" id="ZH8-JR-Jae"/>
@@ -1541,6 +1542,8 @@
                         <outlet property="durUnitPicker" destination="KAy-hb-rE4" id="dMM-Lv-CIX"/>
                         <outlet property="enterLabel" destination="NNq-4n-Gdj" id="am9-9H-pAT"/>
                         <outlet property="intensitySlider" destination="Rmg-ov-j8u" id="QLH-Kh-pHE"/>
+                        <outlet property="logMedInnerView" destination="Qhk-0x-dDY" id="Wsr-Du-3KV"/>
+                        <outlet property="logMedOverlay" destination="drp-wA-H6H" id="y6E-dC-bew"/>
                         <outlet property="logMoodInner" destination="Rij-zI-ww6" id="g2Y-sQ-Ki6"/>
                         <outlet property="logMoodOverlay" destination="cNf-zd-J5B" id="1zd-vk-2RI"/>
                         <outlet property="logSymptomInnerView" destination="cut-rt-mZT" id="tRV-E3-vHR"/>
@@ -1565,6 +1568,76 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KjS-cy-JAb" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <view alpha="0.97000002861022949" contentMode="scaleToFill" id="drp-wA-H6H">
+                    <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <subviews>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Qhk-0x-dDY">
+                            <rect key="frame" x="18" y="-61" width="204" height="250"/>
+                            <subviews>
+                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="b5E-A2-xgL">
+                                    <rect key="frame" x="20" y="20" width="164" height="110"/>
+                                    <constraints>
+                                        <constraint firstAttribute="height" constant="110" id="SDV-Xn-wFW"/>
+                                    </constraints>
+                                </datePicker>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZGT-Ss-Hvz">
+                                    <rect key="frame" x="20" y="160" width="78" height="30"/>
+                                    <state key="normal" title="+ Add Note"/>
+                                    <connections>
+                                        <action selector="addMedNoteWith_sender:" destination="bKo-m0-BTt" eventType="touchUpInside" id="BlP-8J-inv"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0zH-P6-Zih">
+                                    <rect key="frame" x="124" y="210" width="60" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="60" id="I0A-4r-I7b"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                    <state key="normal" title="Cancel">
+                                        <color key="titleColor" red="0.3408178389" green="0.61698096989999995" blue="0.77649301289999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="logMedCancelClickedWith_sender:" destination="bKo-m0-BTt" eventType="touchUpInside" id="fmX-lF-mz4"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tie-QG-9HL">
+                                    <rect key="frame" x="20" y="210" width="85" height="35"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="85" id="xDE-qa-9wg"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" weight="medium" pointSize="19"/>
+                                    <state key="normal" title="Submit">
+                                        <color key="titleColor" red="0.3408178389" green="0.61698096989999995" blue="0.77649301289999995" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="logMedSubmitClickedWith_sender:" destination="bKo-m0-BTt" eventType="touchUpInside" id="VV7-m8-3fS"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <constraints>
+                                <constraint firstItem="ZGT-Ss-Hvz" firstAttribute="top" secondItem="b5E-A2-xgL" secondAttribute="bottom" constant="30" id="2iG-h3-kdd"/>
+                                <constraint firstAttribute="height" constant="250" id="4Oc-Sr-Vbq"/>
+                                <constraint firstAttribute="trailing" secondItem="b5E-A2-xgL" secondAttribute="trailing" constant="20" id="5RF-os-n1n"/>
+                                <constraint firstItem="b5E-A2-xgL" firstAttribute="top" secondItem="Qhk-0x-dDY" secondAttribute="top" constant="20" id="GbC-ZW-mNT"/>
+                                <constraint firstItem="b5E-A2-xgL" firstAttribute="leading" secondItem="Qhk-0x-dDY" secondAttribute="leading" constant="20" id="HOr-9L-grP"/>
+                                <constraint firstItem="ZGT-Ss-Hvz" firstAttribute="leading" secondItem="b5E-A2-xgL" secondAttribute="leading" id="OeW-IW-IdZ"/>
+                                <constraint firstItem="0zH-P6-Zih" firstAttribute="centerY" secondItem="Tie-QG-9HL" secondAttribute="centerY" id="g6P-NC-vXc"/>
+                                <constraint firstItem="Tie-QG-9HL" firstAttribute="top" secondItem="ZGT-Ss-Hvz" secondAttribute="bottom" constant="20" id="sOa-Z3-m6N"/>
+                                <constraint firstAttribute="trailing" secondItem="0zH-P6-Zih" secondAttribute="trailing" constant="20" id="zfy-vf-uCz"/>
+                                <constraint firstItem="Tie-QG-9HL" firstAttribute="leading" secondItem="Qhk-0x-dDY" secondAttribute="leading" constant="20" id="zgp-JH-Jtw"/>
+                            </constraints>
+                        </view>
+                    </subviews>
+                    <viewLayoutGuide key="safeArea" id="stD-CI-d8m"/>
+                    <color key="backgroundColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="Qhk-0x-dDY" firstAttribute="centerX" secondItem="stD-CI-d8m" secondAttribute="centerX" id="QwN-eF-XYY"/>
+                        <constraint firstItem="Qhk-0x-dDY" firstAttribute="centerY" secondItem="stD-CI-d8m" secondAttribute="centerY" id="msY-V5-aMJ"/>
+                        <constraint firstItem="Qhk-0x-dDY" firstAttribute="width" secondItem="drp-wA-H6H" secondAttribute="width" multiplier="0.85" id="tzS-dr-wMP"/>
+                    </constraints>
+                </view>
                 <view alpha="0.96999999999999997" contentMode="scaleToFill" id="0SA-vw-r8L">
                     <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -3369,6 +3442,7 @@ Add a note to ask your clinician about it!</string>
                         <outlet property="confirmInnerView" destination="XNT-Nn-XYE" id="bNy-Yl-Xr5"/>
                         <outlet property="confirmOverlayView" destination="MX3-Bx-DKM" id="S1S-0b-de9"/>
                         <outlet property="contentView" destination="ilu-Po-s0V" id="eVL-fp-szb"/>
+                        <outlet property="datePicker" destination="tYu-hM-IRs" id="Xw6-12-9eu"/>
                         <outlet property="delBtn" destination="R1S-Wd-9cB" id="JyP-6i-sPY"/>
                         <outlet property="editBtn" destination="TbH-D8-CbB" id="ymQ-vL-vQ2"/>
                         <outlet property="editInnerView" destination="JWD-FO-bov" id="YI4-Ox-Q4h"/>
@@ -3377,6 +3451,7 @@ Add a note to ask your clinician about it!</string>
                         <outlet property="emailLabel" destination="6by-Et-Dss" id="Ona-QY-Zkf"/>
                         <outlet property="nameField" destination="BbB-75-Hds" id="V9B-bf-xQ1"/>
                         <outlet property="nameLabel" destination="LcE-AH-4ne" id="bqU-DB-FKw"/>
+                        <outlet property="naptLabel" destination="UGA-Vc-kcY" id="6kF-rp-YKu"/>
                         <outlet property="phoneField" destination="GOl-Rx-tAe" id="sPe-Iz-lGn"/>
                         <outlet property="phoneLabel" destination="IZc-2j-cdi" id="tbi-rq-RKn"/>
                         <outlet property="saveBtn" destination="Gl1-5e-Pbb" id="aox-hS-5Jc"/>
@@ -3391,7 +3466,7 @@ Add a note to ask your clinician about it!</string>
                     <rect key="frame" x="0.0" y="0.0" width="204" height="220"/>
                     <subviews>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JWD-FO-bov">
-                            <rect key="frame" x="10" y="-52.5" width="184" height="325"/>
+                            <rect key="frame" x="10" y="-100" width="184" height="420"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doctor's Name" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8lL-SX-ptg">
                                     <rect key="frame" x="20" y="20" width="82" height="41"/>
@@ -3420,6 +3495,18 @@ Add a note to ask your clinician about it!</string>
                                     <nil key="textColor"/>
                                     <nil key="highlightedColor"/>
                                 </label>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next appointment " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qH1-hC-wsA">
+                                    <rect key="frame" x="20" y="274" width="100" height="41"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="100" id="dYq-ge-uGt"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                                <datePicker contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" datePickerMode="dateAndTime" minuteInterval="1" translatesAutoresizingMaskIntoConstraints="NO" id="tYu-hM-IRs">
+                                    <rect key="frame" x="124" y="186.5" width="320" height="216"/>
+                                </datePicker>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Doctor's address" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pKI-og-iA1">
                                     <rect key="frame" x="20" y="208" width="82" height="41"/>
                                     <constraints>
@@ -3450,7 +3537,7 @@ Add a note to ask your clinician about it!</string>
                                     <textInputTraits key="textInputTraits"/>
                                 </textField>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Gl1-5e-Pbb">
-                                    <rect key="frame" x="20" y="274" width="37" height="33"/>
+                                    <rect key="frame" x="20" y="350" width="37" height="33"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <state key="normal" title="Save"/>
                                     <connections>
@@ -3458,7 +3545,7 @@ Add a note to ask your clinician about it!</string>
                                     </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="urZ-A2-HI4">
-                                    <rect key="frame" x="111" y="274" width="53" height="33"/>
+                                    <rect key="frame" x="111" y="350" width="53" height="33"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <state key="normal" title="Cancel"/>
                                     <connections>
@@ -3469,13 +3556,15 @@ Add a note to ask your clinician about it!</string>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstItem="DNZ-l3-xsb" firstAttribute="width" secondItem="BbB-75-Hds" secondAttribute="width" id="1dg-uj-YOs"/>
+                                <constraint firstItem="qH1-hC-wsA" firstAttribute="leading" secondItem="6jt-8P-4QC" secondAttribute="leading" id="5fl-Fy-13v"/>
                                 <constraint firstItem="pKI-og-iA1" firstAttribute="top" secondItem="6jt-8P-4QC" secondAttribute="bottom" constant="15" id="670-q5-OrZ"/>
                                 <constraint firstItem="urZ-A2-HI4" firstAttribute="centerY" secondItem="Gl1-5e-Pbb" secondAttribute="centerY" id="6fm-zb-fZY"/>
-                                <constraint firstAttribute="height" constant="325" id="76o-G6-MLi"/>
+                                <constraint firstAttribute="height" constant="420" id="76o-G6-MLi"/>
                                 <constraint firstItem="6jt-8P-4QC" firstAttribute="top" secondItem="vcT-Rf-RPf" secondAttribute="bottom" constant="15" id="7pZ-do-nk3"/>
                                 <constraint firstAttribute="trailing" secondItem="q1B-Zc-tp3" secondAttribute="trailing" constant="10" id="8ll-XX-1Ud"/>
                                 <constraint firstItem="Gl1-5e-Pbb" firstAttribute="leading" secondItem="JWD-FO-bov" secondAttribute="leading" constant="20" id="BDD-z2-X62"/>
                                 <constraint firstItem="DNZ-l3-xsb" firstAttribute="centerY" secondItem="pKI-og-iA1" secondAttribute="centerY" id="D3o-AH-UMj"/>
+                                <constraint firstItem="qH1-hC-wsA" firstAttribute="top" secondItem="pKI-og-iA1" secondAttribute="bottom" constant="25" id="InP-1x-mcb"/>
                                 <constraint firstItem="BbB-75-Hds" firstAttribute="centerY" secondItem="8lL-SX-ptg" secondAttribute="centerY" id="Io0-VH-uml"/>
                                 <constraint firstItem="vcT-Rf-RPf" firstAttribute="leading" secondItem="8lL-SX-ptg" secondAttribute="leading" id="J6c-CA-1Ei"/>
                                 <constraint firstItem="BbB-75-Hds" firstAttribute="leading" secondItem="8lL-SX-ptg" secondAttribute="trailing" constant="15" id="K8p-Mb-rBT"/>
@@ -3484,9 +3573,11 @@ Add a note to ask your clinician about it!</string>
                                 <constraint firstAttribute="trailing" secondItem="GOl-Rx-tAe" secondAttribute="trailing" constant="10" id="Nk7-lC-M2i"/>
                                 <constraint firstItem="DNZ-l3-xsb" firstAttribute="leading" secondItem="GOl-Rx-tAe" secondAttribute="leading" id="OSa-eQ-Wcn"/>
                                 <constraint firstItem="pKI-og-iA1" firstAttribute="leading" secondItem="vcT-Rf-RPf" secondAttribute="leading" id="X7r-bc-9Qb"/>
-                                <constraint firstItem="Gl1-5e-Pbb" firstAttribute="top" secondItem="pKI-og-iA1" secondAttribute="bottom" constant="25" id="XWa-sq-luB"/>
+                                <constraint firstItem="tYu-hM-IRs" firstAttribute="leading" secondItem="BbB-75-Hds" secondAttribute="leading" constant="7" id="aTU-Ln-Cw0"/>
+                                <constraint firstItem="Gl1-5e-Pbb" firstAttribute="top" secondItem="qH1-hC-wsA" secondAttribute="bottom" constant="35" id="cEO-TO-JRW"/>
                                 <constraint firstItem="q1B-Zc-tp3" firstAttribute="centerY" secondItem="vcT-Rf-RPf" secondAttribute="centerY" id="jIQ-Gg-e9J"/>
                                 <constraint firstItem="8lL-SX-ptg" firstAttribute="leading" secondItem="JWD-FO-bov" secondAttribute="leading" constant="20" id="jko-0e-Awb"/>
+                                <constraint firstItem="tYu-hM-IRs" firstAttribute="centerY" secondItem="qH1-hC-wsA" secondAttribute="centerY" id="kFc-O4-qml"/>
                                 <constraint firstItem="q1B-Zc-tp3" firstAttribute="leading" secondItem="BbB-75-Hds" secondAttribute="leading" id="kFt-nB-rFU"/>
                                 <constraint firstItem="vcT-Rf-RPf" firstAttribute="top" secondItem="8lL-SX-ptg" secondAttribute="bottom" constant="15" id="kIn-uf-7se"/>
                                 <constraint firstAttribute="trailing" secondItem="BbB-75-Hds" secondAttribute="trailing" constant="10" id="psx-JR-Ebb"/>
@@ -3563,7 +3654,7 @@ Add a note to ask your clinician about it!</string>
                             <rect key="frame" x="0.0" y="0.0" width="204" height="220"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ilu-Po-s0V">
-                                    <rect key="frame" x="0.0" y="0.0" width="204" height="387.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="204" height="446.5"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aQH-Iu-3YV">
                                             <rect key="frame" x="7" y="25" width="34" height="30"/>
@@ -3608,6 +3699,18 @@ Add a note to ask your clinician about it!</string>
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Next appointment" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PXH-H5-77w">
+                                            <rect key="frame" x="23" y="324.5" width="150" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="napt" textAlignment="natural" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UGA-Vc-kcY">
+                                            <rect key="frame" x="81" y="183" width="31" height="18"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="em" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6by-Et-Dss">
                                             <rect key="frame" x="23" y="159" width="163" height="18"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -3633,7 +3736,7 @@ Add a note to ask your clinician about it!</string>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TbH-D8-CbB">
-                                            <rect key="frame" x="23" y="344.5" width="30" height="33"/>
+                                            <rect key="frame" x="23" y="403.5" width="30" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <state key="normal" title="Edit"/>
                                             <connections>
@@ -3641,7 +3744,7 @@ Add a note to ask your clinician about it!</string>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R1S-Wd-9cB">
-                                            <rect key="frame" x="134" y="344.5" width="50" height="33"/>
+                                            <rect key="frame" x="134" y="403.5" width="50" height="33"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <state key="normal" title="Delete">
                                                 <color key="titleColor" systemColor="systemRedColor"/>
@@ -3653,6 +3756,8 @@ Add a note to ask your clinician about it!</string>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     <constraints>
+                                        <constraint firstItem="UGA-Vc-kcY" firstAttribute="leading" secondItem="PXH-H5-77w" secondAttribute="leading" id="22k-kc-XSR"/>
+                                        <constraint firstItem="PXH-H5-77w" firstAttribute="leading" secondItem="2li-1G-tlh" secondAttribute="leading" id="3Ku-Jh-WKe"/>
                                         <constraint firstAttribute="height" constant="10000" id="4u0-9k-Gu4"/>
                                         <constraint firstItem="2li-1G-tlh" firstAttribute="leading" secondItem="IZc-2j-cdi" secondAttribute="leading" id="AVI-TS-4d2"/>
                                         <constraint firstItem="aQH-Iu-3YV" firstAttribute="top" secondItem="ilu-Po-s0V" secondAttribute="top" constant="25" id="D9h-78-xoW"/>
@@ -3666,9 +3771,11 @@ Add a note to ask your clinician about it!</string>
                                         <constraint firstItem="NWU-Xr-94m" firstAttribute="top" secondItem="LcE-AH-4ne" secondAttribute="bottom" constant="10" id="QMO-II-iCi"/>
                                         <constraint firstItem="LcE-AH-4ne" firstAttribute="top" secondItem="R6K-v9-4fd" secondAttribute="bottom" constant="10" id="R3K-e6-gRD"/>
                                         <constraint firstItem="2li-1G-tlh" firstAttribute="top" secondItem="Hoc-0s-dZ8" secondAttribute="bottom" constant="10" id="WYM-me-9IV"/>
-                                        <constraint firstItem="TbH-D8-CbB" firstAttribute="top" secondItem="2li-1G-tlh" secondAttribute="bottom" constant="30" id="We8-kM-3PN"/>
+                                        <constraint firstItem="TbH-D8-CbB" firstAttribute="top" secondItem="UGA-Vc-kcY" secondAttribute="bottom" constant="30" id="We8-kM-3PN"/>
                                         <constraint firstAttribute="trailing" secondItem="R1S-Wd-9cB" secondAttribute="trailing" constant="20" id="Wyz-ei-XJh"/>
+                                        <constraint firstItem="UGA-Vc-kcY" firstAttribute="top" secondItem="PXH-H5-77w" secondAttribute="bottom" constant="10" id="X2V-an-YB5"/>
                                         <constraint firstItem="IZc-2j-cdi" firstAttribute="top" secondItem="iCX-a2-DfN" secondAttribute="bottom" constant="10" id="XRF-xL-4Yg"/>
+                                        <constraint firstItem="PXH-H5-77w" firstAttribute="top" secondItem="2li-1G-tlh" secondAttribute="bottom" constant="10" id="asX-TI-HED"/>
                                         <constraint firstItem="Hoc-0s-dZ8" firstAttribute="leading" secondItem="iCX-a2-DfN" secondAttribute="leading" id="dDN-0z-Iwu"/>
                                         <constraint firstItem="R6K-v9-4fd" firstAttribute="leading" secondItem="ilu-Po-s0V" secondAttribute="leading" constant="23" id="dMA-gh-BRv"/>
                                         <constraint firstItem="LcE-AH-4ne" firstAttribute="width" secondItem="ilu-Po-s0V" secondAttribute="width" multiplier="0.8" id="esx-jc-ucr"/>
@@ -3682,8 +3789,10 @@ Add a note to ask your clinician about it!</string>
                                         <constraint firstItem="IZc-2j-cdi" firstAttribute="width" secondItem="LcE-AH-4ne" secondAttribute="width" id="rHp-Ic-Gyc"/>
                                         <constraint firstAttribute="bottom" secondItem="R1S-Wd-9cB" secondAttribute="bottom" constant="10" id="sg4-Ph-Xd6"/>
                                         <constraint firstItem="R1S-Wd-9cB" firstAttribute="centerY" secondItem="TbH-D8-CbB" secondAttribute="centerY" id="uZp-Zm-wNc"/>
+                                        <constraint firstItem="UGA-Vc-kcY" firstAttribute="width" secondItem="2li-1G-tlh" secondAttribute="width" id="v63-Og-L3E"/>
                                         <constraint firstItem="LcE-AH-4ne" firstAttribute="leading" secondItem="R6K-v9-4fd" secondAttribute="leading" id="wkD-Ju-kqF"/>
                                         <constraint firstItem="iCX-a2-DfN" firstAttribute="top" secondItem="6by-Et-Dss" secondAttribute="bottom" constant="10" id="wwr-hI-e6j"/>
+                                        <constraint firstItem="PXH-H5-77w" firstAttribute="width" secondItem="R6K-v9-4fd" secondAttribute="width" id="ys7-9z-671"/>
                                     </constraints>
                                     <variation key="default">
                                         <mask key="constraints">
@@ -3769,7 +3878,7 @@ Add a note to ask your clinician about it!</string>
                                 <rect key="frame" x="10" y="471" width="121" height="30"/>
                                 <state key="normal" title="+ Add medication"/>
                                 <connections>
-                                    <action selector="addMed:" destination="8kM-Fj-oWb" eventType="touchUpInside" id="lIp-Eb-Ln4"/>
+                                    <action selector="addMedWrapper:" destination="8kM-Fj-oWb" eventType="touchUpInside" id="e4C-aF-0Tq"/>
                                 </connections>
                             </button>
                             <searchBar contentMode="redraw" placeholder="Search" translatesAutoresizingMaskIntoConstraints="NO" id="NgV-zA-HAm">
@@ -4109,8 +4218,10 @@ Add a note to ask your clinician about it!</string>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
+        <segue reference="K7Y-7z-bNQ"/>
         <segue reference="JQR-vj-gfD"/>
-        <segue reference="nNY-bZ-iDg"/>
+        <segue reference="dKW-Nb-gqy"/>
+        <segue reference="4Qb-gP-gWd"/>
         <segue reference="rg9-c0-pFG"/>
     </inferredMetricsTieBreakers>
     <resources>

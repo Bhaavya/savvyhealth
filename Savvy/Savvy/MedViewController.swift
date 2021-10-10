@@ -41,6 +41,9 @@ class medCell: UITableViewCell {
 
 class medViewController: UIViewController,  UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate{
     
+
+    
+    
     @IBOutlet weak var srchBar: UISearchBar!
     
     
@@ -86,6 +89,8 @@ class medViewController: UIViewController,  UITableViewDelegate, UITableViewData
     
     var meds: [[String: Any]] = []
     var filteredMeds: [[String: Any]] = []
+    
+    var fromLog = false 
         
         
     var minScale:CGFloat = 1.0
@@ -294,6 +299,7 @@ class medViewController: UIViewController,  UITableViewDelegate, UITableViewData
                 
             
         }
+           
         }
         
            
@@ -333,33 +339,20 @@ class medViewController: UIViewController,  UITableViewDelegate, UITableViewData
         self.editOverlayView.removeFromSuperview()
         self.tbl.reloadData()
             
-        
+        if self.fromLog{
+          goBack()
+        }
     }
     
     @IBAction func cancelEdit(_ sender: UIButton){
         self.fromEdit = false
         self.editOverlayView.removeFromSuperview()
+        if self.fromLog{
+          goBack()
+        }
     }
     
-    func fetchRemoteMed1(json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
-       
-        if UserDefaults.standard.object(forKey: "userID") != nil{
-
-            let uid = UserDefaults.standard.object(forKey: "userID")
-            var parameters = ["id":uid as AnyObject,"page":"med" as AnyObject,"action":"createMed" as AnyObject]
-            remoteFetch(parameters, json: json, completion: completion)
-        }
-        }
     
-    func fetchRemoteMed2(json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
-       
-        if UserDefaults.standard.object(forKey: "userID") != nil{
-
-            let uid = UserDefaults.standard.object(forKey: "userID")
-            var parameters = ["id":uid as AnyObject,"page":"med" as AnyObject,"action":"delMed" as AnyObject]
-            remoteFetch(parameters, json: json, completion: completion)
-        }
-        }
         
     
     
@@ -441,6 +434,9 @@ innerView.layer.borderColor = UIColor.darkGray.cgColor
         setView(overlayView: editOverlayView , innerView: editInnerView)
         setView(overlayView: showOverlayView , innerView: showInnerView)
         setView(overlayView: confirmOverlayView , innerView: confirmInnerView)
+        if self.fromLog{
+            addMed()
+        }
     
     }
     
@@ -486,19 +482,27 @@ innerView.layer.borderColor = UIColor.darkGray.cgColor
        self.tbl.reloadData()
     }
     
-    @IBAction func addMed(_ sender: UIButton){
+    func addMed()
+    {
         self.nameField.text = ""
-        self.dosageField.text = ""
-        self.view.addSubview(editOverlayView)
+    self.dosageField.text = ""
+    self.view.addSubview(editOverlayView)
     }
     
+    @IBAction func addMedWrapper(_ sender: UIButton){
+        addMed()
+    }
     
-    @IBAction func backClicked(_ sender: UIButton){
+    func goBack(){
         if let nvc = navigationController {
             nvc.popViewController(animated: true)
         } else {
             dismiss(animated: true, completion: nil)
         }
+    }
+    
+    @IBAction func backClicked(_ sender: UIButton){
+       goBack()
     }
      
     

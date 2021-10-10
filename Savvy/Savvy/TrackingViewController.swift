@@ -285,20 +285,28 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             let horizontalConstraintChartLabel = NSLayoutConstraint(item: chartLabels[idx], attribute: NSLayoutConstraint.Attribute.centerX, relatedBy: NSLayoutConstraint.Relation.equal, toItem: scrollInnerView, attribute: NSLayoutConstraint.Attribute.centerX, multiplier: 1, constant: 0)
             var prevItem = UIView()
             var attr = NSLayoutConstraint.Attribute.bottom
+            var ht = 0
             if idx == 0{
                 if type == "line"{
                 prevItem = scrollInnerView
                 attr = NSLayoutConstraint.Attribute.top
+                   
                 }
                 else{
                     prevItem = freqStack
+                
                 }
                 
             }
             else{
                 prevItem = charts[idx-1]
             }
-            
+            if type == "line"{
+                ht = 200
+            }
+            else{
+                ht = 240 
+            }
 //           print("prev",prevItem)
             
             let verticalConstraintChartLabel = NSLayoutConstraint(item: chartLabels[idx], attribute: NSLayoutConstraint.Attribute.top, relatedBy: NSLayoutConstraint.Relation.equal, toItem: prevItem, attribute: attr, multiplier: 1, constant: 20)
@@ -311,13 +319,15 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             
             let heightConstraintChartLabel = NSLayoutConstraint(item: chartLabels[idx], attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem: nil, attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant:20)
             
-            let heightConstraintChart = NSLayoutConstraint(item: charts[idx], attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem:nil , attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: 0.3*self.view.frame.height)
+            let heightConstraintChart = NSLayoutConstraint(item: charts[idx], attribute: NSLayoutConstraint.Attribute.height, relatedBy: NSLayoutConstraint.Relation.equal, toItem:nil , attribute: NSLayoutConstraint.Attribute.notAnAttribute, multiplier: 1, constant: CGFloat(ht))
+            
             NSLayoutConstraint.activate([horizontalConstraintChart,horizontalConstraintChartLabel,horizontalConstraintChartY, verticalConstraintChartLabel,verticalConstraintChart,
                verticalConstraintChartY,widthConstraintChart, widthConstraintChartLabel,
                widthConstraintChartY,
                heightConstraintChart, heightConstraintChartLabel])
           
-            self.height.constant = self.height.constant + 0.3*self.view.frame.height + 80
+            self.height.constant = self.height.constant +  CGFloat(ht) + 80
+            
         }
     }
     override func viewDidAppear(_ animated: Bool) {
@@ -361,11 +371,15 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                             symptom =  record["name"] as! String
             
                            date =  record["timestamp"] as! String
-                           
+            if self.type != 2{
                           dur = record["duration"] as! String
+            }
+            else{
+                dur =  String(1.0)
+            }
             
                            let intensityFloat = record["intensity"] as! Float
-            if Array(cutoffSymptoms.keys).contains(symptom){
+            if Array(cutoffSymptoms.keys).contains(symptom) {
                 if intensityFloat <= 2 {
                     intensity = "low"}
                 else if intensityFloat < 5{
@@ -385,9 +399,11 @@ class trackingViewController: UIViewController, ChartViewDelegate {
             else{
                 intensity = "high"
             }
+                if self.type != 2{
                 let durUnit = record["durationUnit"] as! String
                 if durUnit == "mins" && Int(dur) != nil{
                  dur = String(Double(dur)!/60.0)
+                }
                 }
             }
                           
@@ -448,7 +464,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                   }
 
                 
-                if Array(cutoffSymptoms.keys).contains(symptom){
+                if Array(cutoffSymptoms.keys).contains(symptom) || self.type == 2{
                     durDouble = Double(symptomsLogged[sym]![date]![0])!
                     totDur[day] = totDur[day] ?? 0.0 + durDouble
                     
@@ -539,12 +555,12 @@ class trackingViewController: UIViewController, ChartViewDelegate {
                               date =  record["timestamp"] as! String
                              
                              
-                              let intensity = record["intensity"] as! Double
+                              var intensity = record["intensity"] as! Double
                
-                              let durUnit = record["durationUnit"] as! String
-                              if durUnit == "mins"{
-                                  dur = dur/60.0
-                              }
+            if self.type == 2{
+                intensity = 1.0
+            }
+                             
                               
                               
                               if self.symptomsLoggedLine[symptom] == nil {
@@ -691,7 +707,9 @@ class trackingViewController: UIViewController, ChartViewDelegate {
               addCutoff = true
               cutoff = self.cutoffSymptoms[symptom.key]!
           }
-          
+           if self.type == 2{
+                chartYLabels[idx].text = "Number of times"
+            }
           hasNote = [:]
           var cnt1 = 0
           for (k,v) in symptom.value{
@@ -755,11 +773,19 @@ addConstraints(charts: chartsLine, type: "line")
          if Array(cutoffSymptoms.keys).contains(symptom.key){
              cutoff = cutoffSymptoms[symptom.key]!
              addCutoff = true
-             chartYLabels[idx].text = "Number of times"
+           
              
          }
+            
+            if Array(cutoffSymptoms.keys).contains(symptom.key) || self.type == 2{
+                chartYLabels[idx].text = "Number of times"
+            }
+            var showStack = true
+            if  self.type == 2{
+                showStack = false
+            }
         
-            updateBarChart(barChartView: chartsBar[idx], logData: symptom.value,freq: njson["freq"] as! String,addCutoff: addCutoff, cutoff: cutoff, hasNote: hasNote)
+            updateBarChart(barChartView: chartsBar[idx], logData: symptom.value,freq: njson["freq"] as! String,addCutoff: addCutoff, cutoff: cutoff, hasNote: hasNote, showStack: showStack)
         self.scrollInnerView.addSubview(chartsBar[idx])
         }
 //        print(chartYLabels)
@@ -850,8 +876,11 @@ addConstraints(charts: chartsBar, type: "bar")
         if self.type == 0{
             fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
         }
-        else{
+        else if self.type == 1{
             fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
+        }
+        else{
+        fetchRemoteLog(name: "MedLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
         }
         
         
@@ -863,8 +892,11 @@ addConstraints(charts: chartsBar, type: "bar")
         if self.type == 0{
        fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
         }
-        else{
+        else if self.type == 1{
             fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
+        }
+        else{
+            fetchRemoteLog(name: "MedLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
         }
     
     }
@@ -875,8 +907,11 @@ addConstraints(charts: chartsBar, type: "bar")
     if self.type == 0{
    fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
     }
-    else{
+    else if self.type == 1{
         fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms: filter_json:))
+    }
+    else{
+        fetchRemoteLog(name: "MedLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
     }
   }
     
@@ -895,8 +930,11 @@ addConstraints(charts: chartsBar, type: "bar")
         if self.type == 0{
        fetchRemoteLog(name: "SymptomLog",ctype: "line",completion: showCharts(logSymptoms: filter_json:))
         }
-        else{
+        else if self.type == 1{
             fetchRemoteLog(name: "MoodLog",ctype: "line",completion: showCharts(logSymptoms: filter_json:))
+        }
+        else{
+            fetchRemoteLog(name: "MedLog",ctype: "line",completion: showCharts(logSymptoms:filter_json:))
         }
     }
     
@@ -914,9 +952,12 @@ addConstraints(charts: chartsBar, type: "bar")
         if self.type == 0{
        fetchRemoteLog(name: "SymptomLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
         }
-        else{
+  else if self.type == 1{
             fetchRemoteLog(name: "MoodLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
         }
+  else{
+    fetchRemoteLog(name: "MedLog",ctype: "bar",completion: showCharts(logSymptoms:filter_json:))
+  }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -927,9 +968,14 @@ addConstraints(charts: chartsBar, type: "bar")
             fetchRemoteLog(name: "SymptomLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
            
         }
-        else{
+         else if self.type == 1{
             self.logButton.setTitle("+ Record your mood", for: .normal)
             fetchRemoteLog(name: "MoodLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
+        }
+        
+         else if self.type == 2{
+            self.logButton.setTitle("+ Record your medication", for: .normal)
+            fetchRemoteLog(name: "MedLog",ctype: "line",completion: showChartsFirst(logSymptoms:filter_json:))
         }
         
       
@@ -938,16 +984,19 @@ addConstraints(charts: chartsBar, type: "bar")
     }
     
     func removeCharts(){
-    for (idx,_) in symptomsLoggedAggBar.enumerated(){
+    for (idx,_) in chartsBar.enumerated(){
     self.chartsBar[idx].removeFromSuperview()
+        }
+        for (idx,_) in chartYLabels.enumerated(){
     self.chartYLabels[idx].removeFromSuperview()
+        }
+        for (idx,_) in chartLabels.enumerated(){
     self.chartLabels[idx].removeFromSuperview()
     }
-    for (idx,_) in symptomsLoggedLine.enumerated(){
+    for (idx,_) in chartsLine.enumerated(){
         self.chartsLine[idx].removeFromSuperview()
-        self.chartYLabels[idx].removeFromSuperview()
-        self.chartLabels[idx].removeFromSuperview()
-        }
+    }
+        
     }
 
     
