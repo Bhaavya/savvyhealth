@@ -3,7 +3,7 @@
 //  Savvy
 //
 //  Created by Bhavya on 12/25/20.
-//  Copyright © 2020 uiuc. All rights reserved.
+//  Copyright © 2020 uiuc. All rights reserved.f
 //
 
 import Foundation
@@ -16,8 +16,13 @@ import CoreData
 import ContactsUI
 import SearchTextField
 import MessageUI
+import SwiftSpinner
 
-class noteDetailViewController: UIViewController,  MFMessageComposeViewControllerDelegate{
+
+
+class noteDetailViewController: UIViewController,  MFMessageComposeViewControllerDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate{
+    
+  
     
     func messageComposeViewController(_ controller: MFMessageComposeViewController!, didFinishWith result: MessageComposeResult) {
             //... handle sms screen actions
@@ -38,6 +43,15 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     @IBOutlet weak var shareOptionOverlayView: UIView!
     @IBOutlet weak var shareOptionInnerView: UIView!
     
+    @IBOutlet weak var imageOverlayView: UIView!
+    @IBOutlet weak var imageInnerView: UIView!
+    
+    
+    
+    @IBOutlet weak var imageView: UIImageView!
+    
+
+    var img: Data!
    
     var minScale:CGFloat = 1.0
     var maxScale:CGFloat = 5.0
@@ -47,7 +61,38 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     var sentTimestamp: String = ""
     var sentSymptom: String = ""
     var noteSym: String = ""
+    
+    var imagePicker: UIImagePickerController!
    
+    
+    
+    let saveQueue = DispatchQueue(label: "saveQueue", attributes: .concurrent)
+    
+   
+        // moc
+        var managedContext : NSManagedObjectContext?
+    
+
+    @IBAction func takePhoto(_ sender: UIButton) {
+        imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera
+        present(imagePicker, animated: true, completion: nil)
+    }
+    
+   
+    
+    public func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        print("in")
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+//                  print(image)
+            setImageData(image: image)
+          
+        }
+        self.dismiss(animated: true, completion: nil)
+    }
+       
+        
         
     @objc func pinchedView(_ gestureRecognizer : UIPinchGestureRecognizer) { guard gestureRecognizer.view != nil else { return }
             if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {
@@ -134,8 +179,141 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     }
     
    
+    func setImageData(image:UIImage) {
+
+          
+
     
+
+               // create NSData from UIImage
+        guard var imageData = image.jpegData(compressionQuality: 1.0) else {
+                   // handle failed conversion
+                   print("jpwg error")
+                   return
+               }
+        var tmpImg = UIImage(data: imageData)
+        if ((tmpImg!.size.width > imageView.frame.size.width) || (tmpImg!.size.height > imageView.frame.size.height)) {
+            tmpImg =  resizeImageWith(newSize: imageView.frame.size, image: tmpImg!)
+        }
+        
+        imageData = tmpImg!.jpegData(compressionQuality: 1.0)!
+
+        self.img = imageData
+
+           
+       }
    
+    
+    func findPhoto(notes: [String:[Any]],json:[String:Any]) -> Optional<Any>{
+       
+        var foundPhoto = false
+      
+                guard let moc = self.managedContext else {
+                    print("eerri",1)
+                    return nil
+                
+                }
+            
+            var id = getId(notes: notes, json: json)
+        
+       
+        print("eerri",2,id)
+//            let fetchRequest =
+//              NSFetchRequest<NSManagedObject>(entityName: "NotePhoto")
+  
+              
+          
+            do {
+//          print(notes)
+                
+                for n in notes["results"] as! [Any]{
+                    let nDict = n as! [String:AnyObject]
+                    let nJson = convertToDictionary(text:nDict["eventJson"] as! String)
+                  
+                    if (  Int((nJson!)["id"] as! Int64) == id){
+                        foundPhoto = true
+                        var imgData: Optional<Any>
+                        var imgS: String = nJson!["img"] as! String
+                        if imgS != "nil"{
+                        imgData = NSData(base64Encoded: imgS, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)!
+                        }
+                        else{
+                            imgData = nil
+                        }
+                        return imgData
+                    }
+                }
+            }
+            catch let error as NSError {
+      print("Could not fetch.")
+      
+    }
+        return nil
+    }
+    func resizeImageWith(newSize: CGSize, image: UIImage) -> UIImage {
+        
+        var size = image.size
+
+        let horizontalRatio = newSize.width / size.width
+        let verticalRatio = newSize.height / size.height
+
+        let ratio = min(horizontalRatio, verticalRatio)
+        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+        UIGraphicsBeginImageContextWithOptions(newSize, true, 0)
+        image.draw(in: CGRect(origin: CGPoint(x: 0, y: 0), size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
+        }
+    
+    func showPhoto(imgData: Optional<Any>){
+     
+        if imgData != nil{
+            
+            var tmpImg = UIImage(data:imgData! as! Data)!
+                
+            if ((tmpImg.size.width > imageView.frame.size.width) || (tmpImg.size.height > imageView.frame.size.height)) {
+           tmpImg =  resizeImageWith(newSize: imageView.frame.size, image: tmpImg)
+            }
+            imageView.image = tmpImg
+            
+            print(imageView.frame.size,tmpImg.size,imageView.image?.scale,imageOverlayView.frame.size,imageInnerView.frame.size,UIScreen.main.bounds.width,UIScreen.main.bounds.height,"size")
+           
+
+            SwiftSpinner.hide()
+                            self.view.addSubview(self.imageOverlayView)
+                           
+                   
+              
+                      
+        }
+                
+
+       else{
+            var alertController: UIAlertController
+            alertController = UIAlertController(title: "No Photo found", message: "Click on Take Photo to attach a photo to the note", preferredStyle: .alert)
+            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+                   alertController.addAction(defaultAction)
+
+                   self.present(alertController, animated: true, completion: nil)
+        SwiftSpinner.hide()
+
+        }
+    }
+    
+    func loadPhoto(notes: [String:[Any]],json:[String:Any])  {
+       
+//                      print(notes,json)
+        print("loading")
+                       var imgData = findPhoto(notes: notes, json: json)
+        
+        showPhoto(imgData: imgData)
+    }
+    
+    @IBAction func backImage(_ sender: UIButton){
+        print("back")
+        self.imageOverlayView.removeFromSuperview()
+    }
     
     
     override func viewDidLoad() {
@@ -147,6 +325,14 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         
         view.addGestureRecognizer(pinchGesture)
         view.addGestureRecognizer(panGesture)
+        guard let appDelegate =
+        UIApplication.shared.delegate as? AppDelegate else {
+            return
+      }
+      
+      
+        self.managedContext =
+        appDelegate.persistentContainer.viewContext
         
     }
     
@@ -197,11 +383,15 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         shareOverlayView.frame.size.width = UIScreen.main.bounds.width
          shareOverlayView.frame.size.height = UIScreen.main.bounds.height
         
+        imageOverlayView.frame.size.width = UIScreen.main.bounds.width
+         imageOverlayView.frame.size.height = UIScreen.main.bounds.height
+        
         shareOptionOverlayView.frame.size.width = UIScreen.main.bounds.width
          shareOptionOverlayView.frame.size.height = UIScreen.main.bounds.height
         
-        
-        shareInnerView.layer.cornerRadius = 8.0
+     
+        imageView.contentMode = .scaleAspectFit
+    
           let borderWidth = 0.5
 
           
@@ -210,12 +400,25 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
          
          shareInnerView.frame.size.width = UIScreen.main.bounds.width
           shareInnerView.frame.size.height = UIScreen.main.bounds.height
+        
+        imageInnerView.frame.size.width = UIScreen.main.bounds.width
+        imageInnerView.frame.size.height = UIScreen.main.bounds.height
+        
+        imageView.frame.size.width = UIScreen.main.bounds.width
+        imageView.frame.size.height = UIScreen.main.bounds.height 
          
          
           shareInnerView.layer.cornerRadius = 8.0
-           
-           shareInnerView.layer.borderColor = UIColor.darkGray.cgColor
-          shareInnerView.layer.borderWidth = CGFloat(borderWidth);
+         
+        
+       imageInnerView.layer.borderColor = UIColor.darkGray.cgColor
+        imageInnerView.layer.borderWidth = CGFloat(borderWidth);
+       
+
+       
+       
+        imageInnerView.layer.cornerRadius = 8.0
+         
         
         shareOptionInnerView.layer.cornerRadius = 8.0
         
@@ -224,25 +427,34 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         shareOptionInnerView.layer.borderColor = UIColor.darkGray.cgColor
         shareOptionInnerView.layer.borderWidth = CGFloat(borderWidth);
          
-//        shareOptionInnerView.frame.size.width = UIScreen.main.bounds.width
-//        shareOptionInnerView.frame.size.height = UIScreen.main.bounds.height
-         
-         
-        shareOptionInnerView.layer.cornerRadius = 8.0
-           
-        shareOptionInnerView.layer.borderColor = UIColor.darkGray.cgColor
-        shareOptionInnerView.layer.borderWidth = CGFloat(borderWidth);
+
+
+        
     }
     
-    @IBAction func sendMsg(){
+    func sendMsgHelp(notes: [String:[Any]],json:[String:Any]){
+        // Configure the fields of the interface.
         let composeVC = MFMessageComposeViewController()
         composeVC.messageComposeDelegate = self
+        
+        var imageData: Optional<Any>
+        if self.img == nil{
+        
+       imageData = findPhoto(notes: notes, json: json)
+        }
+        else{
+            imageData = self.img
+        }
 
-        // Configure the fields of the interface.
         composeVC.body = "Hello! Please see my note below" + "\n" + self.noteTitle.text! + "\n" + self.noteText.text!
+        
+        if imageData != nil{
+            composeVC.addAttachmentData(imageData! as! Data, typeIdentifier: "image/jpeg", filename: "photo.jpg")
+        }
         
        
         let uid = UserDefaults.standard.object(forKey: "userID")
+        SwiftSpinner.hide()
         
         // Present the view controller modally.
         if MFMessageComposeViewController.canSendText() {
@@ -255,9 +467,16 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         }
     }
     
+    @IBAction func sendMsg(){
+        SwiftSpinner.show("Please Wait")
+        fetchRemoteNote(name: "Note", json: ["note":self.note  ,"sentTimestamp":sentTimestamp,"title":self.noteTitle.text, "text":self.noteText.text, "timestamp":self.noteDate.text], completion: sendMsgHelp(notes:json:))
+
+        
+    }
     
     
-    @IBAction func sendEmail() {
+    
+    @IBAction func sendEmail(notes: [String:[Any]],json:[String:Any]) {
         let fromUser = self.fromNameField.text
         let toUser = self.toNameField.text
         let toEmail = self.toEmailField.text
@@ -266,19 +485,29 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
             emails.append(toEmail!)
         }
         }
-
+        
+        var imageData: Optional<Any>
+        if self.img == nil{
+       imageData = findPhoto(notes: notes, json: json)
+        }
+        else{
+            imageData = self.img
+        }
             let smtpSession = MCOSMTPSession()
 
-            smtpSession.hostname = "smtp.gmail.com"
-            smtpSession.username = "savvyhealthapp@gmail.com"
-            smtpSession.password = "Savvy0621"
-            smtpSession.port = 465
-            smtpSession.authType = MCOAuthType.saslPlain
-            smtpSession.connectionType = MCOConnectionType.TLS
+            smtpSession.hostname = "smtp.outlook.com"
+            smtpSession.username = "savvy_health@outlook.com"
+            smtpSession.password = "savvy2022"
+       
+            smtpSession.port = 587
+        smtpSession.timeout = 150
+        smtpSession.isCheckCertificateEnabled = false
+        smtpSession.authType = MCOAuthType.saslLogin
+            smtpSession.connectionType = MCOConnectionType.startTLS
             smtpSession.connectionLogger = {(connectionID, type, data) in
                 if data != nil {
                     if let string = NSString(data: data!, encoding: String.Encoding.utf8.rawValue){
-                        NSLog("Connectionlogger: \(string)")
+                        NSLog("Connectionlogger: ")
                     }
                 }
             }
@@ -288,7 +517,7 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
             //testing
             builder.header.to = [MCOAddress(displayName: toUser, mailbox: toEmail)]
 
-            builder.header.from = MCOAddress(displayName: fromUser, mailbox: "Savvyhealthapp@gmail.com")
+            builder.header.from = MCOAddress(displayName: fromUser, mailbox: "savvy_health@outlook.com")
         builder.header.subject = "You've got a note from "+(fromUser ?? "")
 
             builder.htmlBody = "Hello!<br><br>Please see the note attached!"
@@ -296,27 +525,40 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         attachment.filename = self.noteTitle.text
         attachment.data = self.noteText.text.data(using: .utf8)
         attachment.mimeType = "text/plain"
+        
+        if imageData != nil{
+        var imgAttachment = MCOAttachment()
+  
+        imgAttachment.mimeType =  "image/jpeg"
+        imgAttachment.filename = "photo.jpg"
+            imgAttachment.data = imageData as? Data
        //Attach File
+            builder.addAttachment(imgAttachment)
+        }
     builder.addAttachment(attachment)
+      
 
         let uid = UserDefaults.standard.object(forKey: "userID")
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"shareNoteEmail" as AnyObject,"json":["title":self.noteTitle.text!,"timestamp":self.noteDate.text!,"text":self.noteText.text!,"email":toEmail] as AnyObject]
         self.remoteLogging(logging_parameters)
 
-            print(builder.data())
+//            print(builder.data())
 
             let rfc822Data = builder.data()
+       
         var alertController:UIAlertController!
             let sendOperation = smtpSession.sendOperation(with: rfc822Data!)
             sendOperation?.start { (error) -> Void in
                 if (error != nil) {
-                    NSLog("Error sending email: \(error)")
+                    print(error)
+                    NSLog("Error sending email:")
                      alertController = UIAlertController(title: "Error", message: "Error sending email", preferredStyle: .alert)
 
                 } else {
                     NSLog("Successfully sent email!")
                    alertController = UIAlertController(title: "Success!", message: "Email sent", preferredStyle: .alert)
                 }
+                SwiftSpinner.hide()
                 let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
                        alertController.addAction(defaultAction)
 
@@ -332,8 +574,7 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
    
     
     override func viewWillDisappear(_ animated: Bool) {
-    sentTimestamp = ""
-        note = nil
+    
       
     }
     
@@ -346,10 +587,10 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
        goBack()
        }
     
-    func save(notes: [String:[Any]],json:[String:Any]){
+    func getId(notes: [String:[Any]],json:[String:Any]) -> Int{
         var id = 0
-        var alertController:UIAlertController!
-        var symptom: String = ""
+        
+      
         let innerNote: [String:Any]? = json["note"] as? [String:Any] ?? nil
 //        print("inote",innerNote)
         if innerNote == nil{
@@ -360,6 +601,15 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
             
         
         }
+        return id
+    }
+    
+    func save(notes: [String:[Any]],json:[String:Any]){
+        var alertController:UIAlertController!
+        var symptom: String = ""
+        var id = getId(notes: notes, json: json)
+        
+        let innerNote: [String:Any]? = json["note"] as? [String:Any] ?? nil
         var dateString: String = ""
         if json["sentTimestamp"] as! String == ""{
             let date = Date()
@@ -394,8 +644,20 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
         
        
             let uid = UserDefaults.standard.object(forKey: "userID")
+        var imgD: Optional<Any> = self.img
             
-        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"saveNote" as AnyObject,"json":["title":json["title"] as! String,"timestamp":dateString,"text":json["text"] as! String,"id":Int64(id),"symptom":symptom] as AnyObject]
+        if self.img == nil{
+            imgD = findPhoto(notes:notes,json:json)
+        }
+        var imgS: String
+            
+        if imgD != nil{
+            imgS  = String(data:(imgD as! NSData).base64EncodedData(options: NSData.Base64EncodingOptions.endLineWithLineFeed),encoding: .utf8)!
+        }
+        else{
+            imgS = "nil"
+        }
+        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"noteDetail"as AnyObject,"action":"saveNote" as AnyObject,"json":["title":json["title"] as! String,"timestamp":dateString,"text":json["text"] as! String,"id":Int64(id),"symptom":symptom, "img":imgS]as AnyObject]
             self.remoteLogging(logging_parameters)
             
             alertController = UIAlertController(title: "Success!", message: "Note successfully saved", preferredStyle: .alert)
@@ -405,6 +667,7 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
             
         let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
         alertController.addAction(defaultAction)
+        SwiftSpinner.hide()
         
         self.present(alertController, animated: true, completion: nil)
     }
@@ -419,24 +682,37 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     
     func fetchRemoteNote(name: String,json: [String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
         let innerNote = json["note"] as? [String:Any] ?? nil
-        if innerNote == nil{
+    
         if UserDefaults.standard.object(forKey: "userID") != nil{
 
             let uid = UserDefaults.standard.object(forKey: "userID")
             var parameters = ["id":uid as AnyObject,"page":"noteDetail" as AnyObject,"action":"saveNote" as AnyObject]
             remoteFetch(parameters, json: json, completion: completion)
-        }
+        
         }
         else{
-            let notes:[String:[Any]] = [:]
+            let notes:[String:[Any]] = ["results":[]]
             completion(notes,json)
         }
     }
     
+    
+    @IBAction func viewPhoto(_ sender: UIButton){
+        
+        if self.img != nil{
+            SwiftSpinner.show("Loading Photo")
+            showPhoto(imgData: self.img)
+            SwiftSpinner.hide()
+        }
+        else{
+            SwiftSpinner.show("Loading Photo")
+        fetchRemoteNote(name: "Note", json: ["note":self.note  ,"sentTimestamp":sentTimestamp,"title":self.noteTitle.text, "text":self.noteText.text, "timestamp":self.noteDate.text], completion: loadPhoto(notes:json:))
+        }
+    }
   
     
     @IBAction func saveButton(_ sender: UIButton){
-        
+        SwiftSpinner.show("Saving")
         fetchRemoteNote(name: "Note", json: ["note":self.note  ,"sentTimestamp":sentTimestamp,"title":self.noteTitle.text, "text":self.noteText.text, "timestamp":self.noteDate.text], completion: save(notes:json:))
     }
     
@@ -485,7 +761,8 @@ class noteDetailViewController: UIViewController,  MFMessageComposeViewControlle
     }
     
     @IBAction func sendButton(_ sender: UIButton){
-        sendEmail()
+        SwiftSpinner.show("Please Wait")
+        fetchRemoteNote(name: "Note", json: ["note":self.note  ,"sentTimestamp":sentTimestamp,"title":self.noteTitle.text, "text":self.noteText.text, "timestamp":self.noteDate.text], completion: sendEmail(notes:json:))
         saveContact(emails: self.emails, ename: "Contact")
         self.shareOverlayView.removeFromSuperview()
         

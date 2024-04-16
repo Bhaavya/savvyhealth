@@ -180,13 +180,17 @@ class registerViewController: UIViewController {
             (granted, error) in
             self.notificationGranted = granted
             print("---------------------",granted)
-            
+      
+
             if let error = error {
                 print("granted, but Error in notification permission:\(error.localizedDescription)")
             }
         }
         
     }
+    
+    
+    
     @objc func pinchedView(_ gestureRecognizer : UIPinchGestureRecognizer) { guard gestureRecognizer.view != nil else { return }
         
         if gestureRecognizer.state == .began || gestureRecognizer.state == .changed {

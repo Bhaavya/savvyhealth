@@ -34,12 +34,12 @@ class homeCell: UITableViewCell {
 
 
 class homeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    @objc var functions: [String] = ["Search Resources","My Collection","Tracking","Notes","Health Team Wall","Medication Wall"]
+    @objc var functions: [String] = ["Search Resources","My Collection","Tracking","Notes","Health Team Wall","Medication Wall","MS Organizations","Report a problem with the app"]
 //        ["Questions for clinicians","Reminders","Recordings"]
     @objc let defaults = UserDefaults.standard
     
     @IBOutlet var tableView: UITableView!
-    let segues = ["homeToCarrot","homeToResources","homeToTracking","homeToNote","homeToDoc","homeToMed"]
+    let segues = ["homeToCarrot","homeToResources","homeToTracking","homeToNote","homeToDoc","homeToMed","homeToOrg"]
     var minScale:CGFloat = 1.0
     var maxScale:CGFloat = 5.0
     var cumulativeScale:CGFloat = 1.0
@@ -147,6 +147,8 @@ class homeViewController: UIViewController, UITableViewDelegate, UITableViewData
         view.addGestureRecognizer(pinchGesture)
         view.addGestureRecognizer(panGesture)
         
+        
+        
     }
     
    
@@ -225,10 +227,10 @@ class homeViewController: UIViewController, UITableViewDelegate, UITableViewData
             
             
     
-//https://timan102.cs.illinois.edu/carrot/
+//https://timan103.cs.illinois.edu/carrot/
 //
 //        http://localhost:5000/
-        self.showWebView("http://timan102.cs.illinois.edu/carrot/?id="+uid)
+        self.showWebView("http://timan.cs.illinois.edu/carrot?id="+uid)
     }
     else if indexPath.row == 1
     {
@@ -237,12 +239,24 @@ class homeViewController: UIViewController, UITableViewDelegate, UITableViewData
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"bookmarks"as AnyObject,"action":"appear" as AnyObject,"json":[:] as AnyObject]
         self.remoteLogging(logging_parameters )
         if (self.traitCollection.horizontalSizeClass == .regular){
-        UIApplication.shared.openURL(NSURL(string:"https://timan102.cs.illinois.edu/savvy/ipad")! as URL)
+        UIApplication.shared.openURL(NSURL(string:"https://timan.cs.illinois.edu/savvy/ipad")! as URL)
         }
         else{
-            UIApplication.shared.openURL(NSURL(string:"https://timan102.cs.illinois.edu/savvy/iphone")! as URL)
+            UIApplication.shared.openURL(NSURL(string:"https://timan.cs.illinois.edu/savvy/iphone")! as URL)
         }
-
+        
+        
+       
+    }
+    else if indexPath.row == 7
+    {
+        let uid = defaults.string(forKey: "userID")
+        
+        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"report"as AnyObject,"action":"appear" as AnyObject,"json":[:] as AnyObject]
+        self.remoteLogging(logging_parameters )
+        
+        UIApplication.shared.openURL(NSURL(string:"https://docs.google.com/forms/d/e/1FAIpQLSc3BR2QaxsZbqfMlz3da3MloDzOk_0HAuVV3Xsp_17CwyWSlA/viewform?usp=sf_link")! as URL)
+        
     }
     else{
    self.performSegue(withIdentifier: self.segues[indexPath.row], sender: self)
@@ -250,5 +264,6 @@ class homeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         print("You selected cell #\(indexPath.row)!")
     }
+    
     
 }

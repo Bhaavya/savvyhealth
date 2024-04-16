@@ -156,20 +156,7 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
  
     
     override func viewDidAppear(_ animated: Bool) {
-        print("in login",defaults.bool(forKey: "fromNotification"))
-        if UserDefaults.standard.object(forKey: "userID") != nil{
-
-        let uid = defaults.string(forKey: "userID")
-        
-        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"login"as AnyObject,"action":"appear" as AnyObject,"json":[:] as AnyObject]
-            
-            UNUserNotificationCenter.current()
-              .removeAllPendingNotificationRequests()
-          
-            NotificationManager.shared.scheduleNotification()
-            
-        self.remoteLogging(logging_parameters )
-        }
+    
         
         
       
@@ -177,9 +164,10 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
             let userUID = UserDefaults.standard.object(forKey: "userID")
             var logging_parameters:[String:AnyObject] = ["id":userUID as AnyObject,"page":"login"as AnyObject,"action":"logged in" as AnyObject,"json":[:] as AnyObject]
             self.remoteLogging(logging_parameters )
-            
+            print("fromNotl")
             if UserDefaults.standard.object(forKey: "fromNotification") != nil{
                 let fromNot = defaults.bool(forKey: "fromNotification")
+                print(fromNot)
                 if fromNot == true{
                     
                  
@@ -214,7 +202,22 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("in login",defaults.bool(forKey: "fromNotification"))
+        if UserDefaults.standard.object(forKey: "userID") != nil{
+
+        let uid = defaults.string(forKey: "userID")
         
+        var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"login"as AnyObject,"action":"appear" as AnyObject,"json":[:] as AnyObject]
+            
+          
+            
+        self.remoteLogging(logging_parameters )
+        }
+        
+        UNUserNotificationCenter.current()
+          .removeAllPendingNotificationRequests()
+      
+        NotificationManager.shared.scheduleNotification()
     }
     
     override func didReceiveMemoryWarning() {
@@ -263,6 +266,7 @@ class loginViewController: UIViewController,UIScrollViewDelegate {
                     if fromNot == true{
                        
                         UserDefaults.standard.set(false,forKey: "fromNotification")
+                        print(UserDefaults.standard.object(forKey: "fromNotification") )
                         self.performSegue(withIdentifier: "loginToTracking", sender: nil)
                         
                     }

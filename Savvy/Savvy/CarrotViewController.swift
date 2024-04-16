@@ -129,7 +129,7 @@ class carrotViewController: UIViewController {
 //        "http://localhost:5005"
         view.addGestureRecognizer(pinchGesture)
         view.addGestureRecognizer(panGesture)
-        let url = URL(string:"http://timan102.cs.illinois.edu/carrot/"
+        let url = URL(string:"http://timan.cs.illinois.edu/carrot"
         )
 
         let urlRequest = URLRequest(url: url!)

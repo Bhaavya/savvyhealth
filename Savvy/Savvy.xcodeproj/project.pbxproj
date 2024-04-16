@@ -16,6 +16,7 @@
 		EA25E4AC24B00E9F0032A7B0 /* Savvy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = EA25E4AA24B00E9F0032A7B0 /* Savvy.xcdatamodeld */; };
 		EA25E4ED24B0413A0032A7B0 /* LoggingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25E4EC24B0413A0032A7B0 /* LoggingViewController.swift */; };
 		EA25E4F024B18B3D0032A7B0 /* TrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA25E4EF24B18B3D0032A7B0 /* TrackingViewController.swift */; };
+		EA506B5429535F610030C517 /* OrgViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA506B5329535F610030C517 /* OrgViewController.swift */; };
 		EA58A437249920940074AAF6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA58A436249920940074AAF6 /* AppDelegate.swift */; };
 		EA58A43D249920950074AAF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA58A43C249920950074AAF6 /* Assets.xcassets */; };
 		EA58A440249920950074AAF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EA58A43F249920950074AAF6 /* Preview Assets.xcassets */; };
@@ -74,6 +75,7 @@
 		EA25E4EC24B0413A0032A7B0 /* LoggingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggingViewController.swift; sourceTree = "<group>"; };
 		EA25E4EE24B0472C0032A7B0 /* SavvyHealth.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SavvyHealth.entitlements; sourceTree = "<group>"; };
 		EA25E4EF24B18B3D0032A7B0 /* TrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackingViewController.swift; sourceTree = "<group>"; };
+		EA506B5329535F610030C517 /* OrgViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrgViewController.swift; sourceTree = "<group>"; };
 		EA58A433249920940074AAF6 /* SavvyHealth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SavvyHealth.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA58A436249920940074AAF6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EA58A43C249920950074AAF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				EA78322426C90BB70091CDF7 /* DocViewController.swift */,
 				EA78322626CAB6660091CDF7 /* MedViewController.swift */,
 				EA82712726D0D5D700F79C24 /* NotificationManager.swift */,
+				EA506B5329535F610030C517 /* OrgViewController.swift */,
 			);
 			path = Savvy;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				EA58A430249920940074AAF6 /* Frameworks */,
 				EA58A431249920940074AAF6 /* Resources */,
 				192824095E73F7C2C288872C /* [CP] Embed Pods Frameworks */,
+				EAE3484F273FCCBC00065E76 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -462,6 +466,25 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		EAE3484F273FCCBC00065E76 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -482,6 +505,7 @@
 				EA78322726CAB6660091CDF7 /* MedViewController.swift in Sources */,
 				EA58A4BC24A178810074AAF6 /* ArticleViewController.swift in Sources */,
 				EA58A437249920940074AAF6 /* AppDelegate.swift in Sources */,
+				EA506B5429535F610030C517 /* OrgViewController.swift in Sources */,
 				EA25E4F024B18B3D0032A7B0 /* TrackingViewController.swift in Sources */,
 				EA58A4C024A5A5290074AAF6 /* ResourcesViewController.swift in Sources */,
 				EA58A46F249C342E0074AAF6 /* Helper.swift in Sources */,
@@ -658,18 +682,22 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Savvy/SavvyHealth.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 4.9;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Savvy/Preview Content\"";
-				DEVELOPMENT_TEAM = UPV4CB4H6W;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = UPV4CB4H6W;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Savvy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -742,7 +770,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = edu.uillinois.uiuchealth.savvy;
 				PRODUCT_NAME = SavvyHealth;
-				PROVISIONING_PROFILE_SPECIFIER = "Savvy Health Distribution Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Savvy Health Distribution Profile";
 				"SWIFT_OBJC_BRIDGING_HEADER[arch=*]" = "$(SRCROOT)/Savvy_bridge.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -757,16 +786,17 @@
 				CODE_SIGN_ENTITLEMENTS = Savvy/SavvyHealth.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 13;
+				CURRENT_PROJECT_VERSION = 4.9;
 				DEVELOPMENT_ASSET_PATHS = "\"Savvy/Preview Content\"";
 				DEVELOPMENT_TEAM = UPV4CB4H6W;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = Savvy/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 2.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",

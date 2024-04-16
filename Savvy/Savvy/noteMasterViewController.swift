@@ -10,6 +10,7 @@ import Foundation
 import PopupDialog
 import UIKit
 import CoreData
+import SwiftSpinner
 
 class noteCell: UITableViewCell {
     
@@ -144,6 +145,11 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
         view.addGestureRecognizer(pinchGesture)
         view.addGestureRecognizer(panGesture)
         
+        
+    }
+    
+    @IBAction func refClick(_ sender: UIButton){
+        refresh()
     }
     
     func fetchRemoteNotes(json:[String:Any],completion: @escaping ([String:[Any]],[String:Any])->()){
@@ -181,8 +187,9 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
                         
                     }
                 }
-            print("1",self.notes)
+//            print("1",self.notes)
             self.tableView.reloadData()
+            SwiftSpinner.hide()
     }
         
     }
@@ -194,9 +201,16 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
         self.tableView.reloadData()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    func refresh(){
         self.notes = []
+        SwiftSpinner.show("Loading Notes")
         fetchRemoteNotes(json:[:],completion: showNotes(inotes:json:))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if self.notes.count == 0{
+            refresh()
+        }
        
     }
     
@@ -242,6 +256,7 @@ class noteMasterViewController: UIViewController, UITableViewDelegate, UITableVi
               nextViewController.note = self.selectedNote
               }}
    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    print(self.notes.count,indexPath.row)
     self.selectedNote = self.notes[indexPath.row]
         self.performSegue(withIdentifier: self.segue, sender: self)
         

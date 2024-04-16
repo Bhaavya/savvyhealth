@@ -12,7 +12,7 @@ import UIKit
 import CoreData
 import Charts
 
-
+import SwiftSpinner
 
 class trackingViewController: UIViewController, ChartViewDelegate {
    
@@ -30,7 +30,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
     
     var symptomsLoggedAggBar:[String:[String:[String:Double]]] = [:]
     var symptomsLoggedLine:[String:[String: Double]] = [:]
-    var hasNote:[String:Bool] = [:]
+    var hasNote:[String:[String:Bool]] = [:]
     var symptoms: [String] = []
     var freq  = ""
     var freqbuttons: [UIButton] = []
@@ -175,11 +175,14 @@ class trackingViewController: UIViewController, ChartViewDelegate {
     }
     
     func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        let idx =  chartView.tag
+          var keys:[String]
+      
+      
 
-//        print(chartView,entry,highlight)
+       
         
-      let idx =  chartView.tag
-        var keys:[String]
+     
 //        print(idx)
         if chartType == "line"  {
            let logData = symptomsLoggedLine[symptoms[idx]]!
@@ -221,8 +224,12 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         let date = sortedDates[Int(entry.x)]
        let dateGraph = dateFormatterGet.date(from: date)!
         let dateGraphStr = dateFormatterPrint.string(from: dateGraph)
-//       print(dateGraphStr)
+       print(hasNote)
+        if (hasNote[symptoms[idx]]![date]!)
+        {
+            SwiftSpinner.show("Please wait")
         fetchRemoteNote(name: "Note", json: ["dateGraph":dateGraph,"dateFormatterPrint":dateFormatterPrint, "dateFormatterNote":dateFormatterNote, "dateGraphStr":dateGraphStr,"chartType":chartType,"symptom":symptoms[idx]] , completion: showNote(notes: json:) )
+        }
         
     }
     
@@ -353,7 +360,8 @@ class trackingViewController: UIViewController, ChartViewDelegate {
     
   
     func drawBarCharts(records: [[String:Any]]){
-       var symptom = ""
+        SwiftSpinner.show("Please wait")
+        var symptom = ""
        var date = ""
        var dur = "--"
        var intensity = "low"
@@ -541,7 +549,8 @@ class trackingViewController: UIViewController, ChartViewDelegate {
     }
     
     func drawLineCharts(records: [[String:Any]]){
-          var symptom = ""
+        SwiftSpinner.show("Please wait")
+        var symptom = ""
           var date = ""
           var dur = 0.0
         var intensity = 5.0
@@ -669,6 +678,7 @@ class trackingViewController: UIViewController, ChartViewDelegate {
         var noteTxt = ""
         (noteTxt,_) = getNoteTxt(notes: notes,json: json)
 //        print(noteTxt)
+        SwiftSpinner.hide()
         if noteTxt != "No notes found"{
         showDialog(msg: noteTxt)
         }
@@ -710,25 +720,25 @@ class trackingViewController: UIViewController, ChartViewDelegate {
            if self.type == 2{
                 chartYLabels[idx].text = "Number of times"
             }
-          hasNote = [:]
+            hasNote[symptom.key] = [:]
           var cnt1 = 0
           for (k,v) in symptom.value{
             njson["dateGraph"] = dateFormatterGet.date(from: k)!
             njson["dateGraphStr"] =  dateFormatterPrint.string(from: njson["dateGraph"] as! Date )
             njson["symptom"] = symptom.key
           
-             (_,hasNote[k]) = getNoteTxt(notes: notes, json: njson)
+            (_,hasNote[symptom.key]![k]) = getNoteTxt(notes: notes, json: njson)
 //            print(notes,njson,hasNote[k],"hasNote")
           }
             
-            updateLineChart(lineChartView: chartsLine[idx], logData: symptom.value, addCutoff: addCutoff, cutoff: cutoff, hasNote:  hasNote)
+            updateLineChart(lineChartView: chartsLine[idx], logData: symptom.value, addCutoff: addCutoff, cutoff: cutoff, hasNote:  hasNote[symptom.key]!)
         self.scrollInnerView.addSubview(chartsLine[idx])
 
            
         }
 //        print(chartYLabels)
 addConstraints(charts: chartsLine, type: "line")
-        
+        SwiftSpinner.hide()
         self.view.layoutIfNeeded()
         
     }
@@ -760,13 +770,14 @@ addConstraints(charts: chartsLine, type: "line")
          
          var cutoff = 0.0
          var addCutoff = false
+            hasNote[symptom.key] = [:]
 
          for (k,v) in symptom.value{
            
             njson["dateGraph"] = dateFormatterPrint.date(from: k)!
             njson["dateGraphStr"] =  k
             njson["symptom"] = symptom.key
-             (_,hasNote[k]) = getNoteTxt(notes: notes, json: njson)
+            (_,hasNote[symptom.key]![k]) = getNoteTxt(notes: notes, json: njson)
              
          }
          
@@ -785,12 +796,12 @@ addConstraints(charts: chartsLine, type: "line")
                 showStack = false
             }
         
-            updateBarChart(barChartView: chartsBar[idx], logData: symptom.value,freq: njson["freq"] as! String,addCutoff: addCutoff, cutoff: cutoff, hasNote: hasNote, showStack: showStack)
+            updateBarChart(barChartView: chartsBar[idx], logData: symptom.value,freq: njson["freq"] as! String,addCutoff: addCutoff, cutoff: cutoff, hasNote: hasNote[symptom.key]!, showStack: showStack)
         self.scrollInnerView.addSubview(chartsBar[idx])
         }
 //        print(chartYLabels)
 addConstraints(charts: chartsBar, type: "bar")
-        
+        SwiftSpinner.hide()
         self.view.layoutIfNeeded()
         
        

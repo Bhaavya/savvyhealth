@@ -61,7 +61,7 @@ extension UIViewController {
             convertedString = String(data: data1, encoding: String.Encoding.utf8) ?? "default" // the data will be converted to the string
             
         } catch let myJSONError {
-            print(myJSONError)
+//            print(myJSONError)
         }
         return convertedString
     }
@@ -84,38 +84,40 @@ extension UIViewController {
         let timestamp = "\(NSDate().timeIntervalSince1970 * 1000)"
         var sendParams :[String:AnyObject] = parameters
         sendParams["ts"] = timestamp as AnyObject
-        print(sendParams)
+//        print(sendParams)
      
-        let request = AF.request("https://timan102.cs.illinois.edu/savvy_logging/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
+        let request = AF.request("https://timan.cs.illinois.edu/savvy_logging/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
         .responseJSON(completionHandler: { (response) in
             
-            print(3, response)
+//            print(3, response)
 
         })
 
             
         
-        print("2",request)
+//        print("2",request)
     }
     func convertToDictionary(text: String) -> [String: Any]? {
+        print("converting")
         if let data = text.data(using: .utf8) {
             do {
                 return try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
             } catch {
-                print(error.localizedDescription)
+                print("error")
             }
         }
         return nil
     }
     @objc func remoteFetch(_ parameters:[String:AnyObject],json: [String:Any],completion :  @escaping ([String:[Any]],[String:Any])->()){
+        print("fetching")
         let sendParams :[String:AnyObject] = parameters
         var retResponse:[String:[Any]] = ["results":[]]
-        let request = AF.request("https://timan102.cs.illinois.edu/savvy_fetch/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
+        let request = AF.request("https://timan.cs.illinois.edu/savvy_fetch/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
         .responseJSON(completionHandler: { (response) in
             switch response.result {
                            case .success(let value):
                                if let JSON = value as? [String: Any] {
-                                print(1,response,JSON)
+//                                print(1,response,JSON)
                                    
                                 retResponse["results"] = JSON["results"] as? [Any]
                                 completion(retResponse,json)
@@ -162,7 +164,7 @@ extension UIViewController {
         try managedContext.save()
         
       } catch let error as NSError {
-        print("Could not save. \(error), \(error.userInfo)")
+        print("Could not save.")
       }
     }
 
@@ -196,7 +198,7 @@ extension UIViewController {
         try managedContext.save()
         
       } catch let error as NSError {
-        print("Could not save. \(error), \(error.userInfo)")
+        print("Could not save.")
       }
     }
     
@@ -236,7 +238,7 @@ extension UIViewController {
         
         return 0
       } catch let error as NSError {
-        print("Could not save. \(error), \(error.userInfo)")
+        print("Could not save")
         return 1
       }
     }
@@ -274,7 +276,7 @@ extension UIViewController {
         try managedContext.save()
         
       } catch let error as NSError {
-        print("Could not save. \(error), \(error.userInfo)")
+        print("Could not save. ")
       }
         }
         }
@@ -300,7 +302,7 @@ extension UIViewController {
                let  symptoms = try managedContext.fetch(fetchRequest)
                return symptoms
              } catch let error as NSError {
-               print("Could not fetch. \(error), \(error.userInfo)")
+               print("Could not fetch. ")
                 return nil
              }
     }

@@ -12,27 +12,11 @@ import UserNotifications
 import CoreLocation
 
 
+
 class NotificationManager {
   static let shared = NotificationManager()
  var settings: UNNotificationSettings?
-    func requestAuthorization(completion: @escaping  (Bool) -> Void) {
-      UNUserNotificationCenter.current()
-        .requestAuthorization(options: [.alert, .sound, .badge]) { granted, _  in
-            self.fetchNotificationSettings()
-
-          completion(granted)
-        }
-    }
     
-    func fetchNotificationSettings() {
-      // 1
-      UNUserNotificationCenter.current().getNotificationSettings { settings in
-        // 2
-        DispatchQueue.main.async {
-          self.settings = settings
-        }
-      }
-    }
     
     func scheduleNotification() {
 
@@ -40,23 +24,33 @@ class NotificationManager {
       content.title = "How are you feeling today?"
       content.body = "Track your mood now!"
         
-        let uuid = UUID().uuidString
+ 
 
 
   
       var trigger: UNNotificationTrigger?
   
-   
-      
-          trigger = UNTimeIntervalNotificationTrigger(
-//            3*60*60*24,
-            timeInterval:  3*60*60*24 ,//3 days
-            repeats: false)
+//
+//
+//          trigger = UNTimeIntervalNotificationTrigger(
+////            3*60*60*24,
+//            timeInterval:  3*60*60*24 ,//3 days
+//            repeats: false)
         
+       
+        var dateComponent = DateComponents()
+        dateComponent.hour = 12
+        dateComponent.minute = 00
+        dateComponent.timeZone = .current
+        print("dt",dateComponent)
+        
+        trigger = UNCalendarNotificationTrigger(dateMatching: dateComponent, repeats: true)
+        
+
       
       if let trigger = trigger {
         let request = UNNotificationRequest(
-          identifier: uuid,
+          identifier: UUID().uuidString,
           content: content,
           trigger: trigger)
         // 5

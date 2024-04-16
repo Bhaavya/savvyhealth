@@ -54,6 +54,8 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
         self.window?.makeKeyAndVisible()
     }
    
+
+   
     return true
   }
 
@@ -81,7 +83,7 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
         sendParams["ts"] = timestamp as AnyObject
         
      
-        let request = AF.request("https://timan102.cs.illinois.edu/savvy_logging/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
+        let request = AF.request("https://timan.cs.illinois.edu/savvy_logging/", method: HTTPMethod.post, parameters: sendParams, encoding: JSONEncoding.default)
         .responseJSON(completionHandler: { (response) in
             print(3, response)
 
@@ -99,7 +101,6 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
         
         var logging_parameters:[String:AnyObject] = ["id":uid as AnyObject,"page":"app"as AnyObject,"action":"toBackground" as AnyObject,"json":[:] as AnyObject]
         remoteLogging(logging_parameters )
-            UserDefaults.standard.set(false,forKey: "fromBack")
   
         print("entering background now")
        
@@ -122,7 +123,6 @@ func application(_ application: UIApplication, willFinishLaunchingWithOptions la
             
                  
                      
-                        UserDefaults.standard.set(true,forKey: "fromBack")
               
        
         }
@@ -215,22 +215,24 @@ extension AppDelegate{
   // This function will be called right after user tap on the notification
   func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
     
-    if UserDefaults.standard.object(forKey: "fromBack") != nil{
-        let fromNot = defaults.bool(forKey: "fromBack")
-        if fromNot == false{
-            
-  UserDefaults.standard.set(true,forKey: "fromNotification")
-        }
-    }
-    else{
-        UserDefaults.standard.set(true,forKey: "fromNotification")
+    
+    UserDefaults.standard.set(true,forKey: "fromNotification")
+  
+    guard let window = UIApplication.shared.keyWindow else { return }
 
-    }
+    let storyboard = UIStoryboard(name: "Main", bundle: nil)
+    let logVC = storyboard.instantiateViewController( withIdentifier: "login")
+       
+       let navController = UINavigationController(rootViewController: logVC)
+       navController.modalPresentationStyle = .fullScreen
+    window.rootViewController = navController
+    window.makeKeyAndVisible()
     
    
         print("from not")
     completionHandler()
   }
+    
 }
 
 
